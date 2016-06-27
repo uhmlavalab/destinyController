@@ -13,11 +13,11 @@ function main() {
 	setTitleAndPageBackground();
 	populatePage();
 	loadDefaultSound();
+	initializeWS();
 }
 
 function setTitleAndPageBackground() {
 	controllerTitle.textContent = layout.title;
-	document.body.style.background = "#CEDDED";
 }
 
 
@@ -185,9 +185,11 @@ function createGroup(groupInfo, index) {
 	} // for each group button
 } // createGroup 
 
+//-----------------------------------------------------------------------------------------------------------------buttonClickHandler()
 
 function buttonClickHandler(action) {
 	debugPrint(action, "Button Press");
+	wsio.emit("command", {command: action});
 }
 
 

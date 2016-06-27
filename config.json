@@ -1,0 +1,43 @@
+{
+
+	"port": 10001,
+	"contentFolder": "public",
+	"debug": true,
+
+	"remoteSites": [
+		{
+			"name":"self", // Description for yourself
+			"address": "10.232.6.218",
+			"port": 10001
+		}
+	],
+
+	"commands":	[
+		{
+			commandName: "Hello",
+			commandDesciption: "", // Descriptons are for yourself. Describe what this does / is for.
+			commandWords: ["computer", "hello" ],
+			scriptPath: "./src/exampleScripts/hello.bat"
+		},
+		{
+			commandName: "macOpenHere",
+			commandDesciption: "Works on a mac",
+			commandWords: [ ],
+			scriptPath: "./src/exampleScripts/macOpenHere"
+		},
+		{
+			commandName: "Start Notepad",
+			commandDesciption: "",
+			commandWords: ["computer", "start", "note" ],
+			scriptPath: "./src/exampleScripts/notepad.bat"
+		},
+		{
+			commandName: "Start Calc",
+			commandDesciption: "",
+			commandWords: ["computer", "start", "calculator"],
+			scriptPath: "./src/exampleScripts/calc.bat"
+		}
+	]
+
+
+}

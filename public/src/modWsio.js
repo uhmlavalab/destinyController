@@ -1,6 +1,4 @@
-//--------------------------------------------------------------------------------------------------------------------------Global vars
-var debug = true;
-var wsio;
+// Global vars in main.js
 
 //--------------------------------------------------------------------------------------------------------------------------Start wsio communcation
 
@@ -17,7 +15,7 @@ function initializeWS() {
 	});
 
 	wsio.on('close', function (evt) {
-		alert('Lost connection');
+		// alert('Lost connection');
 	});
 
 
@@ -27,11 +25,11 @@ function initializeWS() {
 //--------------------------------------------------------------------------------------------------------------------------Start wsio communcation
 function setupListeners() {
 	wsio.on('serverAccepted', function(data) {
-		logEntries.innerHTML += "\n<br>Connected to server";
+		debugPrint("Connected to server");
 	});
 
 	wsio.on('serverConfirm', function(data) {
-		logEntries.innerHTML += "\n<br>serverConfirm: " + data.message;
+		debugPrint("serverConfirm: " + data.message);
 	});
 
 }

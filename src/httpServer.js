@@ -31,7 +31,7 @@ HttpServer.prototype.onreq = function(req, res) {
 		var reqURL = url.parse(req.url); //parse url into a json object with parts as fields
 		var getName = decodeURIComponent(reqURL.pathname);
 
-		utils.debugPrint("Request for:" + getName, "http");
+		// utils.debugPrint("Request for:" + getName, "http");
 
 		// redirect root path to index.html
 		if (getName === "/") {
@@ -41,7 +41,7 @@ HttpServer.prototype.onreq = function(req, res) {
 
 		//get the path with relation to server file system.
 		var requestPath = this.publicDirectory + getName;
-		utils.debugPrint("full request path:" + requestPath, "http");
+		// utils.debugPrint("full request path:" + requestPath, "http");
 
 		var stats;
 		if( utils.doesFileExist(requestPath) ) {

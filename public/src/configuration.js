@@ -2,6 +2,7 @@
 
 var layout = {
 	title: "I'm your Density, I mean Destiny... controller",
+
 	/*
 	View parts is an array.
 	It contains objects with properties:
@@ -34,8 +35,8 @@ var layout = {
 		{
 			type: "button",
 			image: "pressme.png",
-			description: "I am a button",
-			action: "third"
+			description: "Mac terminal open here command",
+			action: "macOpenHere"
 		},
 		{
 			type: "button",

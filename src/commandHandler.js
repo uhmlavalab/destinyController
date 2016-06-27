@@ -14,25 +14,31 @@ To deal with voice commands in a simple manner this file will:
 
 */
 
-// Required dependencies.
-var fs           = require("fs");
-var json5        = require("json5");
-// Vars for this file
-var cmdFilePath  = "./src/commands.json";
-var cmdData      = null;
-
-function initialize() {
-	cmdData = json5.parse(fs.readFileSync(cmdFilePath, "utf8"));
+function handleCommandString(commandString) {
+	var anyCommandMatch = false;
+	// Go through each command
+	for (var i = 0; i < global.commands.length; i++) {
+		if (global.commands[i].commandName == commandString) {
+			var retInfo = {};
+			retInfo.path = global.commands[i].scriptPath;
+			retInfo.commandName = global.commands[i].commandName;
+			return retInfo; // Only activate one command. Could be modified to activate others.
+		}
+	}
+	// If none of the commands match, notify
+	if (anyCommandMatch === false) {
+		return false;
+	}
 }
 
-function handleCommandString(fullSpokenCommand) {
+function handleVoiceCommandString(fullSpokenCommand) {
 	var currentCommand;
 	var fullWordMatch;
 	var anyCommandMatch = false;
 
 	// Go through each command
-	for (var i = 0; i < cmdData.length; i++) {
-		currentCommand = cmdData[i];
+	for (var i = 0; i < global.commands.length; i++) {
+		currentCommand = global.commands[i];
 		fullWordMatch = true;
 		// Check the current command's word list against spoken words.
 		for (var j = 0; j < currentCommand.commandWords.length; j++) {
@@ -56,5 +62,5 @@ function handleCommandString(fullSpokenCommand) {
 }
 
 // These lines are necessay to allow access and usage outside of this file.
-exports.initialize = initialize;
+exports.handleCommandString = handleCommandString;
 exports.handleCommandString = handleCommandString;

@@ -23,22 +23,18 @@ function doesFileExist(filename) {
 //---------------------------------------------------------------------------------------------------------------------------------------------
 function consolePrint(stringToPrint) {
 
-	//this will be filled with other things later. Like actual file logging when I get around to it.
+	// this will be filled with other things later. Like actual file logging when I get around to it.
+	// also maybe that color marker thing.
 
 	console.log(stringToPrint);
 }
 
-/*
-Only print if debug is active.
-@param stringToPrint what will be printed
-@param condition that property of the debug option must be true to print.
-*/
-function debugPrint(stringToPrint, condition) {
-	var shouldPrint = false;
-	if(condition === null && global.debug.general) { shouldPrint = true; }
-	else if( global.debug[(""+condition)] === true) { shouldPrint = true;}
 
-	if(shouldPrint) { consolePrint( "Debug:" + condition + ">" + stringToPrint); }
+function debugPrint(stringToPrint, prefix) {
+	if (!global.debug) { return; } // Don't print if not in debug
+	if(prefix !== undefined) { stringToPrint = prefix + ">\t" + stringToPrint; }
+	stringToPrint = "Debug:" + stringToPrint;
+	consolePrint(stringToPrint);
 }
 
 
