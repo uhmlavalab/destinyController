@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags MUST be first.
+        Because bootstrap... -->
+  <link rel="icon" href="favicon.ico">
+  <title>I'm your Density, I mean Destiny... Controller</title>
+  <link href="src/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="src/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+  <style type="text/css">
+  .btn {
+    margin-bottom:5px;
+  }
+  .well {
+    background:#000000;
+  }
+  .bgBlack {
+    background:#000000;
+  }
+  .bgOffBlack {
+    background:#35393D;
+  }
+  .textWhite {
+    color:#FFFFFF;
+  }/*
+  .row {
+    background:#000000;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
+  }*/
+  .wellColorChange {
+    border: 1px solid black;
+    background: black;
+  }
+  </style>
+
+
+</head>
+
+
+
+
+<body onload="main()">
+  <button class="btn btn-lg btn-block bgBlack textWhite">
+      <h1 id="controllerTitle">Hello, world!</h1>
+  </button>
+
+  <br><br>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="well col-xs-12">
+            <div class="col-xs-2">
+              <img src="none.png" class="img-circle">
+            </div>
+            <div class="col-xs-10">
+              <button class="btn btn-lg btn-block textWhite bgOffBlack">
+                Something
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12" id="contentColumn">
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <!-- jQuery is necessary for Bootstrap -->
+  <script src="src/jquery1113min.js"></script>
+  <script src="src/bootstrap/js/bootstrap.js"></script>
+  <script src="src/websocket.io.js"></script>
+  <script src="src/configuration.js"></script>
+  <script src="src/modWsio.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
+
+
