@@ -1,7 +1,7 @@
 "use strict"
 
 //-----------------------------------------------------------------------------------------------------------------Global vars
-var debug = true;
+var debug;
 var wsio;
 var beepSound;
 
@@ -9,6 +9,7 @@ var beepSound;
 
 //-----------------------------------------------------------------------------------------------------------------main()
 function main() {
+	debug = layout.debug;
 	debugPrint("Main");
 	setTitleAndPageBackground();
 	populatePage();

@@ -23,7 +23,8 @@ webVars.port 		= configFile.port;
 webVars.httpServer 	= new httpServer(configFile.contentFolder);
 webVars.mainServer 	= null;
 webVars.wsioServer 	= null;
-webVars.clients 	= []; // used to contain the wsio connections
+webVars.clients 	= []; // used to track the browser client wsio connections
+webVars.remoteSites = []; // used to track the remote site connections
 
 
 
@@ -31,17 +32,17 @@ webVars.clients 	= []; // used to contain the wsio connections
 var script 			= function (file) {
     output = "";
     file   = path.normalize(file); // convert Unix notation to windows
-    console.log("Launching script ", file);
+    utils.consolePrint("Launching script " + file, file);
     proc = spawn(file, []);
     proc.stdout.on("data", function (data) {
-		console.log("stdout: " + data);
+		utils.consolePrint("stdout: " + data);
 		output = output + data;
     });
     proc.stderr.on("data", function (data) {
-		console.log("script stderr: " + data);
+		utils.consolePrint("script stderr: " + data);
     });
     proc.on("exit", function (code) {
-		console.log("child process exited with code " + code);
+		utils.consolePrint("  child process (script) exited with code " + code);
     });
 } //end script function
 
@@ -63,6 +64,7 @@ function connectWithDestinyNodes() {
 	var networkInterfaces = os.networkInterfaces();
 	var thisHostname = os.hostname();
 	var localAddresses = [];
+	localAddresses.push(thisHostname);
 
 	utils.debugPrint("Detected network devices: " + Object.keys(networkInterfaces).length);
 	for (var devices in networkInterfaces) {
@@ -72,21 +74,51 @@ function connectWithDestinyNodes() {
 			localAddresses.push(networkInterfaces[devices][interface].address);
 		}
 	}
-	utils.debugPrint(thisHostname);
-	console.dir(thisHostname);
-	localAddresses.push(thisHostname);
+	utils.debugPrint("Detected hostname:" + thisHostname);
+
 
 	for (var i = 0; i < configFile.remoteSites.length; i++) {
 		// If the remote site is not among this computer's addresses then try establish connection.
-		if (localAddresses.indexOf(configFile.remoteSites[i].address) === -1) {
-			console.log("erase me, finish up remote connections");
+		if (localAddresses.indexOf(configFile.remoteSites[i].address) !== -1) {
+			utils.debugPrint("Remote site " + configFile.remoteSites[i].name
+				+ "(" + configFile.remoteSites[i].address + ") is this device");
 		} else {
-			utils.debugPrint("Remote site " + configFile.remoteSites[i].address + " is this device");
+			utils.debugPrint("Attempting connection to remote site:" + configFile.remoteSites[i].address);
+			var rsite = configFile.remoteSites[i];
+			var protocol = (rsite.useSecureProtocol == true) ? "wss" : "ws";
+			var wsURL = protocol + "://" + rsite.address + ":" + configFile.port.toString();
+			var remote = new WebSocketIO(wsURL, false, function() {
+				manageRemoteConnection(remote, rsite, i);
+			});
 		}
 	}
 }
 
+function manageRemoteConnection(remote, site, index) {
+	remote.updateRemoteAddress(site.address, configFile.port);
 
+	var clientDescription = {
+		clientType: "remoteServer",
+		host: os.hostname(),
+		port: configFile.port
+	};
+
+	remote.onclose(function() {
+		utils.consolePrint(sageutils.header("Remote") + "\"" + configFile.remoteSites[index].name + "\" offline");
+		utils.removeArrayElement(webVars.remoteSites, remote);
+	});
+	remote.on("serverAccepted", function(remotesocket, data) {
+		consoleLog("Connected to remote server " + data.host);
+	});
+
+	remote.on("consoleLog",     wsRsConsoleLog);
+	remote.on("command",        wsRsCommand);
+
+	remote.clientType = "remoteServer";
+	clients.push(remote);
+	remote.emit("addClient", clientDescription);
+
+}
 
 
 
@@ -120,13 +152,25 @@ function closeWebSocketClient(wsio) {
 // This should be called by any client connection from the webserver page.
 function wsAddClient(wsio, data) {
 	utils.debugPrint("addClient packet received from:" + wsio.id, "wsio");
-	webVars.clients.push(wsio); 		// Good to remember who is connected.
 
-	// setup listeners
-	wsio.on("consoleLog",     wsConsoleLog);
-	wsio.on("command",        wsCommand);
+	if (data.clientType === "remoteServer") {
+		utils.consolePrint("Remote server connection from " + data.host);
 
-	wsio.emit("serverAccepted", {} ); 	// Server responds back, giving OK to send data.
+		// setup listeners
+		wsio.on("consoleLog",     wsConsoleLog);
+		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
+
+		// Does the server need to respond to remote site commands? Probably not?
+		// wsio.on("command",        wsCommand);
+	} else if (data.clientType === "webControllerClient") {
+		webVars.clients.push(wsio); 		// Good to remember who is connected.
+		// setup listeners
+		wsio.on("consoleLog",     wsConsoleLog);
+		wsio.on("command",        wsCommand);
+		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
+	} else {
+		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
+	}
 }
 
 
@@ -141,22 +185,33 @@ function wsAddClient(wsio, data) {
 
 
 
-
+function wsRsConsoleLog(wsio, data) {
+	utils.debugPrint("Initiating remote server consoleLog packet");
+	wsConsoleLog(wsio, data);
+}
 function wsConsoleLog(wsio, data) {
 	utils.consolePrint(data.message); // assumes there is a message property in the packet.
 	data.message = "Server confirms:" + data.message;
 	wsio.emit("serverConfirm", data);
 }
 
+function wsRsCommand(wsio, data) {
+	utils.debugPrint("Initiating remote server command packet");
+	wsCommand(wsio, data);
+}
 function wsCommand(wsio, data) {
-	utils.debugPrint("command packet from:" + wsio.id + ". Contents:" + data.command, "wsio");
-
-	var result = commandHandler.handleCommandString(data.command);
-	if (result === false) {
-		wsio.emit("serverConfirm", {message:("Unknown command:" + data.command)});
+	// utils.debugPrint("command packet from:" + wsio.id + ". Contents:" + data.command, "wsio");
+	if (data.command.indexOf("console:") === 0) {
+		utils.consolePrint(data.command);
 	} else {
-		wsio.emit("serverConfirm", {message:("Command " + result.commandName + " accepted.") })
-		script(result.path);
+		var result = commandHandler.handleCommandString(data.command);
+		if (result === false) {
+			wsio.emit("serverConfirm", {message: ("Unknown command:" + data.command)});
+			utils.consolePrint("Discarding unknown command packet:" + data.command);
+		} else {
+			wsio.emit("serverConfirm", {message: ("Command " + result.commandName + " accepted.") })
+			utils.consolePrint("Accepted command packet:" + data.command);
+			script(result.path);
+		}
 	}
-
 } // End wsCommand

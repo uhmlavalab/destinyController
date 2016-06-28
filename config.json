@@ -6,9 +6,9 @@
 
 	"remoteSites": [
 		{
-			"name":"self", // Description for yourself
+			"name":"Main Node", // Description for yourself
 			"address": "10.232.6.218",
-			"port": 10001
+			"useSecureProtocol": false
 		}
 	],
 

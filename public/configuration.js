@@ -1,6 +1,7 @@
 
 
 var layout = {
+	debug: true,
 	title: "I'm your Density, I mean Destiny... controller",
 
 	/*
@@ -21,9 +22,8 @@ var layout = {
 	viewParts: [
 		{
 			type: "button",
-			image: "pressme.png",
-			description: "I am a button",
-			action: "first"
+			description: "Top button",
+			action: "console:top button"
 		},
 		{
 			type: "button",
@@ -50,13 +50,13 @@ var layout = {
 			description: "Click me to see more",
 			buttons: [
 				{
-					description: "Thing 1",
-					action: "activateThing1",
+					description: "Start Calc",
+					action: "Start Calc",
 					sound: "images/computerbeep_5.mp3" // optional
 				},
 				{
-					description: "Thing 2",
-					action: "activateThingTwo"
+					description: "Start Notepad",
+					action: "Start Notepad"
 				}
 			]
 		},
