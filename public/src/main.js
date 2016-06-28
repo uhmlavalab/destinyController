@@ -146,10 +146,15 @@ function createGroup(groupInfo, index) {
 	gscImageCol.className = "col-xs-2";
 	gscRow.appendChild(gscImageCol);
 
+	// var gscImageRowContainer = document.createElement("div");
+	// gscImageRowContainer.className = "row";
+	// gscImageCol.appendChild(gscImageRowContainer);
+
 	var groupImage = document.createElement("img");
 	groupImage.src = groupInfo.image;
 	groupImage.alt = groupInfo.image;
-	groupImage.className = "img-circle block-center";
+	groupImage.className = "img-circle";
+	groupImage.style.width = "100%";
 	gscImageCol.appendChild(groupImage);
 
 	var gscButtonCol = document.createElement("div");

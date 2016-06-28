@@ -1,7 +1,6 @@
 
 
 var layout = {
-	debug: true,
 	title: "I'm your Density, I mean Destiny... controller",
 
 	/*
@@ -22,6 +21,7 @@ var layout = {
 	viewParts: [
 		{
 			type: "button",
+			image: "images/tophat.png",
 			description: "Top button",
 			action: "console:top button"
 		},
@@ -34,20 +34,19 @@ var layout = {
 		},
 		{
 			type: "button",
-			image: "pressme.png",
 			description: "Mac terminal open here command",
 			action: "macOpenHere"
 		},
 		{
 			type: "button",
-			image: "pressme.png",
+			image: "images/button.png",
 			description: "I am a button",
 			action: "4th"
 		},
 		{
 			type: "group",
-			image: "allTogether.png",
-			description: "Click me to see more",
+			image: "images/buttonGroup.png",
+			description: "Windows Specific Demo",
 			buttons: [
 				{
 					description: "Start Calc",
