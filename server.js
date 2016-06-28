@@ -25,6 +25,7 @@ webVars.mainServer 	= null;
 webVars.wsioServer 	= null;
 webVars.clients 	= []; // used to track the browser client wsio connections
 webVars.remoteSites = []; // used to track the remote site connections
+webVars.headNode    = false;
 
 
 
@@ -82,6 +83,7 @@ function connectWithDestinyNodes() {
 		if (localAddresses.indexOf(configFile.remoteSites[i].address) !== -1) {
 			utils.debugPrint("Remote site " + configFile.remoteSites[i].name
 				+ "(" + configFile.remoteSites[i].address + ") is this device");
+			webVars.headNode = true;
 		} else {
 			utils.debugPrint("Attempting connection to remote site:" + configFile.remoteSites[i].address);
 			var rsite = configFile.remoteSites[i];
@@ -104,18 +106,18 @@ function manageRemoteConnection(remote, site, index) {
 	};
 
 	remote.onclose(function() {
-		utils.consolePrint(sageutils.header("Remote") + "\"" + configFile.remoteSites[index].name + "\" offline");
+		utils.consolePrint("Remote server went offline");
 		utils.removeArrayElement(webVars.remoteSites, remote);
 	});
 	remote.on("serverAccepted", function(remotesocket, data) {
-		consoleLog("Connected to remote server " + data.host);
+		utils.consolePrint("Connected to remote server " + data.host);
 	});
 
-	remote.on("consoleLog",     wsRsConsoleLog);
+	remote.on("consolePrint",     wsRsConsolePrint);
 	remote.on("command",        wsRsCommand);
 
 	remote.clientType = "remoteServer";
-	clients.push(remote);
+	webVars.remoteSites.push(remote);
 	remote.emit("addClient", clientDescription);
 
 }
@@ -147,6 +149,10 @@ function openWebSocketClient(wsio) {
 function closeWebSocketClient(wsio) {
 	utils.debugPrint( ">Disconnect" + wsio.id + " (" + wsio.clientType + " " + wsio.clientID+ ")", "wsio");
 	utils.removeArrayElement(webVars.clients, wsio);
+	utils.removeArrayElement(webVars.remoteSites, wsio);
+	if (wsio.clientType === "remoteServer") {
+		utils.consolePrint("Remote site " + wsio.id + " disconnected");
+	}
 }
 
 // This should be called by any client connection from the webserver page.
@@ -154,10 +160,12 @@ function wsAddClient(wsio, data) {
 	utils.debugPrint("addClient packet received from:" + wsio.id, "wsio");
 
 	if (data.clientType === "remoteServer") {
+		webVars.remoteSites.push(wsio);
+		wsio.clientType = "remoteServer";
 		utils.consolePrint("Remote server connection from " + data.host);
 
 		// setup listeners
-		wsio.on("consoleLog",     wsConsoleLog);
+		wsio.on("consolePrint",     wsConsolePrint); // Used mainly for console logging from remotes.
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
 		// Does the server need to respond to remote site commands? Probably not?
@@ -165,7 +173,7 @@ function wsAddClient(wsio, data) {
 	} else if (data.clientType === "webControllerClient") {
 		webVars.clients.push(wsio); 		// Good to remember who is connected.
 		// setup listeners
-		wsio.on("consoleLog",     wsConsoleLog);
+		wsio.on("consolePrint",     wsConsolePrint);
 		wsio.on("command",        wsCommand);
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 	} else {
@@ -185,11 +193,11 @@ function wsAddClient(wsio, data) {
 
 
 
-function wsRsConsoleLog(wsio, data) {
-	utils.debugPrint("Initiating remote server consoleLog packet");
-	wsConsoleLog(wsio, data);
+function wsRsConsolePrint(wsio, data) {
+	utils.debugPrint("Initiating remote server consolePrint packet");
+	wsConsolePrint(wsio, data);
 }
-function wsConsoleLog(wsio, data) {
+function wsConsolePrint(wsio, data) {
 	utils.consolePrint(data.message); // assumes there is a message property in the packet.
 	data.message = "Server confirms:" + data.message;
 	wsio.emit("serverConfirm", data);
@@ -212,6 +220,13 @@ function wsCommand(wsio, data) {
 			wsio.emit("serverConfirm", {message: ("Command " + result.commandName + " accepted.") })
 			utils.consolePrint("Accepted command packet:" + data.command);
 			script(result.path);
+		}
+	}
+
+	// Send out packet again if head node
+	if (webVars.headNode) {
+		for (var i = 0; i < webVars.remoteSites.length; i++) {
+			webVars.remoteSites[i].emit("command", data);
 		}
 	}
 } // End wsCommand
