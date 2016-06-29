@@ -26,6 +26,7 @@ webVars.wsioServer 	= null;
 webVars.clients 	= []; // used to track the browser client wsio connections
 webVars.remoteSites = []; // used to track the remote site connections
 webVars.headNode    = false;
+webVars.reconnectInfo = {};
 
 
 
@@ -57,11 +58,11 @@ webVars.wsioServer = new WebSocketIO.Server( { server: webVars.mainServer } );
 webVars.wsioServer.onconnection(openWebSocketClient);
 
 // At this point the basic web server is online, but need to connect to the other nodes if necessary.
-connectWithDestinyNodes();
+connectToDestinyHeadNode();
 
 
 
-function connectWithDestinyNodes() {
+function connectToDestinyHeadNode() {
 	var networkInterfaces = os.networkInterfaces();
 	var thisHostname = os.hostname();
 	var localAddresses = [];
@@ -78,25 +79,40 @@ function connectWithDestinyNodes() {
 	utils.debugPrint("Detected hostname:" + thisHostname);
 
 
-	for (var i = 0; i < configFile.remoteSites.length; i++) {
-		// If the remote site is not among this computer's addresses then try establish connection.
-		if (localAddresses.indexOf(configFile.remoteSites[i].address) !== -1) {
-			utils.debugPrint("Remote site " + configFile.remoteSites[i].name
-				+ "(" + configFile.remoteSites[i].address + ") is this device");
-			webVars.headNode = true;
-		} else {
-			utils.debugPrint("Attempting connection to remote site:" + configFile.remoteSites[i].address);
-			var rsite = configFile.remoteSites[i];
-			var protocol = (rsite.useSecureProtocol == true) ? "wss" : "ws";
-			var wsURL = protocol + "://" + rsite.address + ":" + configFile.port.toString();
-			var remote = new WebSocketIO(wsURL, false, function() {
-				manageRemoteConnection(remote, rsite, i);
-			});
-		}
+	// If the remote site is not among this computer's addresses then try establish connection.
+	if (localAddresses.indexOf(configFile.remoteSite.address) !== -1) {
+		utils.debugPrint("Remote site " + configFile.remoteSite.name
+			+ "(" + configFile.remoteSite.address + ") is this device");
+		webVars.headNode = true;
+	} else {
+		utils.debugPrint("Attempting connection to remote site:" + configFile.remoteSite.address);
+		var rsite = configFile.remoteSite;
+		webVars.reconnectInfo.remoteServer = rsite;
+		webVars.reconnectInfo.protocol = (rsite.useSecureProtocol == true) ? "wss" : "ws";
+		webVars.reconnectInfo.wsURL = webVars.reconnectInfo.protocol + "://" + rsite.address + ":" + configFile.port.toString();
+
+		attemptConnectionToRemoteServer();
+
 	}
+
 }
 
-function manageRemoteConnection(remote, site, index) {
+function attemptConnectionToRemoteServer()  {
+	var remote = new WebSocketIO(webVars.reconnectInfo.wsURL, false,
+	// On connect
+	function() {
+		manageRemoteConnection(remote, webVars.reconnectInfo.remoteServer);
+	},
+	// On fail activate this function, which is try again later
+	function(err) {
+		utils.debugPrint("Connection to headNode(" + webVars.reconnectInfo.wsURL + ") failed...");
+		setTimeout( attemptConnectionToRemoteServer, 5000 );
+	}
+	);
+}
+
+function manageRemoteConnection(remote, site) {
+	utils.debugPrint("Connection established with head node, " + webVars.reconnectInfo.wsURL);
 	remote.updateRemoteAddress(site.address, configFile.port);
 
 	var clientDescription = {
@@ -108,6 +124,7 @@ function manageRemoteConnection(remote, site, index) {
 	remote.onclose(function() {
 		utils.consolePrint("Remote server went offline");
 		utils.removeArrayElement(webVars.remoteSites, remote);
+		setTimeout(attemptConnectionToRemoteServer, 5000);
 	});
 	remote.on("serverAccepted", function(remotesocket, data) {
 		utils.consolePrint("Connected to remote server " + data.host);
@@ -119,10 +136,7 @@ function manageRemoteConnection(remote, site, index) {
 	remote.clientType = "remoteServer";
 	webVars.remoteSites.push(remote);
 	remote.emit("addClient", clientDescription);
-
 }
-
-
 
 
 

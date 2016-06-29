@@ -8,6 +8,8 @@
 //
 // Copyright (c) 2014
 
+// Modified from SAGE2 usage to work in Destiny Webstarter 2016.
+
 /**
  * Lightweight object around websocket, handles string and binary communication
  *
@@ -31,7 +33,7 @@ var WebSocketServer = WebSocket.Server;
  * @param strictSSL {Bool} require or not SSL verification with a certiifcate
  * @param openCallback {Function} callback when the socket opens
  */
-function WebsocketIO(ws, strictSSL, openCallback) {
+function WebsocketIO(ws, strictSSL, openCallback, errorCallback) {
 	if (typeof ws === "string") {
 		this.ws = new WebSocket(ws, null, {rejectUnauthorized: strictSSL});
 	} else {
@@ -51,7 +53,8 @@ function WebsocketIO(ws, strictSSL, openCallback) {
 	this.localListeners = {"0000": "#WSIO#addListener"};
 
 	this.ws.on('error', function(err) {
-		if (err.errno === "ECONNREFUSED") {
+		if (err.errno === "ECONNREFUSED" && errorCallback !== undefined && errorCallback !== null) {
+			errorCallback();
 			return; // do nothing
 		}
 	});
