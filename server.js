@@ -24,7 +24,7 @@ webVars.httpServer 	= new httpServer(configFile.contentFolder);
 webVars.mainServer 	= null;
 webVars.wsioServer 	= null;
 webVars.clients 	= []; // used to track the browser client wsio connections
-webVars.remoteSites = []; // used to track the remote site connections
+webVars.remoteServers = []; // used to track the remote site connections
 webVars.headNode    = false;
 webVars.reconnectInfo = {};
 
@@ -32,26 +32,54 @@ webVars.reconnectInfo = {};
 
 //---------------------------------------------------------------------------Setup requirements to run a script
 var script 			= function (file) {
+	// If the file doesn't exist, don't try to execute it. If not head node, report back to put all error messages in one place.
+	if (!utils.doesFileExist(file)) {
+		utils.consolePrint("Unable to launch script, file doesn't exist" + file);
+		if (!webVars.headNode && webVars.remoteServers.length > 0) {
+			webVars.remoteServers[0].emit("serverConfirm", {
+				message: ("File doesn't exist:" + file),
+				host: os.hostname(),
+				status: "error"
+			});
+		}
+		return;
+	}
     output = "";
     file   = path.normalize(file); // convert Unix notation to windows
-    utils.consolePrint("Launching script " + file, file);
-    proc = spawn(file, []);
-    proc.stdout.on("data", function (data) {
-		utils.consolePrint("stdout: " + data);
-		output = output + data;
-    });
-    proc.stderr.on("data", function (data) {
-		utils.consolePrint("script stderr: " + data);
-    });
-    proc.on("exit", function (code) {
-		utils.consolePrint("  child process (script) exited with code " + code);
-    });
+    utils.consolePrint("  Launching script " + file, file);
+    try {
+	    proc = spawn(file, []);
+	    proc.stdout.on("data", function (data) {
+	    	// Currently unsure what is in data
+			// utils.consolePrint("  stdout: " + data);
+			// output = output + data;
+	    });
+	    proc.stderr.on("data", function (data) {
+			utils.consolePrint("  script stderr: " + data);
+	    });
+	    proc.on("exit", function (code) {
+			utils.consolePrint("  child process (script) exited with code " + code);
+	    });
+	} catch (e) {
+		utils.consolePrint("Error with script:" + e);
+		if (!webVars.headNode) {
+			webVars.remoteServers[0].emit("serverConfirm", {
+				message: ("Error with script execution:" + e),
+				host: os.hostname(),
+				status: "error"
+			});
+		}
+	}
 } //end script function
 
 
 //----------------------------------------------------------------------------Start webserver
 // create http listener
 webVars.mainServer = http.createServer( webVars.httpServer.onrequest ).listen( webVars.port );
+utils.consolePrint("");
+utils.consolePrint(""); // make some space
+utils.consolePrint("");
+
 utils.consolePrint("Server started, listening on port:" + webVars.port); // only print if http debug is enabled.
 // create websocket listener
 webVars.wsioServer = new WebSocketIO.Server( { server: webVars.mainServer } );
@@ -83,21 +111,23 @@ function connectToDestinyHeadNode() {
 	if (localAddresses.indexOf(configFile.remoteSite.address) !== -1) {
 		utils.debugPrint("Remote site " + configFile.remoteSite.name
 			+ "(" + configFile.remoteSite.address + ") is this device");
+		utils.consolePrint("This device is headNode");
 		webVars.headNode = true;
 	} else {
-		utils.debugPrint("Attempting connection to remote site:" + configFile.remoteSite.address);
+		utils.consolePrint("This device is a slave node");
 		var rsite = configFile.remoteSite;
 		webVars.reconnectInfo.remoteServer = rsite;
 		webVars.reconnectInfo.protocol = (rsite.useSecureProtocol == true) ? "wss" : "ws";
 		webVars.reconnectInfo.wsURL = webVars.reconnectInfo.protocol + "://" + rsite.address + ":" + configFile.port.toString();
 
-		attemptConnectionToRemoteServer();
+		attemptConnectionToRemoteServer("First attempt");
 
 	}
 
 }
 
-function attemptConnectionToRemoteServer()  {
+function attemptConnectionToRemoteServer(otherInfo)  {
+	utils.consolePrint("Attempting connection to remote site:" + configFile.remoteSite.address);
 	var remote = new WebSocketIO(webVars.reconnectInfo.wsURL, false,
 	// On connect
 	function() {
@@ -106,6 +136,9 @@ function attemptConnectionToRemoteServer()  {
 	// On fail activate this function, which is try again later
 	function(err) {
 		utils.debugPrint("Connection to headNode(" + webVars.reconnectInfo.wsURL + ") failed...");
+		if (otherInfo !== undefined) {
+			utils.consolePrint("Initial connection attempt failed, will retry every 5 seconds.");
+		}
 		setTimeout( attemptConnectionToRemoteServer, 5000 );
 	}
 	);
@@ -123,19 +156,24 @@ function manageRemoteConnection(remote, site) {
 
 	remote.onclose(function() {
 		utils.consolePrint("Remote server went offline");
-		utils.removeArrayElement(webVars.remoteSites, remote);
+		utils.removeArrayElement(webVars.remoteServers, remote);
 		setTimeout(attemptConnectionToRemoteServer, 5000);
 	});
 	remote.on("serverAccepted", function(remotesocket, data) {
 		utils.consolePrint("Connected to remote server " + data.host);
 	});
 
-	remote.on("consolePrint",     wsRsConsolePrint);
-	remote.on("command",        wsRsCommand);
+	remote.on("consolePrint",  wsRsConsolePrint);
+	remote.on("command",       wsRsCommand);
+	remote.on("serverConfirm", function(wsio, data) { /* currently discards */});
+	remote.on("serverConfirm", function(wsio, data) { /* currently discards */});
 
 	remote.clientType = "remoteServer";
-	webVars.remoteSites.push(remote);
-	remote.emit("addClient", clientDescription);
+	webVars.remoteServers.push(remote);
+
+	setTimeout(function() {
+		remote.emit("addClient", clientDescription);
+	}, 500);
 }
 
 
@@ -163,7 +201,7 @@ function openWebSocketClient(wsio) {
 function closeWebSocketClient(wsio) {
 	utils.debugPrint( ">Disconnect" + wsio.id + " (" + wsio.clientType + " " + wsio.clientID+ ")", "wsio");
 	utils.removeArrayElement(webVars.clients, wsio);
-	utils.removeArrayElement(webVars.remoteSites, wsio);
+	utils.removeArrayElement(webVars.remoteServers, wsio);
 	if (wsio.clientType === "remoteServer") {
 		utils.consolePrint("Remote site " + wsio.id + " disconnected");
 	}
@@ -174,12 +212,13 @@ function wsAddClient(wsio, data) {
 	utils.debugPrint("addClient packet received from:" + wsio.id, "wsio");
 
 	if (data.clientType === "remoteServer") {
-		webVars.remoteSites.push(wsio);
+		webVars.remoteServers.push(wsio);
 		wsio.clientType = "remoteServer";
 		utils.consolePrint("Remote server connection from " + data.host);
 
 		// setup listeners
 		wsio.on("consolePrint",     wsConsolePrint); // Used mainly for console logging from remotes.
+		wsio.on("serverConfirm",    wsServerConfirm); // Nodes respond back.
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
 		// Does the server need to respond to remote site commands? Probably not?
@@ -228,10 +267,18 @@ function wsCommand(wsio, data) {
 	} else {
 		var result = commandHandler.handleCommandString(data.command);
 		if (result === false) {
-			wsio.emit("serverConfirm", {message: ("Unknown command:" + data.command)});
+			wsio.emit("serverConfirm", {
+				message: ("Unknown command:" + data.command),
+				host: os.hostname(),
+				status: "error"
+			});
 			utils.consolePrint("Discarding unknown command packet:" + data.command);
 		} else {
-			wsio.emit("serverConfirm", {message: ("Command " + result.commandName + " accepted.") })
+			wsio.emit("serverConfirm", {
+				message: ("Command " + result.commandName + " accepted."),
+				host: os.hostname(),
+				status: "ok"
+			})
 			utils.consolePrint("Accepted command packet:" + data.command);
 			script(result.path);
 		}
@@ -239,8 +286,17 @@ function wsCommand(wsio, data) {
 
 	// Send out packet again if head node
 	if (webVars.headNode) {
-		for (var i = 0; i < webVars.remoteSites.length; i++) {
-			webVars.remoteSites[i].emit("command", data);
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			webVars.remoteServers[i].emit("command", data);
 		}
 	}
 } // End wsCommand
+
+// This should only be activated on the head node.
+function wsServerConfirm(wsio, data) {
+	if (data.status === "error") {
+		utils.consolePrint("Error on " + data.host + ">" + data.message); // Errors from nodes need to be seen
+	} else {
+		utils.debugPrint(data.message, "Remote server " + data.host); // This only prints if debug is on
+	}
+}
