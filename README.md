@@ -1,3 +1,3 @@
 
-To be updated...
-
+# destinyController
+Nodejs based controller
