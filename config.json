@@ -34,6 +34,7 @@
 			commandName: "shutdownNow",
 			commandDesciption: "",
 			commandWords: [ ],
+			preventHostActivation: true,
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/shutdownNow.bat"
 		},

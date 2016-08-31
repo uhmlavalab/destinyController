@@ -19,10 +19,9 @@ function handleCommandString(commandString) {
 	// Go through each command
 	for (var i = 0; i < global.commands.length; i++) {
 		if (global.commands[i].commandName == commandString) {
-			var retInfo = {};
-			retInfo.path = global.commands[i].scriptPath;
-			retInfo.commandName = global.commands[i].commandName;
-			retInfo.sendAll = global.commands[i].sendAll;
+			var retInfo;
+			retInfo = global.commands[i];
+			retInfo.path = retInfo.scriptPath;
 			return retInfo; // Only activate one command. Could be modified to activate others.
 		}
 	}

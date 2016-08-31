@@ -274,17 +274,19 @@ function wsCommand(wsio, data) {
 			});
 			utils.consolePrint("Discarding unknown command packet:" + data.command);
 		} else {
-			wsio.emit("serverConfirm", {
-				message: ("Command " + result.commandName + " accepted."),
-				host: os.hostname(),
-				status: "ok"
-			})
-			utils.consolePrint("Accepted command packet:" + data.command);
-			var paramArray = [];
-			if (data.paramArray) {
-				paramArray = data.paramArray;
+			if (!result.preventHostActivation) {
+				wsio.emit("serverConfirm", {
+					message: ("Command " + result.commandName + " accepted."),
+					host: os.hostname(),
+					status: "ok"
+				})
+				utils.consolePrint("Accepted command packet:" + data.command);
+				var paramArray = [];
+				if (data.paramArray) {
+					paramArray = data.paramArray;
+				}
+				script(result.path, paramArray);
 			}
-			script(result.path, paramArray);
 			
 			// Send out packet again if head node
 			if (webVars.headNode && result.sendAll) {
