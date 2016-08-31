@@ -31,6 +31,17 @@
 			scriptPath: "./src/exampleScripts/wakeOnLanAll.bat"
 		},
 		{
+			commandName: "shutdownNow",
+			commandDesciption: "",
+			commandWords: [ ],
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/shutdownNow.bat"
+		},
+		
+		
+		
+		
+		{
 			commandName: "psPreSufAllConsole",
 			commandDesciption: "",
 			commandWords: [ ],

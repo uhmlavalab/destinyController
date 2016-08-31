@@ -22,7 +22,7 @@ function handleCommandString(commandString) {
 			var retInfo = {};
 			retInfo.path = global.commands[i].scriptPath;
 			retInfo.commandName = global.commands[i].commandName;
-			retInfo.consoleParams = global.commands[i].consoleParams;
+			retInfo.sendAll = global.commands[i].sendAll;
 			return retInfo; // Only activate one command. Could be modified to activate others.
 		}
 	}

@@ -42,6 +42,12 @@ var layout = {
 		{
 			type: "button",
 			image: "images/tophat.png",
+			description: "Shutdown",
+			action: "shutdownNow"
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
 			description: "PS Test - Print prefix suffix",
 			action: "psPreSufAll",
 			params: ["prefix", "suffix"]

@@ -285,13 +285,13 @@ function wsCommand(wsio, data) {
 				paramArray = data.paramArray;
 			}
 			script(result.path, paramArray);
-		}
-	}
-
-	// Send out packet again if head node
-	if (webVars.headNode) {
-		for (var i = 0; i < webVars.remoteServers.length; i++) {
-			webVars.remoteServers[i].emit("command", data);
+			
+			// Send out packet again if head node
+			if (webVars.headNode && result.sendAll) {
+				for (var i = 0; i < webVars.remoteServers.length; i++) {
+					webVars.remoteServers[i].emit("command", data);
+				}
+			}
 		}
 	}
 } // End wsCommand
