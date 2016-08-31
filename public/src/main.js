@@ -80,6 +80,7 @@ function createButton(buttonInfo) {
 		button.loadedSound = new Audio(buttonInfo.sound);
 	}
 	button.action = buttonInfo.action;
+	button.params = buttonInfo.params;
 
 	button.addEventListener("click", function() {
 		if (this.loadedSound !== undefined) {
@@ -89,7 +90,7 @@ function createButton(buttonInfo) {
 			debugPrint("default sound");
 			beepSound.play();
 		}
-		buttonClickHandler(this.action);
+		buttonClickHandler(this.action, this.params);
 	});
 
 	contentColumn.appendChild(rowSeparator);
@@ -178,6 +179,7 @@ function createGroup(groupInfo, index) {
 			button.loadedSound = new Audio(groupInfo.buttons[i].sound);
 		}
 		button.action = groupInfo.buttons[i].action;
+		button.params = groupInfo.buttons[i].params;
 		button.addEventListener("click", function() {
 			if (this.loadedSound !== undefined) {
 				debugPrint("specified sound");
@@ -186,16 +188,16 @@ function createGroup(groupInfo, index) {
 				debugPrint("default sound");
 				beepSound.play();
 			}
-			buttonClickHandler(this.action);
+			buttonClickHandler(this.action, this.params);
 		});
 	} // for each group button
 } // createGroup 
 
 //-----------------------------------------------------------------------------------------------------------------buttonClickHandler()
 
-function buttonClickHandler(action) {
+function buttonClickHandler(action, paramArray) {
 	debugPrint(action, "Button Press");
-	wsio.emit("command", {command: action});
+	wsio.emit("command", {command: action, paramArray:paramArray});
 }
 
 

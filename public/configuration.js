@@ -22,6 +22,54 @@ var layout = {
 		{
 			type: "button",
 			image: "images/tophat.png",
+			description: "Power ON Monitors",
+			action: "psPreSufAll",
+			params: ["ka", "01"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "Power OFF Monitors",
+			action: "psPreSufAll",
+			params: ["ka", "00"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "Wake On Lan All",
+			action: "wakeOnLanAll"
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "PS Test - Print prefix suffix",
+			action: "psPreSufAll",
+			params: ["prefix", "suffix"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "PS Test - One pre suf",
+			action: "psPreSufOne",
+			params: ["prefix", "suffix", "1"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "PS Test - On Monitor 1",
+			action: "psPreSufOne",
+			params: ["ka", "01", "1"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "PS Test - Off Monitor 1",
+			action: "psPreSufOne",
+			params: ["ka", "00", "1"]
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
 			description: "Top button",
 			action: "console:top button"
 		},

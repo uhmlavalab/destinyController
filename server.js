@@ -3,6 +3,7 @@
 var http            = require("http"); // for server
 var path            = require("path"); // for file location conversions
 var spawn           = require("child_process").spawn; // Associate the spawn function. For script running.
+// var spawnSync       = require("child_process").spawnSync;
 var os              = require("os");
 var fs              = require("fs");
 // npm required, defined in package.json
@@ -31,7 +32,7 @@ webVars.reconnectInfo = {};
 
 
 //---------------------------------------------------------------------------Setup requirements to run a script
-var script 			= function (file) {
+var script 			= function (file, paramArray) {
 	// If the file doesn't exist, don't try to execute it. If not head node, report back to put all error messages in one place.
 	if (!utils.doesFileExist(file)) {
 		utils.consolePrint("Unable to launch script, file doesn't exist" + file);
@@ -48,11 +49,9 @@ var script 			= function (file) {
     file   = path.normalize(file); // convert Unix notation to windows
     utils.consolePrint("  Launching script " + file, file);
     try {
-	    proc = spawn(file, []);
+	    proc = spawn(file, paramArray);
 	    proc.stdout.on("data", function (data) {
-	    	// Currently unsure what is in data
-			// utils.consolePrint("  stdout: " + data);
-			// output = output + data;
+			utils.consolePrint("  script stdout: " + data);
 	    });
 	    proc.stderr.on("data", function (data) {
 			utils.consolePrint("  script stderr: " + data);
@@ -71,6 +70,7 @@ var script 			= function (file) {
 		}
 	}
 } //end script function
+
 
 
 //----------------------------------------------------------------------------Start webserver
@@ -280,7 +280,11 @@ function wsCommand(wsio, data) {
 				status: "ok"
 			})
 			utils.consolePrint("Accepted command packet:" + data.command);
-			script(result.path);
+			var paramArray = [];
+			if (data.paramArray) {
+				paramArray = data.paramArray;
+			}
+			script(result.path, paramArray);
 		}
 	}
 
