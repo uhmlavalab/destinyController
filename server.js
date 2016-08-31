@@ -257,7 +257,7 @@ function wsConsolePrint(wsio, data) {
 }
 
 function wsRsCommand(wsio, data) {
-	utils.debugPrint("Initiating remote server command packet");
+	utils.debugPrint("Initiating remote server command packet " + data.command);
 	wsCommand(wsio, data);
 }
 function wsCommand(wsio, data) {
@@ -274,7 +274,7 @@ function wsCommand(wsio, data) {
 			});
 			utils.consolePrint("Discarding unknown command packet:" + data.command);
 		} else {
-			if (!result.preventHostActivation) {
+			if (!webVars.headNode || !result.preventHostActivation) {
 				wsio.emit("serverConfirm", {
 					message: ("Command " + result.commandName + " accepted."),
 					host: os.hostname(),
