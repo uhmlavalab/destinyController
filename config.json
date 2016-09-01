@@ -40,6 +40,17 @@
 		},
 		
 		
+		{
+			commandName: "updateNodejsFromRepo", // THIS IS A SPECIAL CASE IN SERVER
+			commandDesciption: "",
+			commandWords: [ ],
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/updateNodejsFromRepo.bat"
+		},
+		
+		
+		
+		
 		
 		
 		{

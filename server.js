@@ -274,7 +274,24 @@ function wsCommand(wsio, data) {
 			});
 			utils.consolePrint("Discarding unknown command packet:" + data.command);
 		} else {
-			if (!webVars.headNode || !result.preventHostActivation) {
+			// Send out packet again if head node
+			if (webVars.headNode && result.sendAll) {
+				for (var i = 0; i < webVars.remoteServers.length; i++) {
+					webVars.remoteServers[i].emit("command", data);
+				}
+			}
+			
+			// Special case for updating
+			if (data.command == "updateNodejsFromRepo") {
+				var paramArray = [];
+				if (data.paramArray) {
+					paramArray = data.paramArray;
+				}
+				script(result.path, paramArray);
+				setTimeout(function(){
+					process.exit();
+				}, 500);
+			} else if (!webVars.headNode || !result.preventHostActivation) {
 				wsio.emit("serverConfirm", {
 					message: ("Command " + result.commandName + " accepted."),
 					host: os.hostname(),
@@ -286,13 +303,6 @@ function wsCommand(wsio, data) {
 					paramArray = data.paramArray;
 				}
 				script(result.path, paramArray);
-			}
-			
-			// Send out packet again if head node
-			if (webVars.headNode && result.sendAll) {
-				for (var i = 0; i < webVars.remoteServers.length; i++) {
-					webVars.remoteServers[i].emit("command", data);
-				}
 			}
 		}
 	}
@@ -306,3 +316,14 @@ function wsServerConfirm(wsio, data) {
 		utils.debugPrint(data.message, "Remote server " + data.host); // This only prints if debug is on
 	}
 }
+
+
+
+
+
+
+
+
+
+
+

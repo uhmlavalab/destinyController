@@ -45,6 +45,19 @@ var layout = {
 			description: "Shutdown",
 			action: "shutdownNow"
 		},
+		
+		
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "Update All Nodejs",
+			action: "updateNodejsFromRepo"
+		},
+		
+		
+		
+		
+		
 		{
 			type: "button",
 			image: "images/tophat.png",
