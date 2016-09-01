@@ -1,4 +1,8 @@
 
 sleep 1
 
-echo "wtf" > file.txt
+git pull origin master
+
+start /MIN node server.js
+
+exit

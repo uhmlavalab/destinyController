@@ -212,6 +212,7 @@ function wsAddClient(wsio, data) {
 	utils.debugPrint("addClient packet received from:" + wsio.id, "wsio");
 
 	if (data.clientType === "remoteServer") {
+		wsio.hostNameString = data.host;
 		webVars.remoteServers.push(wsio);
 		wsio.clientType = "remoteServer";
 		utils.consolePrint("Remote server connection from " + data.host);
