@@ -238,6 +238,14 @@ function wsAddClient(wsio, data) {
 		wsio.on("consolePrint",     wsConsolePrint);
 		wsio.on("command",        wsCommand);
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
+		
+		var allHn = "";
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			allHn += webVars.remoteServers[i].hostNameString + "|";
+		}
+		for (var i = 0; i < webVars.clients.length; i++) {
+			webVars.clients[i].emit("nodeCountUpdate", {names:allHn});
+		}
 	} else {
 		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
 	}
