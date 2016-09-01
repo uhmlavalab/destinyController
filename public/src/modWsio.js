@@ -31,6 +31,10 @@ function setupListeners() {
 	wsio.on('serverConfirm', function(data) {
 		debugPrint("serverConfirm: " + data.message);
 	});
+	
+	wsio.on("nodeCountUpdate", function(data) {
+		console.log("nodeCountUpdate:" + data.names);
+	});
 
 }
 

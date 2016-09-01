@@ -222,6 +222,14 @@ function wsAddClient(wsio, data) {
 		wsio.on("serverConfirm",    wsServerConfirm); // Nodes respond back.
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
+		var allHn = "";
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			allHn += webVars.remoteServers[i].hostNameString + "|";
+		}
+		for (var i = 0; i < webVars.clients.length; i++) {
+			webVars.clients[i].emit("nodeCountUpdate", {names:allHn});
+		}
+		
 		// Does the server need to respond to remote site commands? Probably not?
 		// wsio.on("command",        wsCommand);
 	} else if (data.clientType === "webControllerClient") {
