@@ -6,7 +6,7 @@ var wsio;
 var beepSound;
 
 var nodeCount = 8;
-var nodeNamePrefix = "kanaloa";
+var nodeNamePrefix = "Kanaloa";
 
 
 
@@ -232,7 +232,6 @@ function updateNodeStatus(data) {
 	for (var i = 0; i < hostNamesFromServer.length; i++) {
 		for (var n = 1; n <= nodeCount; n++) {
 			if (hostNamesFromServer[i].indexOf(nodeNamePrefix + n) != -1) {
-				console.log("erase me, detected match" + hostNamesFromServer[i] + " " + n);
 				arrayCheck[n - 1] = true;
 			}
 		}
@@ -242,7 +241,6 @@ function updateNodeStatus(data) {
 	var okCount = 0;
 	for ( var i = 0; i < arrayCheck.length; i++) {
 		nsiButton = document.getElementById("nsiButton" + (i+1));
-		if (nsiButton == null) { console.log("null button at " + i);}
 		nsiIcon   = document.getElementById("nsiIcon" + (i+1));
 		if (arrayCheck[i]) {
 			okCount++;
