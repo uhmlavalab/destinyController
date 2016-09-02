@@ -23,7 +23,7 @@ foreach ($Mac in $MacList){
 
   for ($x = 1; $x -le 4; $x++) {
 	  $h =  [Convert]::ToString($monitorNumber,16)
-	  $port.WriteLine($prefix + " " + $h + " " + $suffix)
+	  $monitorPort.WriteLine($prefix + " " + $h + " " + $suffix)
 	  Write-Host($prefix + " " + $h + " " + $suffix)
 	  $monitorNumber--;
 	  Start-Sleep 1.5
