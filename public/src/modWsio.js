@@ -33,7 +33,8 @@ function setupListeners() {
 	});
 	
 	wsio.on("nodeCountUpdate", function(data) {
-		console.log("nodeCountUpdate:" + data.names);
+		// function in main
+		updateNodeStatus(data);
 	});
 
 }

@@ -5,6 +5,9 @@ var debug;
 var wsio;
 var beepSound;
 
+var nodeCount = 8;
+var nodeNamePrefix = "kanaloa";
+
 
 
 //-----------------------------------------------------------------------------------------------------------------main()
@@ -25,7 +28,9 @@ function setTitleAndPageBackground() {
 
 //-----------------------------------------------------------------------------------------------------------------populatePage()
 function populatePage() {
-	//configuration needs to be loaded before main, otherwise this will not work.
+	// create node status for specifically kanaloa1 to kanaloa8
+	createNodeStatusIndicators();
+	// configuration needs to be loaded before main, otherwise this will not work.
 	var parts = layout.viewParts; //its an array
 	for (var i = 0; i < parts.length; i++) {
 		if (parts[i].type === "button") {
@@ -37,7 +42,29 @@ function populatePage() {
 		}
 	}
 
-} //end populatePage
+} // end populatePage
+
+function createNodeStatusIndicators() {
+	var nsiButton, nsiIcon;
+
+	for (var i = 0; i < nodeCount; i++) {
+		nsiButton = document.createElement("button");
+		nsiButton.id = "nsiButton" + (i+1);
+		// nsiButton.innerHTML = " " + (i + 1) + "&nbsp";
+		nsiButton.classList.add("btn");
+		nsiButton.classList.add("btn-danger");
+		nsiButton.classList.add("btn-xs");
+
+		nsiIcon = document.createElement("span");
+		nsiIcon.id = "nsiIcon" + (i+1);
+		nsiIcon.classList.add("glyphicon");
+		nsiIcon.classList.add("glyphicon-remove-circle");
+		nsiIcon.ariaHidden = true;
+
+		nsiButton.appendChild(nsiIcon);
+		nodeStatusDiv.appendChild(nsiButton);
+	}
+}
 
 /* buttons are objects {
 	image:
@@ -192,6 +219,68 @@ function createGroup(groupInfo, index) {
 		});
 	} // for each group button
 } // createGroup 
+
+//-----------------------------------------------------------------------------------------------------------------buttonClickHandler()
+
+function updateNodeStatus(data) {
+	// data.names has the hostnames separated by |
+	var arrayCheck = [];
+	for ( var i = 0; i < nodeCount; i++) {
+		arrayCheck.push(false);
+	}
+	var hostNamesFromServer = data.names.split("|");
+	for (var i = 0; i < hostNamesFromServer.length; i++) {
+		for (var n = 1; n <= nodeCount; n++) {
+			if (hostNamesFromServer[i].indexOf(nodeNamePrefix + n) != -1) {
+				console.log("erase me, detected match" + hostNamesFromServer[i] + " " + n);
+				arrayCheck[n - 1] = true;
+			}
+		}
+	}
+
+	var nsiButton, nsiIcon;
+	var okCount = 0;
+	for ( var i = 0; i < arrayCheck.length; i++) {
+		nsiButton = document.getElementById("nsiButton" + (i+1));
+		if (nsiButton == null) { console.log("null button at " + i);}
+		nsiIcon   = document.getElementById("nsiIcon" + (i+1));
+		if (arrayCheck[i]) {
+			okCount++;
+			if (nsiButton.classList.contains("btn-danger")) {
+				nsiButton.classList.remove("btn-danger");
+			}
+			if (!nsiButton.classList.contains("btn-success")) {
+				nsiButton.classList.add("btn-success");
+			}
+			if (nsiIcon.classList.contains("glyphicon-remove-circle")) {
+				nsiIcon.classList.remove("glyphicon-remove-circle");
+			}
+			if (!nsiIcon.classList.contains("glyphicon-ok-circle")) {
+				nsiIcon.classList.add("glyphicon-ok-circle");
+			}
+		} else {
+			if (!nsiButton.classList.contains("btn-danger")) {
+				nsiButton.classList.add("btn-danger");
+			}
+			if (nsiButton.classList.contains("btn-success")) {
+				nsiButton.classList.remove("btn-success");
+			}
+			if (!nsiIcon.classList.contains("glyphicon-remove-circle")) {
+				nsiIcon.classList.add("glyphicon-remove-circle");
+			}
+			if (nsiIcon.classList.contains("glyphicon-ok-circle")) {
+				nsiIcon.classList.remove("glyphicon-ok-circle");
+			}
+		}
+	}
+	if (okCount >= nodeCount) {
+		nodeStatusDiv.style.background = "green";
+	} else {
+		nodeStatusDiv.style.background = "red";
+	}
+}
+
+
 
 //-----------------------------------------------------------------------------------------------------------------buttonClickHandler()
 
