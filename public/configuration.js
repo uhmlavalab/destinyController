@@ -22,6 +22,18 @@ var layout = {
 		{
 			type: "button",
 			image: "images/tophat.png",
+			description: "Launch Destiny",
+			action: "wakeOnLanAll"
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
+			description: "Shutdown",
+			action: "shutdownNow"
+		},
+		{
+			type: "button",
+			image: "images/tophat.png",
 			description: "Power ON Monitors",
 			action: "psPreSufAll",
 			params: ["ka", "01"]
@@ -33,18 +45,6 @@ var layout = {
 			action: "psPreSufAll",
 			params: ["ka", "00"]
 		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "Wake On Lan All",
-			action: "wakeOnLanAll"
-		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "Shutdown",
-			action: "shutdownNow"
-		},
 		
 		
 		{
@@ -53,67 +53,10 @@ var layout = {
 			description: "Update All Nodejs",
 			action: "updateNodejsFromRepo"
 		},
-		
-		
-		
-		
-		
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "PS Test - Print prefix suffix",
-			action: "psPreSufAll",
-			params: ["prefix", "suffix"]
-		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "PS Test - One pre suf",
-			action: "psPreSufOne",
-			params: ["prefix", "suffix", "1"]
-		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "PS Test - On Monitor 1",
-			action: "psPreSufOne",
-			params: ["ka", "01", "1"]
-		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "PS Test - Off Monitor 1",
-			action: "psPreSufOne",
-			params: ["ka", "00", "1"]
-		},
-		{
-			type: "button",
-			image: "images/tophat.png",
-			description: "Top button",
-			action: "console:top button"
-		},
-		{
-			type: "button",
-			image: "images/pv.png",
-			description: "ParaView",
-			sound: "images/computerbeep_5.mp3", // optional
-			action: "para view"
-		},
-		{
-			type: "button",
-			description: "Mac terminal open here command",
-			action: "macOpenHere"
-		},
-		{
-			type: "button",
-			image: "images/button.png",
-			description: "I am a button",
-			action: "4th"
-		},
 		{
 			type: "group",
 			image: "images/buttonGroup.png",
-			description: "Windows Specific Demo",
+			description: "Windows Demos",
 			buttons: [
 				{
 					description: "Start Calc",

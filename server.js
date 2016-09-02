@@ -204,6 +204,8 @@ function closeWebSocketClient(wsio) {
 	utils.removeArrayElement(webVars.remoteServers, wsio);
 	if (wsio.clientType === "remoteServer") {
 		utils.consolePrint("Remote site " + wsio.id + " disconnected");
+
+		createAndSendNodeCountUpdate(); // notify webclients if a node disconnects.
 	}
 }
 
@@ -222,13 +224,7 @@ function wsAddClient(wsio, data) {
 		wsio.on("serverConfirm",    wsServerConfirm); // Nodes respond back.
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
-		var allHn = "";
-		for (var i = 0; i < webVars.remoteServers.length; i++) {
-			allHn += webVars.remoteServers[i].hostNameString + "|";
-		}
-		for (var i = 0; i < webVars.clients.length; i++) {
-			webVars.clients[i].emit("nodeCountUpdate", {names:allHn});
-		}
+		createAndSendNodeCountUpdate();
 		
 		// Does the server need to respond to remote site commands? Probably not?
 		// wsio.on("command",        wsCommand);
@@ -239,6 +235,14 @@ function wsAddClient(wsio, data) {
 		wsio.on("command",        wsCommand);
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 		
+		createAndSendNodeCountUpdate();
+	} else {
+		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
+	}
+}
+
+
+function createAndSendNodeCountUpdate() {
 		var allHn = "";
 		for (var i = 0; i < webVars.remoteServers.length; i++) {
 			allHn += webVars.remoteServers[i].hostNameString + "|";
@@ -246,11 +250,7 @@ function wsAddClient(wsio, data) {
 		for (var i = 0; i < webVars.clients.length; i++) {
 			webVars.clients[i].emit("nodeCountUpdate", {names:allHn});
 		}
-	} else {
-		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
-	}
 }
-
 
 
 
