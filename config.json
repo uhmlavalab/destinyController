@@ -81,12 +81,16 @@
 			commandName: "Start Notepad",
 			commandDesciption: "",
 			commandWords: ["computer", "start", "note" ],
+			preventHostActivation: true,
+			sendAll: true,
 			scriptPath: "./src/exampleScripts/notepad.bat"
 		},
 		{
 			commandName: "Start Calc",
 			commandDesciption: "",
 			commandWords: ["computer", "start", "calculator"],
+			preventHostActivation: true,
+			sendAll: true,
 			scriptPath: "./src/exampleScripts/calc.bat"
 		}
 	]
