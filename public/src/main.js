@@ -60,6 +60,7 @@ function createNodeStatusIndicators() {
 		nsiIcon.classList.add("glyphicon");
 		nsiIcon.classList.add("glyphicon-remove-circle");
 		nsiIcon.ariaHidden = true;
+		nsiIcon.style.fontSize = "20px";
 
 		nsiButton.appendChild(nsiIcon);
 		nodeStatusDiv.appendChild(nsiButton);
@@ -80,12 +81,7 @@ function createButton(buttonInfo) {
 	button.type = "button";
 	button.className ="btn btn-primary btn-lg";
 
-	var cog = document.createElement("span");
-	cog.className = "glyphicon glyphicon-cog";
-	cog["aria-hidden"] = "true";
-	button.appendChild(cog);
-
-	button.innerHTML += "&nbsp" + buttonInfo.description; // To put the cog on the left of the description.
+	button.innerHTML += buttonInfo.description;
 
 	// Only if there is an image specified make space for it.
 	if (buttonInfo.image !== undefined) {
@@ -196,11 +192,7 @@ function createGroup(groupInfo, index) {
 
 		var button = document.createElement("button");
 		button.className ="btn btn-primary btn-lg btn-block btn-wrapper";
-		var cog = document.createElement("span");
-		cog.className = "glyphicon glyphicon-cog";
-		cog["aria-hidden"] = "true";
-		button.appendChild(cog);
-		button.innerHTML += "&nbsp" + groupInfo.buttons[i].description; // To put the cog on the left of the description.
+		button.innerHTML +=groupInfo.buttons[i].description;
 		row.appendChild(button);
 		if (groupInfo.buttons[i].sound !== undefined) {
 			button.loadedSound = new Audio(groupInfo.buttons[i].sound);
@@ -270,11 +262,6 @@ function updateNodeStatus(data) {
 				nsiIcon.classList.remove("glyphicon-ok-circle");
 			}
 		}
-	}
-	if (okCount >= nodeCount) {
-		nodeStatusDiv.style.background = "green";
-	} else {
-		nodeStatusDiv.style.background = "red";
 	}
 }
 

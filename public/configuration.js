@@ -1,7 +1,16 @@
 
 
 var layout = {
-	title: "I'm your Density, I mean Destiny... controller",
+	title: "Destiny",
+
+	audioFiles: [
+		"images/227sd.mp3",
+		"images/228sd.mp3",
+		"images/266sd.mp3",
+		"images/273sd.mp3",
+		"images/computerbeep_5.mp3",
+		"images/displayon.mp3"
+	],
 
 	/*
 	View parts is an array.
@@ -21,37 +30,43 @@ var layout = {
 	viewParts: [
 		{
 			type: "button",
-			image: "images/tophat.png",
 			description: "Launch Destiny",
-			action: "wakeOnLanAll"
+			action: "wakeOnLanAll",
 		},
 		{
 			type: "button",
-			image: "images/tophat.png",
 			description: "Shutdown",
 			action: "shutdownNow"
 		},
 		{
 			type: "button",
-			image: "images/tophat.png",
-			description: "Power ON Monitors",
-			action: "psPreSufAll",
-			params: ["ka", "01"]
+			description: "Sound Test 1",
+			sound: "images/227sd.mp3",
+			action: ""
 		},
 		{
 			type: "button",
-			image: "images/tophat.png",
-			description: "Power OFF Monitors",
-			action: "psPreSufAll",
-			params: ["ka", "00"]
+			description: "Sound Test 2",
+			sound: "images/228sd.mp3",
+			action: ""
 		},
-		
-		
 		{
 			type: "button",
-			image: "images/tophat.png",
-			description: "Update All Nodejs",
-			action: "updateNodejsFromRepo"
+			description: "Sound Test 3",
+			sound: "images/266sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			description: "Sound Test 4",
+			sound: "images/273sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			description: "Sound Test 5",
+			sound: "images/displayon.mp3",
+			action: ""
 		},
 		{
 			type: "group",
@@ -67,6 +82,27 @@ var layout = {
 					description: "Start Notepad",
 					action: "Start Notepad"
 				}
+			]
+		},
+		{
+			type: "group",
+			image: "images/buttonGroup.png",
+			description: "Temp Button Storage",
+			buttons: [
+				{
+					description: "Power ON Monitors",
+					action: "psPreSufAll",
+					params: ["ka", "01"]
+				},
+				{
+					description: "Power OFF Monitors",
+					action: "psPreSufAll",
+					params: ["ka", "00"]
+				},
+				{
+					description: "Update All Nodejs",
+					action: "updateNodejsFromRepo"
+				},
 			]
 		},
 
