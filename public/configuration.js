@@ -105,6 +105,11 @@ var layout = {
 				},
 			]
 		},
+		{
+			type: "button",
+			description: "...",
+			action: "link:admin.html"
+		},
 
 	] //end of view parts
 };

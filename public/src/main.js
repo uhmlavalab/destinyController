@@ -271,6 +271,9 @@ function updateNodeStatus(data) {
 
 function buttonClickHandler(action, paramArray) {
 	debugPrint(action, "Button Press");
+	if (action.indexOf("link:") != -1) {
+		window.location = "admin.html";
+	}
 	wsio.emit("command", {command: action, paramArray:paramArray});
 }
 
