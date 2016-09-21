@@ -7,219 +7,271 @@ var beepSound;
 
 var nodeCount = 8;
 var nodeNamePrefix = "Kanaloa";
-
+var sizes = {};
+var imageData = {};
 
 
 //-----------------------------------------------------------------------------------------------------------------main()
 function main() {
-	debug = layout.debug;
+	debug = config.debug;
 	debugPrint("Main");
-	setTitleAndPageBackground();
-	populatePage();
+
+	detectSizes();
 	loadDefaultSound();
+	fitBanner();
+	fitConnectionStatusGlyphs();
+	fitButtons(); // Button creations happens in a call here AFTER sizing is calculated.
+
 	initializeWS();
 }
 
-function setTitleAndPageBackground() {
-	controllerTitle.textContent = layout.title;
+function detectSizes() {
+	sizes.width  = window.innerWidth;
+	sizes.height = window.innerHeight;
+	sizes.h10p   = sizes.height * 0.1;
+	sizes.h08p   = sizes.height * 0.08;
+	sizes.h90p   = sizes.height * 0.9;
+	sizes.w10p   = sizes.width * 0.1;
+	sizes.w90p   = sizes.width * 0.9;
+
+	sizes.xCenter = window.innerWidth/2;
+	sizes.yCenter = window.innerHeight/2;
+
+	debugPrint("sizes.width:"  + sizes.width);
+	debugPrint("sizes.height:" + sizes.height);
+	debugPrint("sizes.h10p:"   + sizes.h10p);
+	debugPrint("sizes.w10p:"   + sizes.w10p);
+}
+
+function fitBanner() {
+	var h10pWidth  = sizes.h10p / bannerImage.naturalHeight * bannerImage.naturalWidth;
+	var w90pHeight = sizes.w90p / bannerImage.naturalWidth * bannerImage.naturalHeight;
+	
+	var widthExceeded = false, heightExceeded = false;
+
+	if (h10pWidth > sizes.w90p) { widthExceeded = true; }
+	if (w90pHeight > sizes.h10p) { heightExceeded = true; }
+
+	bannerImage.style.position = "absolute";
+
+	if (!widthExceeded) {
+		bannerImage.height = sizes.h10p;
+		bannerImage.style.left = (sizes.xCenter - h10pWidth / 2) + "px";
+		bannerDiv.style.height = sizes.h10p + "px";
+		debugPrint("Using h10p limiter");
+	} else if (!heightExceeded) {
+		bannerImage.width = sizes.w90p;
+		bannerImage.style.left = (sizes.xCenter - sizes.w90p / 2) + "px";
+		bannerDiv.style.height = w90pHeight + "px";
+		debugPrint("Using w90p limiter");
+	} else {
+		console.print("width / height problems");
+	}
 }
 
 
+/*
+480 left most point to bottom most right point
 
-//-----------------------------------------------------------------------------------------------------------------populatePage()
-function populatePage() {
-	// create node status for specifically kanaloa1 to kanaloa8
-	createNodeStatusIndicators();
-	// configuration needs to be loaded before main, otherwise this will not work.
-	var parts = layout.viewParts; //its an array
-	for (var i = 0; i < parts.length; i++) {
-		if (parts[i].type === "button") {
-			createButton(parts[i]);
-		} else if (parts[i].type === "group") {
-			createGroup(parts[i], i);
-		} else {
-			console.log("Error building page, unknown type:" + parts[i].type);
-		}
+265 inner portion that doesn't over lap
+40 rough estimate of gap
+
+*/
+function fitConnectionStatusGlyphs() {
+	imageData.onGlyph = new Image();
+	imageData.onGlyph.onload = function() {
+		var totalNaturalWidth = nodeCount * 480 + ((nodeCount - 1) * 40) + 200;
+		var widthRatio = sizes.width * 0.8 / totalNaturalWidth;
+		imageData.glyphWidth = widthRatio * 689;
+		imageData.glyphWidthRatio = widthRatio;
+
+		addGlyphsToMenu(widthRatio);
 	}
+	imageData.onGlyph.src = "images/cluster-on.png";
+}
 
-} // end populatePage
+function addGlyphsToMenu() {
+	var offGlyphPath = "images/cluster-off.png";
+	var onGlyphPath  = "images/cluster-on.png";
 
-function createNodeStatusIndicators() {
-	var nsiButton, nsiIcon;
+	var xPos = sizes.w10p;
+
+	var onGlyph, offGlyph;
 
 	for (var i = 0; i < nodeCount; i++) {
-		nsiButton = document.createElement("button");
-		nsiButton.id = "nsiButton" + (i+1);
-		// nsiButton.innerHTML = " " + (i + 1) + "&nbsp";
-		nsiButton.classList.add("btn");
-		nsiButton.classList.add("btn-danger");
-		nsiButton.classList.add("btn-xs");
+		onGlyph      = new Image();
+		onGlyph.src  = onGlyphPath;
+		onGlyph.id   = "nodeOnGlyph" + i; // id
+		offGlyph     = new Image();
+		offGlyph.src = offGlyphPath;
+		offGlyph.id  = "nodeOffGlyph" + i; // id
 
-		nsiIcon = document.createElement("span");
-		nsiIcon.id = "nsiIcon" + (i+1);
-		nsiIcon.classList.add("glyphicon");
-		nsiIcon.classList.add("glyphicon-remove-circle");
-		nsiIcon.ariaHidden = true;
-		nsiIcon.style.fontSize = "20px";
+		setGlyphProperties(onGlyph, xPos);
+		setGlyphProperties(offGlyph, xPos);
 
-		nsiButton.appendChild(nsiIcon);
-		nodeStatusDiv.appendChild(nsiButton);
+		onGlyph.style.visibility = "hidden";
+
+		allConnectionStatusGlyphs.appendChild(onGlyph);
+		allConnectionStatusGlyphs.appendChild(offGlyph);
+
+		debugPrint("glyph xPos:" + xPos + " will get the following applied: " + (520 * imageData.glyphWidthRatio));
+		debugPrint("what is imageData.glyphWidthRatio" + (imageData.glyphWidthRatio));
+		xPos += (520 * imageData.glyphWidthRatio);
+	}
+
+	allConnectionStatusGlyphs.style.height = sizes.h08p + "px";
+	
+}
+
+function setGlyphProperties(glyphImage, xPos){
+	glyphImage.style.position = "absolute";
+	glyphImage.style.left = xPos + "px";
+	glyphImage.style.height = sizes.h08p + "px";
+	glyphImage.style.width = imageData.glyphWidth + "px";
+}
+
+function fitButtons() {
+	imageData.greenButton = new Image();
+	imageData.greenButton.onload = function() {
+		var h10pWidth  = sizes.h08p / imageData.greenButton.naturalHeight * imageData.greenButton.naturalWidth;
+		var w90pHeight = sizes.w90p / imageData.greenButton.naturalWidth * imageData.greenButton.naturalHeight;
+		
+		var widthExceeded = false, heightExceeded = false;
+
+		// if the width is less 
+		if (h10pWidth <= sizes.w90p) {
+			imageData.buttonHeight = sizes.h08p;
+			imageData.buttonWidth = h10pWidth;
+		}
+		else {
+			imageData.buttonHeight = w90pHeight;
+			imageData.buttonWidth = sizes.w90p;
+		}
+
+		debugPrint("button width and height: " + imageData.buttonWidth + "," + imageData.buttonHeight);
+
+
+		// now create buttons
+		addButtonsToMenu();
+
+	}
+	imageData.greenButton.src = "images/green.png";
+
+	imageData.orangeButton = new Image();
+	imageData.orangeButton.src = "images/orange.png";
+}
+
+function addButtonsToMenu() {
+	for (var i = 0; i < config.viewParts.length; i++) {
+		if (config.viewParts[i].type == "button") {
+			makeButton(config.viewParts[i]);
+		}
 	}
 }
 
-/* buttons are objects {
-	image:
-	description:
-	action:
-}
-*/
-function createButton(buttonInfo) {
-	var rowSeparator = document.createElement("div");
-	rowSeparator.className = "row";
+function makeButton(configEntry) {
+	var textHeightRatio = 0.6;
+	var textTopOffset   = (1 - textHeightRatio) / 4;
 
-	var button = document.createElement("button");
-	button.type = "button";
-	button.className ="btn btn-primary btn-lg";
+	var bDiv      = document.createElement("div");
+	var bImage    = new Image();
+	var bTextDiv  = document.createElement("div");
+	var bClickDiv = document.createElement("div");
 
-	button.innerHTML += buttonInfo.description;
+	bImage.src            = configEntry.buttonImage;
+	bImage.width          = imageData.buttonWidth;
+	bImage.height         = imageData.buttonHeight;
+	bImage.style.position = "relative";
+	bImage.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	// bImage.style.top      = "0px";
+	bImage.style.zIndex   = 1;
+	bDiv.appendChild(bImage);
 
-	// Only if there is an image specified make space for it.
-	if (buttonInfo.image !== undefined) {
-		var imageLeft = document.createElement("img");
-		imageLeft.src = buttonInfo.image;
-		imageLeft.alt = buttonInfo.image;
-		imageLeft.className = "img-circle col-xs-1";
-		rowSeparator.appendChild(imageLeft);
+	bTextDiv.textContent     = configEntry.description;
+	bTextDiv.className       += " fontTitillium"
+	bTextDiv.style.position  = "relative";
+	// bTextDiv.style.fontFamily = "Bank Gothic"; // not part of standard browsers
+	bTextDiv.style.fontSize  = imageData.buttonHeight * textHeightRatio + "px";
+	bTextDiv.style.top       = (-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
+	bTextDiv.style.textAlign = "center";
+	bTextDiv.style.width     = window.innerWidth + "px";
+	bTextDiv.style.height    = bImage.height + "px";
+	bTextDiv.style.zIndex    = 2;
+	bDiv.appendChild(bTextDiv);
 
-		button.className += " col-xs-11";
-		rowSeparator.appendChild(button);
-	} else {
-		button.className += " btn-block";
-		rowSeparator.appendChild(button);
-	}
+	// bClickDiv.style.border = "1px solid black";
+	bClickDiv.style.position = "relative";
+	bClickDiv.style.width    = bImage.width + "px";
+	bClickDiv.style.height   = bImage.height + "px";
+	bClickDiv.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	bClickDiv.style.top      = (-1 * (imageData.buttonHeight * textTopOffset/2) + -2 * imageData.buttonHeight) + "px";
+	//bClickDiv.style.background = "rgba(255, 255, 0, 0.9)";
+	bClickDiv.style.zIndex = 3;
+	bDiv.appendChild(bClickDiv);
 
 	// load sound
-	if (buttonInfo.sound !== undefined) {
-		button.loadedSound = new Audio(buttonInfo.sound);
+	if (configEntry.sound !== undefined) {
+		bClickDiv.loadedSound = new Audio(configEntry.sound);
 	}
-	button.action = buttonInfo.action;
-	button.params = buttonInfo.params;
-
-	button.addEventListener("click", function() {
+	bClickDiv.action = configEntry.action;
+	bClickDiv.params = configEntry.params;
+	bClickDiv.addEventListener("click", function() {
 		if (this.loadedSound !== undefined) {
-			debugPrint("specified sound");
 			this.loadedSound.play();
 		} else {
-			debugPrint("default sound");
 			beepSound.play();
 		}
 		buttonClickHandler(this.action, this.params);
 	});
 
-	contentColumn.appendChild(rowSeparator);
-	// add one more to add a space
-	rowSeparator = document.createElement("div");
-	rowSeparator.className = "row";
-	rowSeparator.innerHTML = "&nbsp";
-	contentColumn.appendChild(rowSeparator);
-} // createButton
+	//bDiv.style.textAlign = "center";
+	bDiv.style.width  = window.innerWidth + "px";
+	bDiv.style.height = sizes.h08p + "px";
+	allButtonsContainer.appendChild(bDiv);
 
-/* groups are objects {
-	type:
-	image:
-	description:
-	buttons: [
-		description:
-		action:
-	]
 }
-*/
-function createGroup(groupInfo, index) {
-	var rowSeparator = document.createElement("div");
-	rowSeparator.className = "row";
-	contentColumn.appendChild(rowSeparator);
 
-	var wellDiv = document.createElement("div");
-	wellDiv.className = "well well-sm col-xs-12";
-	rowSeparator.appendChild(wellDiv);
 
-	var groupMarker = document.createElement("button");
-	groupMarker.className = "btn btn-success btn-block";
-	groupMarker.type = "button";
-	groupMarker.setAttribute("data-toggle", "collapse");
-	groupMarker.setAttribute("data-target", "#collapseGroupId" + index);
-	groupMarker.setAttribute("aria-expanded", "true");
-	groupMarker.setAttribute("aria-controls", "collapseGroupId" + index);
-	groupMarker.textContent = groupInfo.description;
-	wellDiv.appendChild(groupMarker);
 
-	var groupSubset = document.createElement("div");
-	groupSubset.className = "collapse";
-	groupSubset.id = "collapseGroupId" + index;
-	wellDiv.appendChild(groupSubset);
 
-	var gsContainer = document.createElement("div");
-	gsContainer.className = "well well-sm";
-	groupSubset.appendChild(gsContainer);
 
-	var gscRow = document.createElement("div");
-	gscRow.className = "row";
-	gsContainer.appendChild(gscRow);
 
-	var gscImageCol = document.createElement("div");
-	gscImageCol.className = "col-xs-2";
-	gscRow.appendChild(gscImageCol);
 
-	// var gscImageRowContainer = document.createElement("div");
-	// gscImageRowContainer.className = "row";
-	// gscImageCol.appendChild(gscImageRowContainer);
 
-	var groupImage = document.createElement("img");
-	groupImage.src = groupInfo.image;
-	groupImage.alt = groupInfo.image;
-	groupImage.className = "img-circle";
-	groupImage.style.width = "100%";
-	gscImageCol.appendChild(groupImage);
 
-	var gscButtonCol = document.createElement("div");
-	gscButtonCol.className = "col-xs-10";
-	gscRow.appendChild(gscButtonCol);
 
-	for (var i = 0; i < groupInfo.buttons.length; i++) {
-		var row = document.createElement("div");
-		row.className = "row";
-		gscButtonCol.appendChild(row);
 
-		var button = document.createElement("button");
-		button.className ="btn btn-primary btn-lg btn-block btn-wrapper";
-		button.innerHTML +=groupInfo.buttons[i].description;
-		row.appendChild(button);
-		if (groupInfo.buttons[i].sound !== undefined) {
-			button.loadedSound = new Audio(groupInfo.buttons[i].sound);
-		}
-		button.action = groupInfo.buttons[i].action;
-		button.params = groupInfo.buttons[i].params;
-		button.addEventListener("click", function() {
-			if (this.loadedSound !== undefined) {
-				debugPrint("specified sound");
-				this.loadedSound.play();
-			} else {
-				debugPrint("default sound");
-				beepSound.play();
-			}
-			buttonClickHandler(this.action, this.params);
-		});
-	} // for each group button
-} // createGroup 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //-----------------------------------------------------------------------------------------------------------------buttonClickHandler()
 
+/*
+data is: {
+	names 	string with hostnames separated by |
+}
+
+
+
+*/
 function updateNodeStatus(data) {
-	// data.names has the hostnames separated by |
+	// create an array with false entries for each node
 	var arrayCheck = [];
 	for ( var i = 0; i < nodeCount; i++) {
 		arrayCheck.push(false);
 	}
+	// separate out connected hostnames, if it has the noted prefix with number, then set that array position to true.
 	var hostNamesFromServer = data.names.split("|");
 	for (var i = 0; i < hostNamesFromServer.length; i++) {
 		for (var n = 1; n <= nodeCount; n++) {
@@ -229,38 +281,17 @@ function updateNodeStatus(data) {
 		}
 	}
 
-	var nsiButton, nsiIcon;
+	var nsiButton, nsiIcon, onGlyph, offGlyph;
 	var okCount = 0;
 	for ( var i = 0; i < arrayCheck.length; i++) {
-		nsiButton = document.getElementById("nsiButton" + (i+1));
-		nsiIcon   = document.getElementById("nsiIcon" + (i+1));
+		onGlyph = document.getElementById("nodeOnGlyph" + i);
+		offGlyph = document.getElementById("nodeOffGlyph" + i);
 		if (arrayCheck[i]) {
-			okCount++;
-			if (nsiButton.classList.contains("btn-danger")) {
-				nsiButton.classList.remove("btn-danger");
-			}
-			if (!nsiButton.classList.contains("btn-success")) {
-				nsiButton.classList.add("btn-success");
-			}
-			if (nsiIcon.classList.contains("glyphicon-remove-circle")) {
-				nsiIcon.classList.remove("glyphicon-remove-circle");
-			}
-			if (!nsiIcon.classList.contains("glyphicon-ok-circle")) {
-				nsiIcon.classList.add("glyphicon-ok-circle");
-			}
+			onGlyph.style.visibility = "visible";
+			offGlyph.style.visibility = "hidden";
 		} else {
-			if (!nsiButton.classList.contains("btn-danger")) {
-				nsiButton.classList.add("btn-danger");
-			}
-			if (nsiButton.classList.contains("btn-success")) {
-				nsiButton.classList.remove("btn-success");
-			}
-			if (!nsiIcon.classList.contains("glyphicon-remove-circle")) {
-				nsiIcon.classList.add("glyphicon-remove-circle");
-			}
-			if (nsiIcon.classList.contains("glyphicon-ok-circle")) {
-				nsiIcon.classList.remove("glyphicon-ok-circle");
-			}
+			onGlyph.style.visibility = "hidden";
+			offGlyph.style.visibility = "visible";
 		}
 	}
 }
@@ -272,7 +303,8 @@ function updateNodeStatus(data) {
 function buttonClickHandler(action, paramArray) {
 	debugPrint(action, "Button Press");
 	if (action.indexOf("link:") != -1) {
-		window.location = "admin.html";
+		var linkLocation = action.substring(5);
+		window.location = linkLocation;
 	}
 	wsio.emit("command", {command: action, paramArray:paramArray});
 }
@@ -282,7 +314,7 @@ function buttonClickHandler(action, paramArray) {
 function loadDefaultSound() {
 	// var audio = new Audio('audio_file.mp3');
 	// audio.play();
-	beepSound = new Audio('images/computerbeep_5.mp3');
+	beepSound = new Audio('images/beep.mp3');
 }
 
 

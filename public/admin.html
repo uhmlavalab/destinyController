@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags MUST be first.
+        Because bootstrap... -->
+  <link rel="icon" href="images/favicon.ico">
+  <title>Destiny Controller</title>
+  <link href="src/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="src/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+  <style type="text/css">
+  .btn {
+    margin-bottom:5px;
+  }
+  .well {
+    background:#000000;
+  }
+  .bgBlack {
+    background:#000000;
+  }
+  .bgOffBlack {
+    background:#35393D;
+  }
+  .textWhite {
+    color:#FFFFFF;
+  }/*
+  .row {
+    background:#000000;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
+  }*/
+  .well {
+    border: 1px solid black;
+    background: black;
+  }
+  td, th {
+    font-size: 30px;
+    border: 1px solid black;
+    padding: 5px;
+  }
+  button {
+
+  }
+  </style>
+
+
+</head>
+
+
+
+
+<body onload="main()">
+
+<div id="monitorOnOffDiv">
+<h2>Kanaloa Monitors</h2>
+</div>
+
+<br><br>
+<h2>Custom Single Monitor Packet</h2>
+<table>
+<tr>
+  <td>Prefix</td>
+  <td>Monitor</td>
+  <td>Suffix</td>
+</tr>
+<tr>
+  <td> <input id="custPrefix" type="textarea"> </td>
+  <td> <input id="custMon" type="textarea"> </td>
+  <td> <input id="custSuffix" type="textarea"> </td>
+  <td> <button> send </button> </td>
+</tr>
+
+
+  <!-- jQuery is necessary for Bootstrap
+  <script src="src/jquery1113min.js"></script>
+  <script src="src/bootstrap/js/bootstrap.js"></script> -->
+  <script src="src/websocket.io.js"></script>
+  <script src="src/adminWsio.js"></script>
+  <script>
+    function main() {
+      initializeWS(); // in adminWsio.js file
+      buildMonitorOnOffTable();
+    }
+
+
+    function buildMonitorOnOffTable() {
+      var tbl = document.createElement("table");
+      var ttr = document.createElement("tr");
+      var tth, ttd, tdiv, tbtn;
+
+      for (var i = 1; i <= 8; i++) {
+        tth = document.createElement("th");
+        tth.textContent = "Kanaloa" + i;
+        ttr.appendChild(tth);
+      }
+      tbl.appendChild(ttr);
+      ttr = document.createElement("tr");
+
+      for (var i = 1; i <= 8; i++) {
+        ttd = document.createElement("td");
+        tdiv = document.createElement("div");
+        tbtn = document.createElement("button");
+        tbtn.textContent = "On";
+        tbtn.action = "psPreSufOne";
+        tbtn.params = ["ka", "01"];
+        tdiv.appendChild(tbtn);
+        ttd.appendChild(tdiv);
+
+
+        tdiv = document.createElement("div");
+        tbtn = document.createElement("button");
+        tbtn.textContent = "Off";
+        tdiv.appendChild(tbtn);
+        ttd.appendChild(tdiv);
+
+        ttr.appendChild(ttd)
+      }
+      tbl.appendChild(ttr);
+
+      monitorOnOffDiv.appendChild(tbl);
+    } // buildMonitorOnOffTable
+
+
+    function buttonClickHandler(action, paramArray) {
+      wsio.emit("command", {command: action, paramArray:paramArray});
+    }
+
+  </script>
+</body>
+</html>
+
+

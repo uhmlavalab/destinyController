@@ -1,14 +1,15 @@
 
 
-var layout = {
+var config = {
 	title: "Destiny",
+	debug: true,
 
 	audioFiles: [
 		"images/227sd.mp3",
 		"images/228sd.mp3",
 		"images/266sd.mp3",
 		"images/273sd.mp3",
-		"images/computerbeep_5.mp3",
+		"images/beep.mp3",
 		"images/displayon.mp3"
 	],
 
@@ -30,40 +31,47 @@ var layout = {
 	viewParts: [
 		{
 			type: "button",
+			buttonImage: "images/orange.png",
 			description: "Launch Destiny",
 			action: "wakeOnLanAll",
 		},
 		{
 			type: "button",
+			buttonImage: "images/orange.png",
 			description: "Shutdown",
 			action: "shutdownNow"
 		},
 		{
 			type: "button",
+			buttonImage: "images/green.png",
 			description: "Sound Test 1",
 			sound: "images/227sd.mp3",
 			action: ""
 		},
 		{
 			type: "button",
+			buttonImage: "images/green.png",
 			description: "Sound Test 2",
 			sound: "images/228sd.mp3",
 			action: ""
 		},
 		{
 			type: "button",
+			buttonImage: "images/green.png",
 			description: "Sound Test 3",
 			sound: "images/266sd.mp3",
 			action: ""
 		},
 		{
 			type: "button",
+			buttonImage: "images/green.png",
 			description: "Sound Test 4",
 			sound: "images/273sd.mp3",
 			action: ""
 		},
 		{
 			type: "button",
+			buttonImage: "images/green.png",
 			description: "Sound Test 5",
 			sound: "images/displayon.mp3",
 			action: ""
@@ -76,7 +84,7 @@ var layout = {
 				{
 					description: "Start Calc",
 					action: "Start Calc",
-					sound: "images/computerbeep_5.mp3" // optional
+					sound: "images/beep.mp3" // optional
 				},
 				{
 					description: "Start Notepad",
@@ -107,6 +115,7 @@ var layout = {
 		},
 		{
 			type: "button",
+			buttonImage: "images/orange.png",
 			description: "...",
 			action: "link:admin.html"
 		},
