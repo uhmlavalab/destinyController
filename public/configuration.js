@@ -31,9 +31,45 @@ var config = {
 	viewParts: [
 		{
 			type: "button",
-			buttonImage: "images/orange.png",
+			buttonImage: "images/green.png",
 			description: "Launch Destiny",
+			sound: "images/228sd.mp3",
 			action: "wakeOnLanAll",
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Sound Test 1",
+			sound: "images/227sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Sound Test 2",
+			sound: "images/228sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Sound Test 3",
+			sound: "images/266sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Sound Test 4",
+			sound: "images/273sd.mp3",
+			action: ""
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Sound Test 5",
+			sound: "images/displayon.mp3",
+			action: ""
 		},
 		{
 			type: "button",
@@ -43,38 +79,9 @@ var config = {
 		},
 		{
 			type: "button",
-			buttonImage: "images/green.png",
-			description: "Sound Test 1",
-			sound: "images/227sd.mp3",
-			action: ""
-		},
-		{
-			type: "button",
-			buttonImage: "images/green.png",
-			description: "Sound Test 2",
-			sound: "images/228sd.mp3",
-			action: ""
-		},
-		{
-			type: "button",
-			buttonImage: "images/green.png",
-			description: "Sound Test 3",
-			sound: "images/266sd.mp3",
-			action: ""
-		},
-		{
-			type: "button",
-			buttonImage: "images/green.png",
-			description: "Sound Test 4",
-			sound: "images/273sd.mp3",
-			action: ""
-		},
-		{
-			type: "button",
-			buttonImage: "images/green.png",
-			description: "Sound Test 5",
-			sound: "images/displayon.mp3",
-			action: ""
+			buttonImage: "images/brown.png",
+			description: "Admin",
+			action: "link:admin.html"
 		},
 		{
 			type: "group",
@@ -112,12 +119,6 @@ var config = {
 					action: "updateNodejsFromRepo"
 				},
 			]
-		},
-		{
-			type: "button",
-			buttonImage: "images/orange.png",
-			description: "...",
-			action: "link:admin.html"
 		},
 
 	] //end of view parts

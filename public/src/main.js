@@ -4,6 +4,7 @@
 var debug;
 var wsio;
 var beepSound;
+var displayConnectionSound;
 
 var nodeCount = 8;
 var nodeNamePrefix = "Kanaloa";
@@ -307,6 +308,7 @@ function updateNodeStatus(data) {
 			offGlyph.style.visibility = "visible";
 		}
 	}
+	displayConnectionSound.play();
 }
 
 
@@ -328,6 +330,7 @@ function loadDefaultSound() {
 	// var audio = new Audio('audio_file.mp3');
 	// audio.play();
 	beepSound = new Audio('images/beep.mp3');
+	displayConnectionSound = new Audio('images/273sd.mp3');
 }
 
 
