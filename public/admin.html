@@ -74,6 +74,7 @@
 </table>
 
 <br><br>
+<hr>
 <h2>Custom All Monitor Packet</h2>
 <table>
 <tr>
@@ -87,7 +88,12 @@
 </tr>
 </table>
 
+<br><br>
+<hr>
+<button style="font-size:30px" onclick="sendNodeUpdatePacket"> Update all Nodejs </button>
 
+<br><br>
+<hr>
 <div id="monitorOnOffDiv">
 <h3>Not implemented yet</h3>
 <h2>Kanaloa Monitors</h2>
@@ -176,6 +182,9 @@
       wsio.emit("command", dataToSend);
     }
     
+    function sendNodeUpdatePacket() {
+      wsio.emit("command", {command: "updateNodejsFromRepo"});
+    }
 
   </script>
 </body>
