@@ -21,20 +21,22 @@ function main() {
 	fitBanner();
 	fitConnectionStatusGlyphs();
 	fitButtons(); // Button creations happens in a call here AFTER sizing is calculated.
+	fitCredits();
 
 	initializeWS();
 }
 
 function detectSizes() {
-	sizes.width  = window.innerWidth;
+	sizes.width  = document.body.clientWidth;
 	sizes.height = window.innerHeight;
+	sizes.h20p   = sizes.height * 0.2;
 	sizes.h10p   = sizes.height * 0.1;
 	sizes.h08p   = sizes.height * 0.08;
 	sizes.h90p   = sizes.height * 0.9;
 	sizes.w10p   = sizes.width * 0.1;
 	sizes.w90p   = sizes.width * 0.9;
 
-	sizes.xCenter = window.innerWidth/2;
+	sizes.xCenter = document.body.clientWidth/2;
 	sizes.yCenter = window.innerHeight/2;
 
 	debugPrint("sizes.width:"  + sizes.width);
@@ -44,20 +46,20 @@ function detectSizes() {
 }
 
 function fitBanner() {
-	var h10pWidth  = sizes.h10p / bannerImage.naturalHeight * bannerImage.naturalWidth;
+	var h10pWidth  = sizes.h20p / bannerImage.naturalHeight * bannerImage.naturalWidth;
 	var w90pHeight = sizes.w90p / bannerImage.naturalWidth * bannerImage.naturalHeight;
 	
 	var widthExceeded = false, heightExceeded = false;
 
 	if (h10pWidth > sizes.w90p) { widthExceeded = true; }
-	if (w90pHeight > sizes.h10p) { heightExceeded = true; }
+	if (w90pHeight > sizes.h20p) { heightExceeded = true; }
 
 	bannerImage.style.position = "absolute";
 
 	if (!widthExceeded) {
-		bannerImage.height = sizes.h10p;
+		bannerImage.height = sizes.h20p;
 		bannerImage.style.left = (sizes.xCenter - h10pWidth / 2) + "px";
-		bannerDiv.style.height = sizes.h10p + "px";
+		bannerDiv.style.height = sizes.h20p + "px";
 		debugPrint("Using h10p limiter");
 	} else if (!heightExceeded) {
 		bannerImage.width = sizes.w90p;
@@ -182,7 +184,7 @@ function makeButton(configEntry) {
 	bImage.width          = imageData.buttonWidth;
 	bImage.height         = imageData.buttonHeight;
 	bImage.style.position = "relative";
-	bImage.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	bImage.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
 	// bImage.style.top      = "0px";
 	bImage.style.zIndex   = 1;
 	bDiv.appendChild(bImage);
@@ -193,8 +195,9 @@ function makeButton(configEntry) {
 	// bTextDiv.style.fontFamily = "Bank Gothic"; // not part of standard browsers
 	bTextDiv.style.fontSize  = imageData.buttonHeight * textHeightRatio + "px";
 	bTextDiv.style.top       = (-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
+	bTextDiv.style.left     = "0px";
 	bTextDiv.style.textAlign = "center";
-	bTextDiv.style.width     = window.innerWidth + "px";
+	bTextDiv.style.width     = sizes.width + "px";
 	bTextDiv.style.height    = bImage.height + "px";
 	bTextDiv.style.zIndex    = 2;
 	bDiv.appendChild(bTextDiv);
@@ -203,7 +206,7 @@ function makeButton(configEntry) {
 	bClickDiv.style.position = "relative";
 	bClickDiv.style.width    = bImage.width + "px";
 	bClickDiv.style.height   = bImage.height + "px";
-	bClickDiv.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	bClickDiv.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
 	bClickDiv.style.top      = (-1 * (imageData.buttonHeight * textTopOffset/2) + -2 * imageData.buttonHeight) + "px";
 	//bClickDiv.style.background = "rgba(255, 255, 0, 0.9)";
 	bClickDiv.style.zIndex = 3;
@@ -225,12 +228,21 @@ function makeButton(configEntry) {
 	});
 
 	//bDiv.style.textAlign = "center";
-	bDiv.style.width  = window.innerWidth + "px";
+	// bDiv.style.width  = document.body.clientWidth + "px";
 	bDiv.style.height = sizes.h08p + "px";
 	allButtonsContainer.appendChild(bDiv);
 
 }
 
+function fitCredits() {
+	var creditImage = new Image();
+	creditImage.onload = function() {
+		creditImage.height = sizes.h20p;
+	};
+	creditHolder.appendChild(creditImage);
+	creditImage.src = "images/logos.png";
+	creditImage.style.bottom = "0px";
+}
 
 
 
