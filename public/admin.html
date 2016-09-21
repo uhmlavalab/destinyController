@@ -158,14 +158,21 @@
       dataToSend.command = "psPreSufOne";
       dataToSend.paramArray = [];
 
-      if (custPrefix.value.trim().length > 0) { dataToSend.paramArray.push(custPrefix.value.trim()); }
+      if (custPrefix.value.trim().length > 0) {
+        dataToSend.paramArray.push(custPrefix.value.trim());
+      }
       else { return; }
-      if (custMon.value.trim().length > 0) { dataToSend.paramArray.push(custMon.value.trim()); }
+      if (custMon.value.trim().length > 0) {
+        dataToSend.paramArray.push(custMon.value.trim());
+      }
       else { return; }
-      if (custSuffix.value.trim().length > 0) { dataToSend.paramArray.push(custSuffix.value.trim()); }
+      if (custSuffix.value.trim().length > 0) {
+        dataToSend.paramArray.push(custSuffix.value.trim());
+      }
       else { return; }
       
 
+      console.log("sending packet " + dataToSend);
       wsio.emit("command", dataToSend);
     }
 
@@ -188,13 +195,11 @@
 
     //-----------------------------------------------------------------------------------------------------------------debugPrint()
     function debugPrint(msg, prefix) {
-      if (debug) {
-        if (prefix !== undefined) {
-          msg = prefix + ">\t\t" + msg;
-        }
-        msg = "debug:" + msg;
-        console.log(msg);
+      if (prefix !== undefined) {
+        msg = prefix + ">\t\t" + msg;
       }
+      msg = "debug:" + msg;
+      console.log(msg);
     }
 
   </script>
