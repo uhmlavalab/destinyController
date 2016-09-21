@@ -56,9 +56,6 @@
 
 <body onload="main()">
 
-<div id="monitorOnOffDiv">
-<h2>Kanaloa Monitors</h2>
-</div>
 
 <br><br>
 <h2>Custom Single Monitor Packet</h2>
@@ -74,7 +71,27 @@
   <td> <input id="custSuffix" type="textarea"> </td>
   <td> <button onclick="sendCustomMonitorPacket"> send </button> </td>
 </tr>
+</table>
 
+<br><br>
+<h2>Custom All Monitor Packet</h2>
+<table>
+<tr>
+  <td>Prefix</td>
+  <td>Suffix</td>
+</tr>
+<tr>
+  <td> <input id="custPrefixAll" type="textarea"> </td>
+  <td> <input id="custSuffixAll" type="textarea"> </td>
+  <td> <button onclick="sendCustomMonitorPacketAll"> send </button> </td>
+</tr>
+</table>
+
+
+<div id="monitorOnOffDiv">
+<h3>Not implemented yet</h3>
+<h2>Kanaloa Monitors</h2>
+</div>
 
   <!-- jQuery is necessary for Bootstrap
   <script src="src/jquery1113min.js"></script>
@@ -145,6 +162,20 @@
 
       wsio.emit("command", dataToSend);
     }
+
+    function sendCustomMonitorPacketAll() {
+      var dataToSend = {};
+      dataToSend.command = "psPreSufAll";
+      dataToSend.paramArray = [];
+
+      if (custPrefixAll.value.trim().length > 0) { dataToSend.paramArray.push(custPrefixAll.value.trim()); }
+      else { return; }
+      if (custSuffixAll.value.trim().length > 0) { dataToSend.paramArray.push(custSuffixAll.value.trim()); }
+      else { return; }
+
+      wsio.emit("command", dataToSend);
+    }
+    
 
   </script>
 </body>
