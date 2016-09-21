@@ -72,7 +72,7 @@
   <td> <input id="custPrefix" type="textarea"> </td>
   <td> <input id="custMon" type="textarea"> </td>
   <td> <input id="custSuffix" type="textarea"> </td>
-  <td> <button> send </button> </td>
+  <td> <button onclick="sendCustomMonitorPacket"> send </button> </td>
 </tr>
 
 
@@ -128,6 +128,22 @@
 
     function buttonClickHandler(action, paramArray) {
       wsio.emit("command", {command: action, paramArray:paramArray});
+    }
+
+    function sendCustomMonitorPacket() {
+      var dataToSend = {};
+      dataToSend.command = "psPreSufOne";
+      dataToSend.paramArray = [];
+
+      if (custPrefix.value.trim().length > 0) { dataToSend.paramArray.push(custPrefix.value.trim()); }
+      else { return; }
+      if (custMon.value.trim().length > 0) { dataToSend.paramArray.push(custMon.value.trim()); }
+      else { return; }
+      if (custSuffix.value.trim().length > 0) { dataToSend.paramArray.push(custSuffix.value.trim()); }
+      else { return; }
+      
+
+      wsio.emit("command", dataToSend);
     }
 
   </script>
