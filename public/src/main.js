@@ -194,6 +194,7 @@ function makeButton(configEntry) {
 	bTextDiv.style.position  = "relative";
 	// bTextDiv.style.fontFamily = "Bank Gothic"; // not part of standard browsers
 	bTextDiv.style.fontSize  = imageData.buttonHeight * textHeightRatio + "px";
+	bTextDiv.style.color = "white";
 	bTextDiv.style.top       = (-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
 	bTextDiv.style.left     = "0px";
 	bTextDiv.style.textAlign = "center";
