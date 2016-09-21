@@ -69,7 +69,7 @@
   <td> <input id="custPrefix" type="textarea"> </td>
   <td> <input id="custMon" type="textarea"> </td>
   <td> <input id="custSuffix" type="textarea"> </td>
-  <td> <button onclick="sendCustomMonitorPacket"> send </button> </td>
+  <td> <button onclick="sendCustomMonitorPacket()"> send </button> </td>
 </tr>
 </table>
 
@@ -84,7 +84,7 @@
 <tr>
   <td> <input id="custPrefixAll" type="textarea"> </td>
   <td> <input id="custSuffixAll" type="textarea"> </td>
-  <td> <button onclick="sendCustomMonitorPacketAll"> send </button> </td>
+  <td> <button onclick="sendCustomMonitorPacketAll()"> send </button> </td>
 </tr>
 </table>
 
@@ -172,7 +172,6 @@
       else { return; }
       
 
-      console.log("sending packet " + dataToSend);
       wsio.emit("command", dataToSend);
     }
 
