@@ -33,8 +33,7 @@ function setupListeners() {
 	});
 	
 	wsio.on("nodeCountUpdate", function(data) {
-		// function in main
-		updateNodeStatus(data);
+		// not used in admin panel?
 	});
 
 }

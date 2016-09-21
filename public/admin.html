@@ -186,6 +186,17 @@
       wsio.emit("command", {command: "updateNodejsFromRepo"});
     }
 
+    //-----------------------------------------------------------------------------------------------------------------debugPrint()
+    function debugPrint(msg, prefix) {
+      if (debug) {
+        if (prefix !== undefined) {
+          msg = prefix + ">\t\t" + msg;
+        }
+        msg = "debug:" + msg;
+        console.log(msg);
+      }
+    }
+
   </script>
 </body>
 </html>
