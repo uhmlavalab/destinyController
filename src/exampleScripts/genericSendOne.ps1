@@ -1,7 +1,7 @@
 
 $prefix = $args[0]
-$suffix = $args[1]
-$h      = $args[2]
+$h      = $args[1]
+$suffix = $args[2]
 
 $port = new-Object System.IO.Ports.SerialPort COM6,9600,None,8,one
 $port.open()
