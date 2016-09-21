@@ -20,7 +20,6 @@ function main() {
 	detectSizes();
 	loadDefaultSound();
 	fitBanner();
-	fitConnectionStatusGlyphs();
 	fitButtons(); // Button creations happens in a call here AFTER sizing is calculated.
 	fitCredits();
 
@@ -84,7 +83,7 @@ function fitConnectionStatusGlyphs() {
 	imageData.onGlyph = new Image();
 	imageData.onGlyph.onload = function() {
 		var totalNaturalWidth = nodeCount * 480 + ((nodeCount - 1) * 40) + 200;
-		var widthRatio = sizes.width * 0.8 / totalNaturalWidth;
+		var widthRatio = imageData.buttonWidth / totalNaturalWidth;
 		imageData.glyphWidth = widthRatio * 689;
 		imageData.glyphWidthRatio = widthRatio;
 
@@ -97,7 +96,7 @@ function addGlyphsToMenu() {
 	var offGlyphPath = "images/cluster-off.png";
 	var onGlyphPath  = "images/cluster-on.png";
 
-	var xPos = sizes.w10p;
+	var xPos = window.innerWidth / 2 - imageData.buttonWidth / 2;
 
 	var onGlyph, offGlyph;
 
@@ -129,7 +128,7 @@ function addGlyphsToMenu() {
 function setGlyphProperties(glyphImage, xPos){
 	glyphImage.style.position = "absolute";
 	glyphImage.style.left = xPos + "px";
-	glyphImage.style.height = sizes.h08p + "px";
+	glyphImage.style.height = imageData.buttonHeight + "px";
 	glyphImage.style.width = imageData.glyphWidth + "px";
 }
 
@@ -154,8 +153,9 @@ function fitButtons() {
 		debugPrint("button width and height: " + imageData.buttonWidth + "," + imageData.buttonHeight);
 
 
-		// now create buttons
+		// now create buttons and glyphs since they are dependent upon button size
 		addButtonsToMenu();
+		fitConnectionStatusGlyphs();
 
 	}
 	imageData.greenButton.src = "images/green.png";
@@ -173,8 +173,8 @@ function addButtonsToMenu() {
 }
 
 function makeButton(configEntry) {
-	var textHeightRatio = 0.6;
-	var textTopOffset   = (1 - textHeightRatio) / 4;
+	var textHeightRatio = 0.5;
+	var textTopOffset   = (1 - textHeightRatio) / 2;
 
 	var bDiv      = document.createElement("div");
 	var bImage    = new Image();
@@ -196,7 +196,7 @@ function makeButton(configEntry) {
 	// bTextDiv.style.fontFamily = "Bank Gothic"; // not part of standard browsers
 	bTextDiv.style.fontSize  = imageData.buttonHeight * textHeightRatio + "px";
 	bTextDiv.style.color = "white";
-	bTextDiv.style.top       = (-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
+	bTextDiv.style.top       = (-1 * imageData.buttonHeight + imageData.buttonHeight * textTopOffset / 4) + "px"; //(-1 * imageData.buttonHeight) + "px"; //(-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
 	bTextDiv.style.left     = "0px";
 	bTextDiv.style.textAlign = "center";
 	bTextDiv.style.width     = sizes.width + "px";
@@ -239,7 +239,7 @@ function makeButton(configEntry) {
 function fitCredits() {
 	var creditImage = new Image();
 	creditImage.onload = function() {
-		creditImage.height = sizes.h20p;
+		creditImage.width = sizes.w90p;
 	};
 	creditHolder.appendChild(creditImage);
 	creditImage.src = "images/logos.png";

@@ -7,7 +7,7 @@
 
   <link rel="icon" href="images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-  <title>Destiny Controller</title>
+  <title>Text to Speech test</title>
 
   <style type="text/css">
   .btn {
@@ -47,37 +47,36 @@
 
 
 
-<body onload="main()">
+<body>
 
-<div id="bannerDiv">
-  <image id="bannerImage" src="images/cctitle.png">
-  </image>
-</div>
+  <script type="text/javascript">
+    var msg = new SpeechSynthesisUtterance();
+    var voices = window.speechSynthesis.getVoices();
 
-<br>
+    var voiceIndex = 0;
 
-<div id="allConnectionStatusGlyphs">
-</div>
+    msg.voice = voices[voiceIndex]; // Note: some voices don't support altering params
+    msg.voiceURI = 'native';
+    msg.volume = 1; // 0 to 1
+    msg.rate = 1; // 0.1 to 10
+    msg.pitch = 2; //0 to 2
+    msg.text = 'Destiny Awaits';
+    msg.lang = 'en-US';
 
-<br>
+    msg.onend = function(e) {
+      voiceIndex++;
+      if (voiceIndex < voices.length) {
+        speechSynthesis.speak(msg);
+      } else {
+        msg.text = "This is the last voice";
+        // speechSynthesis.speak(msg);
+      }
+    };
 
-<div id="allButtonsContainer">
-</div>
+    speechSynthesis.speak(msg);  
+      
+  </script>
 
-
-<div id="creditHolder" style="text-align: center">
-</div>
-
-
-
-
-
-
-  <!-- jQuery is necessary for Bootstrap -->
-  <script src="src/websocket.io.js"></script>
-  <script src="configuration.js"></script>
-  <script src="src/modWsio.js"></script>
-  <script src="src/main.js"></script>
 </body>
 </html>
 

@@ -2,7 +2,7 @@
 
 var config = {
 	title: "Destiny",
-	debug: true,
+	debug: false,
 
 	audioFiles: [
 		"images/227sd.mp3",
