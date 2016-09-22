@@ -75,7 +75,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Destiny Calc",
-			action: "destinyTest:\\Share\\calc.bat"
+			action: "destinyTest:molecule"
 		},
 		{
 			type: "button",

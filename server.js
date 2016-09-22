@@ -105,6 +105,13 @@ function connectToDestinyHeadNode() {
 		}
 	}
 	utils.debugPrint("Detected hostname:" + thisHostname);
+	webVars.thisHostname = thisHostname;
+	if (thisHostname.indexOf("analoa") > 0) {
+		webVars.thisHostnameNumber = thisHostname.substring(thisHostname.indexOf("loa" + 3)).trim();
+	} else {
+		webVars.thisHostnameNumber = "";
+	}	
+	utils.debugPrint("Detected hostname number:" + webVars.thisHostnameNumber);
 
 
 	// If the remote site is not among this computer's addresses then try establish connection.
@@ -290,7 +297,7 @@ function wsCommand(wsio, data) {
 		} else { // not head node (lono) means execute
 			var path = data.command.split(":");
 			try {
-				script(path[1], data.paramArray);
+				script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			} catch (e) {
 				console.log("Error with file:" + path[1]);
 				console.log(e);
