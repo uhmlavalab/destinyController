@@ -281,6 +281,16 @@ function wsCommand(wsio, data) {
 	// utils.debugPrint("command packet from:" + wsio.id + ". Contents:" + data.command, "wsio");
 	if (data.command.indexOf("console:") === 0) {
 		utils.consolePrint(data.command);
+	} else if (data.action.indexOf("destinyTest:")) {
+		// Send out packet again if head node
+		if (webVars.headNode) { // head node must pass the packet on
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", data);
+			}
+		} else { // not head node (lono) means execute
+			var path = data.action.split(":");
+			script(path[1], data.paramArray);
+		}
 	} else {
 		var result = commandHandler.handleCommandString(data.command);
 		if (result === false) {

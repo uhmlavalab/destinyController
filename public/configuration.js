@@ -73,6 +73,12 @@ var config = {
 		},
 		{
 			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Destiny Calc",
+			action: "destinyTest:\\Share\\calc.bat"
+		},
+		{
+			type: "button",
 			buttonImage: "images/orange.png",
 			description: "Shutdown",
 			action: "shutdownNow"
