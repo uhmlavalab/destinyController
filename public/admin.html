@@ -90,7 +90,11 @@
 
 <br><br>
 <hr>
-<button style="font-size:30px" onclick="sendNodeUpdatePacket"> Update all Nodejs </button>
+<button style="font-size:30px" onclick="sendNodeUpdatePacket()"> Update all Nodejs </button>
+
+<br><br>
+<hr>
+<input style="font-size:30px" id="custRunFile"> <button onclick="sendRunFile()"> Update all Nodejs </button>
 
 <br><br>
 <hr>
@@ -190,6 +194,17 @@
     
     function sendNodeUpdatePacket() {
       wsio.emit("command", {command: "updateNodejsFromRepo"});
+    }
+
+    function sendRunFile() {
+      var filePath = custRunFile.value.trim();
+      if (filePath.length <= 0) {
+        return;
+      } else {
+        var dataToSend = {};
+        dataToSend.command = "destinyTest:" + filePath;
+        wsio.emit("command", dataToSend);
+      }
     }
 
     //-----------------------------------------------------------------------------------------------------------------debugPrint()

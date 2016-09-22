@@ -289,7 +289,12 @@ function wsCommand(wsio, data) {
 			}
 		} else { // not head node (lono) means execute
 			var path = data.command.split(":");
-			script(path[1], data.paramArray);
+			try {
+				script(path[1], data.paramArray);
+			} catch (e) {
+				console.log("Error with file:" + path[1]);
+				console.log(e);
+			}
 		}
 	} else {
 		var result = commandHandler.handleCommandString(data.command);
