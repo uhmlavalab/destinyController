@@ -107,7 +107,7 @@ function connectToDestinyHeadNode() {
 	utils.debugPrint("Detected hostname:" + thisHostname);
 	webVars.thisHostname = thisHostname;
 	if (thisHostname.indexOf("analoa") > 0) {
-		webVars.thisHostnameNumber = thisHostname.substring(thisHostname.indexOf("loa" + 3)).trim();
+		webVars.thisHostnameNumber = thisHostname.substring(thisHostname.indexOf("loa") + 3).trim();
 	} else {
 		webVars.thisHostnameNumber = "";
 	}	
