@@ -297,7 +297,8 @@ function wsCommand(wsio, data) {
 		} else { // not head node (lono) means execute
 			var path = data.command.split(":");
 			try {
-				script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
+				script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
+				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			} catch (e) {
 				console.log("Error with file:" + path[1]);
 				console.log(e);
