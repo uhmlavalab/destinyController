@@ -38,6 +38,14 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/shutdownNow.bat"
 		},
+		{
+			commandName: "restartNow",
+			commandDesciption: "",
+			commandWords: [ ],
+			preventHostActivation: true,
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/restartNow.bat"
+		},
 		
 		
 		{

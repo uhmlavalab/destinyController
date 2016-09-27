@@ -94,6 +94,10 @@
 
 <br><br>
 <hr>
+<button style="font-size:30px" onclick="sendRestartPacket()"> Restart </button>
+
+<br><br>
+<hr>
 <input style="font-size:30px" id="custRunFile"> <button onclick="sendRunFile()"> Custom File Run </button>
 
 <br><br>
@@ -194,6 +198,10 @@
     
     function sendNodeUpdatePacket() {
       wsio.emit("command", {command: "updateNodejsFromRepo"});
+    }
+    
+    function sendRestartPacket() {
+      wsio.emit("command", {command: "restartNow"});
     }
 
     function sendRunFile() {
