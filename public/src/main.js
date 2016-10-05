@@ -322,6 +322,7 @@ function buttonClickHandler(action, paramArray) {
 		window.location = linkLocation;
 	}
 	wsio.emit("command", {command: action, paramArray:paramArray});
+	alert("Command sent");
 }
 
 

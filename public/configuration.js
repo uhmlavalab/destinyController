@@ -46,7 +46,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Star Wars",
-			action: "destinyTest:starwars"
+			action: "destinyTest:starwarsmodels"
 		},
 		{
 			type: "button",
