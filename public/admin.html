@@ -98,7 +98,10 @@
 
 <br><br>
 <hr>
-<input style="font-size:30px" id="custRunFile"> <button onclick="sendRunFile()"> Custom File Run </button>
+<input style="font-size:30px" id="custRunFile"> <button onclick="sendRunFile()"> Custom File Run (No Tracking) </button>
+<br><br>
+<hr>
+<input style="font-size:30px" id="custRunFileTracking"> <button onclick="sendRunFileTracking()"> Custom File Run (Tracking)</button>
 
 <br><br>
 <hr>
@@ -159,6 +162,7 @@
 
     function buttonClickHandler(action, paramArray) {
       wsio.emit("command", {command: action, paramArray:paramArray});
+      alert("Command Sent");
     }
 
     function sendCustomMonitorPacket() {
@@ -181,6 +185,7 @@
       
 
       wsio.emit("command", dataToSend);
+      alert("Command Sent");
     }
 
     function sendCustomMonitorPacketAll() {
@@ -194,14 +199,17 @@
       else { return; }
 
       wsio.emit("command", dataToSend);
+      alert("Command Sent");
     }
     
     function sendNodeUpdatePacket() {
       wsio.emit("command", {command: "updateNodejsFromRepo"});
+      alert("Command Sent");
     }
     
     function sendRestartPacket() {
       wsio.emit("command", {command: "restartNow"});
+      alert("Command Sent");
     }
 
     function sendRunFile() {
@@ -212,8 +220,21 @@
         var dataToSend = {};
         dataToSend.command = "destinyTest:" + filePath;
         wsio.emit("command", dataToSend);
+        alert("Command Sent");
       }
     }
+    function sendRunFileTracking() {
+      var filePath = custRunFileTracking.value.trim();
+      if (filePath.length <= 0) {
+        return;
+      } else {
+        var dataToSend = {};
+        dataToSend.command = "destinyTestTracking:" + filePath;
+        wsio.emit("command", dataToSend);
+        alert("Command Sent");
+      }
+    }
+
 
     //-----------------------------------------------------------------------------------------------------------------debugPrint()
     function debugPrint(msg, prefix) {

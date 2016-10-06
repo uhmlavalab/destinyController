@@ -288,6 +288,22 @@ function wsCommand(wsio, data) {
 	// utils.debugPrint("command packet from:" + wsio.id + ". Contents:" + data.command, "wsio");
 	if (data.command.indexOf("console:") === 0) {
 		utils.consolePrint(data.command);
+	} else if (data.command.indexOf("destinyTestTracking:") != -1) {
+		// Send out packet again if head node
+		if (webVars.headNode) { // head node must pass the packet on
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", data);
+			}
+		} else { // not head node (lono) means execute
+			var path = data.command.split(":");
+			try {
+				script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
+				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
+			} catch (e) {
+				console.log("Error with file:" + path[1]);
+				console.log(e);
+			}
+		}
 	} else if (data.command.indexOf("destinyTest:") != -1) {
 		// Send out packet again if head node
 		if (webVars.headNode) { // head node must pass the packet on
