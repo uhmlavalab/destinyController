@@ -105,6 +105,10 @@
 
 <br><br>
 <hr>
+<input style="font-size:30px" id="killApplicationInput"> <button onclick="sendKillApplication()">Kill Application</button>
+
+<br><br>
+<hr>
 <div id="monitorOnOffDiv">
 <h3>Not implemented yet</h3>
 <h2>Kanaloa Monitors</h2>
@@ -234,6 +238,18 @@
         alert("Command Sent");
       }
     }
+    function sendKillApplication() {
+      var appName = killApplicationInput.value.trim();
+      if (filePath.length <= 0) {
+        return;
+      } else {
+        var dataToSend = {};
+        dataToSend.command = "destinyTestTracking:" + filePath;
+        wsio.emit("command", {command: "killApplication", paramArray:[appName] });
+        alert("Command Sent");
+      }
+    }
+
 
 
     //-----------------------------------------------------------------------------------------------------------------debugPrint()
