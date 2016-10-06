@@ -243,8 +243,6 @@
       if (filePath.length <= 0) {
         return;
       } else {
-        var dataToSend = {};
-        dataToSend.command = "destinyTestTracking:" + filePath;
         wsio.emit("command", {command: "killApplication", paramArray:[appName] });
         alert("Command Sent");
       }
