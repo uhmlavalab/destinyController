@@ -240,7 +240,7 @@
     }
     function sendKillApplication() {
       var appName = killApplicationInput.value.trim();
-      if (filePath.length <= 0) {
+      if (appName.length <= 0) {
         return;
       } else {
         wsio.emit("command", {command: "killApplication", paramArray:[appName] });
