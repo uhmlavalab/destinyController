@@ -56,9 +56,18 @@
 
 <body onload="main()">
 
+<br><br>
+<input style="font-size:30px" id="custRunFile"> <button style="font-size:30px" onclick="sendRunFile()"> Custom File Run (No Tracking) </button>
+<br><br>
+<input style="font-size:30px" id="custRunFileTracking"> <button style="font-size:30px" onclick="sendRunFileTracking()"> Custom File Run (Tracking)</button>
+<br><br>
+<button style="font-size:30px" onclick="sendKillApplication()">Kill Last Launched Application</button>
+
+<hr>
+<hr>
 
 <br><br>
-<h2>Custom Single Monitor Packet</h2>
+<h3>Custom Monitor Packet</h3>
 <table>
 <tr>
   <td>Prefix</td>
@@ -69,13 +78,10 @@
   <td> <input id="custPrefix" type="textarea"> </td>
   <td> <input id="custMon" type="textarea"> </td>
   <td> <input id="custSuffix" type="textarea"> </td>
-  <td> <button onclick="sendCustomMonitorPacket()"> send </button> </td>
+  <td> <button onclick="sendCustomMonitorPacket()"> Send to specified monitor </button> </td>
 </tr>
 </table>
-
-<br><br>
-<hr>
-<h2>Custom All Monitor Packet</h2>
+<br>
 <table>
 <tr>
   <td>Prefix</td>
@@ -84,7 +90,7 @@
 <tr>
   <td> <input id="custPrefixAll" type="textarea"> </td>
   <td> <input id="custSuffixAll" type="textarea"> </td>
-  <td> <button onclick="sendCustomMonitorPacketAll()"> send </button> </td>
+  <td> <button onclick="sendCustomMonitorPacketAll()"> Send to all monitors in order </button> </td>
 </tr>
 </table>
 
@@ -95,17 +101,6 @@
 <br><br>
 <hr>
 <button style="font-size:30px" onclick="sendRestartPacket()"> Restart </button>
-
-<br><br>
-<hr>
-<input style="font-size:30px" id="custRunFile"> <button onclick="sendRunFile()"> Custom File Run (No Tracking) </button>
-<br><br>
-<hr>
-<input style="font-size:30px" id="custRunFileTracking"> <button onclick="sendRunFileTracking()"> Custom File Run (Tracking)</button>
-
-<br><br>
-<hr>
-<input style="font-size:30px" id="killApplicationInput"> <button onclick="sendKillApplication()">Kill Application</button>
 
 <br><br>
 <hr>
@@ -239,13 +234,8 @@
       }
     }
     function sendKillApplication() {
-      var appName = killApplicationInput.value.trim();
-      if (appName.length <= 0) {
-        return;
-      } else {
-        wsio.emit("command", {command: "killApplication", paramArray:[appName] });
-        alert("Command Sent");
-      }
+      wsio.emit("command", {command: "destinyKillApps:", paramArray:[] });
+      alert("Command Sent");
     }
 
 
