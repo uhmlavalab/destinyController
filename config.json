@@ -46,14 +46,6 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/restartNow.bat"
 		},
-		{
-			commandName: "killApplication",
-			commandDesciption: "",
-			commandWords: [ ],
-			preventHostActivation: true,
-			sendAll: true,
-			scriptPath: "./src/exampleScripts/killApplication.bat"
-		},
 		
 		
 		{

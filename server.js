@@ -28,6 +28,7 @@ webVars.clients 	= []; // used to track the browser client wsio connections
 webVars.remoteServers = []; // used to track the remote site connections
 webVars.headNode    = false;
 webVars.reconnectInfo = {};
+webVars.lastExecutedFile = null;
 
 
 
@@ -288,38 +289,10 @@ function wsCommand(wsio, data) {
 	// utils.debugPrint("command packet from:" + wsio.id + ". Contents:" + data.command, "wsio");
 	if (data.command.indexOf("console:") === 0) {
 		utils.consolePrint(data.command);
-	} else if (data.command.indexOf("destinyTestTracking:") != -1) {
-		// Send out packet again if head node
-		if (webVars.headNode) { // head node must pass the packet on
-			for (var i = 0; i < webVars.remoteServers.length; i++) {
-				webVars.remoteServers[i].emit("command", data);
-			}
-		} else { // not head node (lono) means execute
-			var path = data.command.split(":");
-			try {
-				script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
-				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
-			} catch (e) {
-				console.log("Error with file:" + path[1]);
-				console.log(e);
-			}
-		}
-	} else if (data.command.indexOf("destinyTest:") != -1) {
-		// Send out packet again if head node
-		if (webVars.headNode) { // head node must pass the packet on
-			for (var i = 0; i < webVars.remoteServers.length; i++) {
-				webVars.remoteServers[i].emit("command", data);
-			}
-		} else { // not head node (lono) means execute
-			var path = data.command.split(":");
-			try {
-				script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
-				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
-			} catch (e) {
-				console.log("Error with file:" + path[1]);
-				console.log(e);
-			}
-		}
+	} else if ((data.command.indexOf("destinyTestTracking:") != -1) || (data.command.indexOf("destinyTest:") != -1)) {
+		startDestinyNodeFiles(wsio, data);
+	} else if(data.command.indexOf("destinyKillApps:") != -1) {
+		killLastStartedApp(wsio, data);
 	} else {
 		var result = commandHandler.handleCommandString(data.command);
 		if (result === false) {
@@ -363,6 +336,61 @@ function wsCommand(wsio, data) {
 		}
 	}
 } // End wsCommand
+
+function startDestinyNodeFiles(wsio, data) {
+	// Send out packet again if head node
+	if (webVars.headNode) { // head node must pass the packet on
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			webVars.remoteServers[i].emit("command", data);
+		}
+	} else { // not head node, kanaloas need to first kill active app (if any) then launch
+		killLastStartedApp(wsio, {command:"destinyKillApps:"});
+		var path = data.command.split(":");
+		webVars.lastExecutedFile = path[1];
+		try {
+			if (data.command.indexOf("destinyTestTracking:") != -1) {
+				script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
+				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
+			} else {
+				script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
+				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
+			}		
+		} catch (e) {
+			console.log("Error with file:" + path[1]);
+			console.log(e);
+		}
+	}
+}
+
+function killLastStartedApp(wsio, data) {
+	// Send out packet again if head node
+	if (webVars.headNode) {
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			webVars.remoteServers[i].emit("command", data);
+		}
+	}
+	// lono doesn't run the apps, if not head node, execute
+	if (!webVars.headNode) {
+		if (webVars.lastExecutedFile == null) {
+			wsio.emit("serverConfirm", {
+				message: ("Command " + data.command + " discarded, no previous command known."),
+				host: os.hostname(),
+				status: "ok"
+			});
+		} else {
+			wsio.emit("serverConfirm", {
+				message: ("Command " + data.command + " accepted."),
+				host: os.hostname(),
+				status: "ok"
+			});
+			utils.consolePrint("Accepted command packet:" + data.command);
+			var paramArray = [webVars.lastExecutedFile];
+			script("./src/exampleScripts/killApplication.bat", paramArray);
+		}
+	}
+}
+
+
 
 // This should only be activated on the head node.
 function wsServerConfirm(wsio, data) {
