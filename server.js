@@ -349,10 +349,14 @@ function startDestinyNodeFiles(wsio, data) {
 		webVars.lastExecutedFile = path[1];
 		try {
 			if (data.command.indexOf("destinyTestTracking:") != -1) {
-				script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
+				setTimeout(function() {
+					script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
+				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			} else {
-				script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
+				setTimeout(function() {
+					script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
+				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			}		
 		} catch (e) {

@@ -5,6 +5,7 @@ var debug;
 var wsio;
 var beepSound;
 var displayConnectionSound;
+var destinyAwaitsSound;
 
 var nodeCount = 8;
 var nodeNamePrefix = "Kanaloa";
@@ -303,12 +304,18 @@ function updateNodeStatus(data) {
 		if (arrayCheck[i]) {
 			onGlyph.style.visibility = "visible";
 			offGlyph.style.visibility = "hidden";
+			okCount++;
 		} else {
 			onGlyph.style.visibility = "hidden";
 			offGlyph.style.visibility = "visible";
 		}
 	}
-	displayConnectionSound.play();
+	if (okCount == nodeCount) {
+		destinyAwaitsSound.play();
+	}
+	else {
+		displayConnectionSound.play();
+	}
 }
 
 
@@ -331,6 +338,7 @@ function loadDefaultSound() {
 	// var audio = new Audio('audio_file.mp3');
 	// audio.play();
 	beepSound = new Audio('images/beep.mp3');
+	destinyAwaitsSound = new Audio('images/awaits.mp3');
 	displayConnectionSound = new Audio('images/273sd.mp3');
 }
 
