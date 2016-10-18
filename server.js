@@ -309,6 +309,10 @@ function wsCommand(wsio, data) {
 					webVars.remoteServers[i].emit("command", data);
 				}
 			}
+
+			if (result.lastExecutedFile != undefined) {
+				webVars.lastExecutedFile = "wallpaper";
+			}
 			
 			// Special case for updating
 			if (data.command == "updateNodejsFromRepo") {
