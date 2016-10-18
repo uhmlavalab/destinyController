@@ -65,6 +65,10 @@
 
 <hr>
 <hr>
+<br><br>
+<button style="font-size:30px" onclick="sendWallpaperLaunch()">Wallpaper Test</button>
+
+<hr>
 
 <br><br>
 <h3>Custom Monitor Packet</h3>
@@ -161,7 +165,6 @@
 
     function buttonClickHandler(action, paramArray) {
       wsio.emit("command", {command: action, paramArray:paramArray});
-      alert("Command Sent");
     }
 
     function sendCustomMonitorPacket() {
@@ -184,7 +187,6 @@
       
 
       wsio.emit("command", dataToSend);
-      alert("Command Sent");
     }
 
     function sendCustomMonitorPacketAll() {
@@ -198,17 +200,14 @@
       else { return; }
 
       wsio.emit("command", dataToSend);
-      alert("Command Sent");
     }
     
     function sendNodeUpdatePacket() {
       wsio.emit("command", {command: "updateNodejsFromRepo"});
-      alert("Command Sent");
     }
     
     function sendRestartPacket() {
       wsio.emit("command", {command: "restartNow"});
-      alert("Command Sent");
     }
 
     function sendRunFile() {
@@ -219,7 +218,6 @@
         var dataToSend = {};
         dataToSend.command = "destinyTest:" + filePath;
         wsio.emit("command", dataToSend);
-        alert("Command Sent");
       }
     }
     function sendRunFileTracking() {
@@ -230,12 +228,13 @@
         var dataToSend = {};
         dataToSend.command = "destinyTestTracking:" + filePath;
         wsio.emit("command", dataToSend);
-        alert("Command Sent");
       }
     }
     function sendKillApplication() {
       wsio.emit("command", {command: "destinyKillApps:", paramArray:[] });
-      alert("Command Sent");
+    }
+    function sendWallpaperLaunch() {
+      wsio.emit("command", {command: "wallpaperChrome", paramArray:[] });
     }
 
 

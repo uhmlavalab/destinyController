@@ -46,6 +46,14 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/restartNow.bat"
 		},
+		{
+			commandName: "wallpaperChrome",
+			commandDesciption: "",
+			commandWords: [ ],
+			preventHostActivation: true,
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/wallpaperChrome.bat"
+		},
 		
 		
 		{
