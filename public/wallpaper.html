@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="icon" href="images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
   <title>Wallpaper</title>
 
   <style type="text/css">
@@ -20,11 +19,47 @@
 
 <body>
 
+  <image id=lavaLogo src="images/lava-vertical.png" style="position: absolute;"></image>
 
 
   <!-- jQuery is necessary for Bootstrap -->
   <script>
     document.body.style.background = "#000000";
+    var logos = [];
+    makeLogo(4);
+
+    logos.push(lavaLogo);
+    setInterval(moveLavaLogo, 3000);
+
+    function makeLogo(count){
+      logos.push(document.createElement("img"));
+      logos[logos.length - 1].src = "images/lava-vertical.png";
+      logos[logos.length - 1].style.position = "absolute";
+      document.body.appendChild(logos[logos.length - 1]);
+      if (count > 1) {
+        makeLogo(--count);
+      }
+    }
+
+
+    function moveLavaLogo() {
+      for (var i = 0; i < logos.length; i++) {
+        var left = getRandomInt(0, window.innerWidth - lavaLogo.width);
+        var top = getRandomInt (0, window.innerHeight - lavaLogo.height);
+        // enforces even numbers. if mod 2 != 0, then subtract 1 to make even.
+        if (left % 2 != 0) { left--; }
+        if (top % 2 != 0) { top--; }
+
+        logos[i].style.left = left + "px";
+        logos[i].style.top = top + "px";
+      }
+    }
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
   </script>
 </body>
 </html>
