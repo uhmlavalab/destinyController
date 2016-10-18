@@ -52,7 +52,7 @@
 			commandWords: [ ],
 			preventHostActivation: true,
 			sendAll: true,
-			lastExecutedFile: "Google Chrome",
+			lastExecutedFile: "Google",
 			scriptPath: "./src/exampleScripts/wallpaperChrome.bat"
 		},
 		
