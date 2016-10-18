@@ -52,6 +52,7 @@
 			commandWords: [ ],
 			preventHostActivation: true,
 			sendAll: true,
+			lastExecutedFile: "wallpaper",
 			scriptPath: "./src/exampleScripts/wallpaperChrome.bat"
 		},
 		
