@@ -311,7 +311,7 @@ function wsCommand(wsio, data) {
 			}
 
 			if (result.lastExecutedFile != undefined) {
-				webVars.lastExecutedFile = "wallpaper";
+				webVars.lastExecutedFile = result.lastExecutedFile;
 			}
 			
 			// Special case for updating
