@@ -110,7 +110,7 @@ display: block;
 <br><br>
 <button style="font-size:30px" onclick="sendWallpaperLaunch()">Wallpaper Test</button>
 <div class="dropdown">
-  <button onclick="fileListDropdownFunction()" class="dropbtn">Dropdown</button>
+  <button onclick="fileListDropdownFunction()" class="dropbtn">File List</button>
   <div id="fileListDropdown" class="dropdown-content">
   </div>
 </div>
@@ -280,7 +280,7 @@ display: block;
       wsio.emit("command", {command: "destinyKillApps:", paramArray:[] });
     }
     function sendWallpaperLaunch() {
-      wsio.emit("command", {command: "wallpaperChrome", paramArray:[] });
+      wsio.emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
     }
     function sendRunFile(file) {
       var filePath = file;

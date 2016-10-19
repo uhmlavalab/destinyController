@@ -335,6 +335,11 @@ function wsCommand(wsio, data) {
 				var paramArray = [];
 				if (data.paramArray) {
 					paramArray = data.paramArray;
+					for (var i = 0; i < paramArray.length; i++) {
+						if (paramArray[i] == "kanaloaId") {
+							paramArray[i] = webVars.thisHostnameNumber;
+						}
+					}
 				}
 				script(result.path, paramArray);
 			}
