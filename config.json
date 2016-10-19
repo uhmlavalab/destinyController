@@ -55,8 +55,8 @@
 			lastExecutedFile: "chrome",
 			scriptPath: "./src/exampleScripts/wallpaperChrome.bat"
 		},
-		
-		
+
+
 		{
 			commandName: "updateNodejsFromRepo", // THIS IS A SPECIAL CASE IN SERVER
 			commandDesciption: "",
@@ -64,12 +64,12 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/updateNodejsFromRepo.bat"
 		},
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		{
 			commandName: "psPreSufAllConsole",
 			commandDesciption: "",
