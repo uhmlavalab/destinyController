@@ -8,12 +8,12 @@ var os              = require("os");
 var fs              = require("fs");
 // npm required, defined in package.json
 var json5           = require("json5");
-// var WebSocketIO		= require("websocketio"); 
+// var WebSocketIO		= require("websocketio");
 // required files located in the src folder
 var httpServer   	= require("./src/httpServer");
 var utils			= require("./src/utils");
 var commandHandler  = require("./src/commandHandler")
-var WebSocketIO		= require("./src/node-websocket.io.js"); 
+var WebSocketIO		= require("./src/node-websocket.io.js");
 
 // Begin setup
 var configFile  = json5.parse(fs.readFileSync("config.json", "utf8"));
@@ -111,7 +111,7 @@ function connectToDestinyHeadNode() {
 		webVars.thisHostnameNumber = thisHostname.substring(thisHostname.indexOf("loa") + 3).trim();
 	} else {
 		webVars.thisHostnameNumber = "";
-	}	
+	}
 	utils.debugPrint("Detected hostname number:" + webVars.thisHostnameNumber);
 
 
@@ -195,7 +195,7 @@ function manageRemoteConnection(remote, site) {
 
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
-//----------------------------------------------------------------------------WebSocket(ws) related functions 
+//----------------------------------------------------------------------------WebSocket(ws) related functions
 // Websocket
 
 // This gets activated when ws connections are made to this server.
@@ -233,7 +233,7 @@ function wsAddClient(wsio, data) {
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
 		createAndSendNodeCountUpdate();
-		
+
 		// Does the server need to respond to remote site commands? Probably not?
 		// wsio.on("command",        wsCommand);
 	} else if (data.clientType === "webControllerClient") {
@@ -242,8 +242,9 @@ function wsAddClient(wsio, data) {
 		wsio.on("consolePrint",     wsConsolePrint);
 		wsio.on("command",        wsCommand);
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
-		
+
 		createAndSendNodeCountUpdate();
+		createAndSendFileListUpdate();
 	} else {
 		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
 	}
@@ -313,7 +314,7 @@ function wsCommand(wsio, data) {
 			if (result.lastExecutedFile != undefined) {
 				webVars.lastExecutedFile = result.lastExecutedFile;
 			}
-			
+
 			// Special case for updating
 			if (data.command == "updateNodejsFromRepo") {
 				var paramArray = [];
@@ -362,7 +363,7 @@ function startDestinyNodeFiles(wsio, data) {
 					script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
 				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
-			}		
+			}
 		} catch (e) {
 			console.log("Error with file:" + path[1]);
 			console.log(e);
@@ -409,13 +410,16 @@ function wsServerConfirm(wsio, data) {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
+function createAndSendFileListUpdate(wsio, data) {
+	var fileList = "";
+		fs.readFile("Z:/fileIndex.destiny", 'utf8', function (err,data) {
+		  if (err) {
+		    return console.log(err);
+		  }
+			fileList = data;
+			console.log(fileList);
+			for (var i = 0; i < webVars.clients.length; i++) {
+				webVars.clients[i].emit("fileListUpdate", {names:fileList});
+			}
+		});
+	}

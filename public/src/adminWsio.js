@@ -11,7 +11,7 @@ function initializeWS() {
 	wsio.open(function() {
 		console.log("Websocket opened, ending addClient");
 		wsio.emit('addClient', {clientType: "webControllerClient"});
-		setupListeners(); 
+		setupListeners();
 	});
 
 	wsio.on('close', function (evt) {
@@ -31,11 +31,15 @@ function setupListeners() {
 	wsio.on('serverConfirm', function(data) {
 		debugPrint("serverConfirm: " + data.message);
 	});
-	
+
 	wsio.on("nodeCountUpdate", function(data) {
 		// not used in admin panel?
 	});
 
+	wsio.on("fileListUpdate",  function(data){
+		//in admin
+		updateFileList(data);
+	});
 }
 
 
@@ -49,5 +53,3 @@ function sendInbox() {
 	wsio.emit('consoleLog', data);
 
 }
-
-
