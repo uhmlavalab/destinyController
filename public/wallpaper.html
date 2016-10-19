@@ -25,8 +25,24 @@
   <!-- jQuery is necessary for Bootstrap -->
   <script>
     document.body.style.background = "#000000";
+
     var logos = [];
-    makeLogo(4);
+    var amountOfLogos = 1;
+
+    var urlParams = window.location.href;
+    var oneUrlParam;
+    if (urlParams.indexOf("?") != -1) {
+      urlParams = urlParams.substring(urlParams.indexOf("?") + 1);
+      urlParams = urlParams.split("&");
+      for (var i = 0; i < urlParams.length; i++) {
+        oneUrlParam = urlParams[i].split("=");
+        if (oneUrlParam[0] == "node") {
+          amountOfLogos = parseInt(oneUrlParam[1]);
+        }
+      }
+    }
+
+    makeLogo(amountOfLogos);
 
     logos.push(lavaLogo);
     setInterval(moveLavaLogo, 3000);
