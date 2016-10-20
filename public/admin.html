@@ -110,8 +110,13 @@ display: block;
 <br><br>
 <button style="font-size:30px" onclick="sendWallpaperLaunch()">Wallpaper Test</button>
 <div class="dropdown">
-  <button onclick="fileListDropdownFunction()" class="dropbtn">File List</button>
+  <button onclick="fileListDropdownFunction()" class="dropbtn">File List No Tracking</button>
   <div id="fileListDropdown" class="dropdown-content">
+  </div>
+</div>
+<div class="dropdown">
+  <button onclick="fileListDropdownFunctionTracking()" class="dropbtn">File List Tracking</button>
+  <div id="fileListDropdownTracking" class="dropdown-content">
   </div>
 </div>
 <hr>
@@ -290,18 +295,30 @@ display: block;
         var dataToSend = {};
         dataToSend.command = "destinyTest:" + filePath;
         wsio.emit("command", dataToSend);
-        alert("Command Sent");
-
+      }
+    }
+    function sendRunFileTracking(file) {
+      var filePath = custRunFileTracking.value.trim();
+      if (filePath.length <= 0) {
+        return;
+      } else {
+        var dataToSend = {};
+        dataToSend.command = "destinyTestTracking:" + filePath;
+        wsio.emit("command", dataToSend);
       }
     }
     function updateFileList(data){
       var fileListArray = data.names.split(/[\r\n]+/);
       for(var i = 0; i < fileListArray.length-1; i++){
         document.getElementById("fileListDropdown").innerHTML += "<button onclick=\"sendRunFile('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
+        document.getElementById("fileListDropdownTracking").innerHTML += "<button onclick=\"sendRunFileTracking('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
       }
     }
     function fileListDropdownFunction() {
       document.getElementById("fileListDropdown").classList.toggle("show");
+    }
+    function fileListDropdownFunctionTracking() {
+      document.getElementById("fileListDropdownTracking").classList.toggle("show");
     }
 
     // Close the dropdown menu if the user clicks outside of it
