@@ -363,20 +363,20 @@ function startDestinyNodeFiles(wsio, data) {
 			if (data.command.indexOf("destinyTestTracking:") != -1) {
 				setTimeout(function() {
 					if(webVars.thisHostnameNumber == 1){
-						script("./src/exampleSCripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
 					}
 					else{
-						script("./src/exampleSCripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
 					}
 				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			} else {
 				setTimeout(function() {
 					if(webVars.thisHostnameNumber == 1){
-						script("./src/exampleSCripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
 					}
 					else{
-						script("./src/exampleSCripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
 					}
 				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
@@ -429,8 +429,7 @@ function wsServerConfirm(wsio, data) {
 
 function createAndSendFileListUpdate(wsio, data) {
 	var fileList = "";
-		// fs.readFile("Z:/fileIndex.destiny", 'utf8', function (err,data) {
-		fs.readFile("c:/users/jack/desktop/test/test.txt", 'utf8', function (err,data) {
+		  fs.readFile("Z:/fileIndex.destiny", 'utf8', function (err,data) {
 		  if (err) {
 		    return console.log(err);
 		  }
