@@ -44,7 +44,6 @@
     padding: 5px;
   }
   button {
-    font-size: 16px;
   }
   /* Dropdown Button */
 .dropbtn {
@@ -89,6 +88,17 @@ display: block;
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+.fileButton{
+  background-color: #212F3D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  cursor: pointer;
+  }
+
+
+}
   </style>
 
 
@@ -310,8 +320,8 @@ display: block;
     function updateFileList(data){
       var fileListArray = data.names.split(/[\r\n]+/);
       for(var i = 0; i < fileListArray.length-1; i++){
-        document.getElementById("fileListDropdown").innerHTML += "<button onclick=\"sendRunFile('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
-        document.getElementById("fileListDropdownTracking").innerHTML += "<button onclick=\"sendRunFileTracking('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
+        document.getElementById("fileListDropdown").innerHTML += "<button class=\"fileButton\" onclick=\"sendRunFile('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
+        document.getElementById("fileListDropdownTracking").innerHTML += "<button class=\"fileButton\" onclick=\"sendRunFileTracking('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
       }
     }
     function fileListDropdownFunction() {
