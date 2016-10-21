@@ -12,7 +12,7 @@ var json5           = require("json5");
 // required files located in the src folder
 var httpServer   	= require("./src/httpServer");
 var utils			= require("./src/utils");
-var commandHandler  = require("./src/commandHandler")
+var commandHandler  = require("./src/commandHandler");
 var WebSocketIO		= require("./src/node-websocket.io.js");
 
 // Begin setup
@@ -360,13 +360,22 @@ function startDestinyNodeFiles(wsio, data) {
 		try {
 			if (data.command.indexOf("destinyTestTracking:") != -1) {
 				setTimeout(function() {
-					script("./src/exampleScripts/destinyExecTracking.bat", [path[1], webVars.thisHostnameNumber]);
+					if(webVars.thisHostnameNumber == 1){
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
+					}
+					else{
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
+					}
 				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			} else {
 				setTimeout(function() {
-					script("./src/exampleScripts/destinyExec.bat", [path[1], webVars.thisHostnameNumber]);
-				}, 2000);
+					if(webVars.thisHostnameNumber == 1){
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", 10000]);
+					}
+					else{
+						script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webvars.thisHostnameNumber, "128.171.47.17:1234", "*:*", 10000]);
+					}				}, 2000);
 				//script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
 			}
 		} catch (e) {
@@ -422,7 +431,6 @@ function createAndSendFileListUpdate(wsio, data) {
 		    return console.log(err);
 		  }
 			fileList = data;
-			console.log(fileList);
 			for (var i = 0; i < webVars.clients.length; i++) {
 				webVars.clients[i].emit("fileListUpdate", {names:fileList});
 			}
