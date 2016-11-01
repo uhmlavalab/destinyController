@@ -8,12 +8,15 @@ var os              = require("os");
 var fs              = require("fs");
 // npm required, defined in package.json
 var json5           = require("json5");
+var xml2js 					= require('xml2js');
 // var WebSocketIO		= require("websocketio");
 // required files located in the src folder
 var httpServer   	= require("./src/httpServer");
 var utils			= require("./src/utils");
 var commandHandler  = require("./src/commandHandler");
 var WebSocketIO		= require("./src/node-websocket.io.js");
+
+
 
 // Begin setup
 var configFile  = json5.parse(fs.readFileSync("config.json", "utf8"));
@@ -294,6 +297,8 @@ function wsCommand(wsio, data) {
 		startDestinyNodeFiles(wsio, data);
 	} else if(data.command.indexOf("destinyKillApps:") != -1) {
 		killLastStartedApp(wsio, data);
+	} else if(data.command.indexOf("destinyXMLConfig:") != -1) {
+		editXMLFile(wsio, data);
 	} else {
 		var result = commandHandler.handleCommandString(data.command);
 		if (result === false) {
@@ -434,5 +439,44 @@ function createAndSendFileListUpdate(wsio, data) {
 			for (var i = 0; i < webVars.clients.length; i++) {
 				webVars.clients[i].emit("fileListUpdate", {names:fileList});
 			}
+		});
+	}
+
+	function editXMLFile(wsio, data) {
+		var parser = new xml2js.Parser();
+		var dataDynamic = data;
+		fs.readFile("C:/CCUnityConfig/CCUnityConfig.xml",'utf8', function (err, fileContent){
+			if(err){
+				return console.log(err);
+			}
+			parser.parseString(fileContent, function(err, result) {
+				var parameters = dataDynamic.command.split(":");
+				var json = result;
+				if(parameters[1].toString() == "true"){
+					json.config.stereo = 1;
+				}
+				else{
+					json.config.stereo = 0;
+				}
+				if(parameters[2].toString() == "true"){
+					json.config.tracking = 1;
+				}
+				else{
+					json.config.tracking = 0;
+				}
+				if(parameters[3].toString() == "true"){
+					json.config.panoptic = 1;
+				}
+				else{
+					json.config.panoptic = 0;
+				}
+				var builder = new xml2js.Builder();
+				var xml = builder.buildObject(json);
+				fs.writeFile("C:/CCUnityConfig/CCUnityConfig.xml", xml, function(err, fileWriteContent){
+					if(err){
+						console.log(err);
+					}
+				});
+			});
 		});
 	}
