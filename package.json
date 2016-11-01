@@ -18,7 +18,8 @@
 	"dependencies": {
 		"json5": "latest",
 		"mime": "latest",
-		"websocketio": "latest"
+		"websocketio": "latest",
+		"xml2js" : "latest"
 	},
 	"repository": {
 	}
