@@ -124,12 +124,10 @@ display: block;
   <div id="fileListDropdown" class="dropdown-content">
   </div>
 </div>
-<div class="dropdown">
-  <button onclick="fileListDropdownTrackingFunction()" class="dropbtn">File List Tracking</button>
-  <div id="fileListDropdownTracking" class="dropdown-content">
-  </div>
-</div>
 <hr>
+<label><input type="checkbox" id="stereo" value="stereo"> Stereo</label><br>
+<label><input type="checkbox" id="tracking" value="tracking"> Tracking</label><br>
+<label><input type="checkbox" id="panoptic" value="panoptic"> Panoptic</label><br>
 
 <br><br>
 <h3>Custom Monitor Packet</h3>
@@ -298,6 +296,7 @@ display: block;
       wsio.emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
     }
     function sendRunFile(file) {
+      sendXMLConfig();
       var filePath = file;
       if (filePath.length <= 0) {
         return;
@@ -308,6 +307,7 @@ display: block;
       }
     }
     function sendRunFileTracking(file) {
+      sendXMLConfig();
       var filePath = file;
       if (filePath.length <= 0) {
         return;
@@ -317,18 +317,32 @@ display: block;
         wsio.emit("command", dataToSend);
       }
     }
+    function sendXMLConfig() {
+      var stereo = document.getElementById("stereo");
+      var tracking = document.getElementById("tracking");
+      var panoptic = document.getElementById("panoptic");
+
+        var dataToSend = {};
+        dataToSend.paramArray = [];
+
+        // dataToSend.command = "destinyXMLConfig:";
+        // dataToSend.paramArray.push(stereo.checked.toString() +":");
+        // dataToSend.paramArray.push(tracking.checked.toString() +":");
+        // dataToSend.paramArray.push(panoptic.checked.toString() +":");
+
+        dataToSend.command = "destinyXMLConfig:" + stereo.checked.toString() +":" + tracking.checked.toString() +":" + panoptic.checked.toString() +":";
+
+        wsio.emit("command", dataToSend);
+
+    }
     function updateFileList(data){
       var fileListArray = data.names.split(/[\r\n]+/);
       for(var i = 0; i < fileListArray.length-1; i++){
         document.getElementById("fileListDropdown").innerHTML += "<button class=\"fileButton\" onclick=\"sendRunFile('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
-        document.getElementById("fileListDropdownTracking").innerHTML += "<button class=\"fileButton\" onclick=\"sendRunFileTracking('" + fileListArray[i].toString() + "')\">" + fileListArray[i].toString() + "</button>";
       }
     }
     function fileListDropdownFunction() {
       document.getElementById("fileListDropdown").classList.toggle("show");
-    }
-    function fileListDropdownTrackingFunction() {
-      document.getElementById("fileListDropdownTracking").classList.toggle("show");
     }
 
     // Close the dropdown menu if the user clicks outside of it
