@@ -443,40 +443,48 @@ function createAndSendFileListUpdate(wsio, data) {
 	}
 
 	function editXMLFile(wsio, data) {
-		var parser = new xml2js.Parser();
-		var dataDynamic = data;
-		fs.readFile("C:/CCUnityConfig/CCUnityConfig.xml",'utf8', function (err, fileContent){
-			if(err){
-				return console.log(err);
+		if (webVars.headNode) {
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", data);
 			}
-			parser.parseString(fileContent, function(err, result) {
-				var parameters = dataDynamic.command.split(":");
-				var json = result;
-				if(parameters[1].toString() == "true"){
-					json.config.stereo = 1;
+		}
+		// lono doesn't run the apps, if not head node, execute
+		if (!webVars.headNode) {
+			var parser = new xml2js.Parser();
+			var dataDynamic = data;
+			fs.readFile("C:/CCUnityConfig/CCUnityConfig.xml",'utf8', function (err, fileContent){
+				if(err){
+					return console.log(err);
 				}
-				else{
-					json.config.stereo = 0;
-				}
-				if(parameters[2].toString() == "true"){
-					json.config.tracking = 1;
-				}
-				else{
-					json.config.tracking = 0;
-				}
-				if(parameters[3].toString() == "true"){
-					json.config.panoptic = 1;
-				}
-				else{
-					json.config.panoptic = 0;
-				}
-				var builder = new xml2js.Builder();
-				var xml = builder.buildObject(json);
-				fs.writeFile("C:/CCUnityConfig/CCUnityConfig.xml", xml, function(err, fileWriteContent){
-					if(err){
-						console.log(err);
+				parser.parseString(fileContent, function(err, result) {
+					var parameters = dataDynamic.command.split(":");
+					var json = result;
+					if(parameters[1].toString() == "true"){
+						json.config.stereo = 1;
 					}
+					else{
+						json.config.stereo = 0;
+					}
+					if(parameters[2].toString() == "true"){
+						json.config.tracking = 1;
+					}
+					else{
+						json.config.tracking = 0;
+					}
+					if(parameters[3].toString() == "true"){
+						json.config.panoptic = 1;
+					}
+					else{
+						json.config.panoptic = 0;
+					}
+					var builder = new xml2js.Builder();
+					var xml = builder.buildObject(json);
+					fs.writeFile("C:/CCUnityConfig/CCUnityConfig.xml", xml, function(err, fileWriteContent){
+						if(err){
+							console.log(err);
+						}
+					});
 				});
 			});
-		});
+		}
 	}
