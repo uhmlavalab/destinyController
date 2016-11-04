@@ -40,13 +40,29 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Molecule Simulation",
-			action: "destinyTest:molecule"
+			action: "destinyTest:molecule",
+			params: ["destinyXMLConfig:true:true:true"]
 		},
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "Star Wars",
-			action: "destinyTest:starwarsmodels"
+			description: "Attractors",
+			action: "destinyTest:attractors",
+			params: ["destinyXMLConfig:true:true:true"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Waipio Pools",
+			action: "destinyTest:waipiopools",
+			params: ["destinyXMLConfig:true:true:true"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Autumn Breeze",
+			action: "destinyTest:autumnbreeze",
+			params: ["destinyXMLConfig:true:true:true"]
 		},
 		{
 			type: "button",

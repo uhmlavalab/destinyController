@@ -19,16 +19,21 @@
 
 <body>
 
+  <!-- Don't think these are actually necessary -->
   <image id=lavaLogo src="images/lava-vertical.png" style="position: absolute;"></image>
+  <image id=ccLogo src="images/cc3d.png" style="position: absolute;"></image>
 
 
-  <!-- jQuery is necessary for Bootstrap -->
   <script>
+    // black background to prevent any constant souce of light
     document.body.style.background = "#000000";
 
+    // array of all images (logos) to bounce around
     var logos = [];
+    // this value is more based on the parsed out url param
     var amountOfLogos = 1;
 
+    // find which number this is. when started node servers will pass their kanaloa number
     var urlParams = window.location.href;
     var oneUrlParam;
     if (urlParams.indexOf("?") != -1) {
@@ -42,14 +47,20 @@
       }
     }
 
-    makeLogo(amountOfLogos);
+    makeLogo(amountOfLogos, "images/lava-vertical.png");
+    makeLogo(amountOfLogos, "images/cc3d.png");
 
     logos.push(lavaLogo);
-    setInterval(moveLavaLogo, 3000);
+    logos.push(ccLogo);
+    setInterval(moveLogos, 3000);
 
-    function makeLogo(count){
+
+    // from this point should be function definitions only
+
+    // given amount and path, make image nodes
+    function makeLogo(count, path){
       logos.push(document.createElement("img"));
-      logos[logos.length - 1].src = "images/lava-vertical.png";
+      logos[logos.length - 1].src = path;
       logos[logos.length - 1].style.position = "absolute";
       document.body.appendChild(logos[logos.length - 1]);
       if (count > 1) {
@@ -58,7 +69,7 @@
     }
 
 
-    function moveLavaLogo() {
+    function moveLogos() {
       for (var i = 0; i < logos.length; i++) {
         var left = getRandomInt(0, window.innerWidth - lavaLogo.width);
         var top = getRandomInt (0, window.innerHeight - lavaLogo.height);
