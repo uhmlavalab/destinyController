@@ -67,6 +67,13 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/orange.png",
+			description: "Close Last Launched App",
+			action: "destinyKillApps:",
+			params: []
+		},
+		{
+			type: "button",
+			buttonImage: "images/orange.png",
 			description: "Shutdown",
 			sound: "images/shutdown.mp3",
 			action: "shutdownNow"
