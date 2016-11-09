@@ -53,7 +53,7 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "Waipio Pools",
+			description: "Waiopae",
 			action: "destinyTest:waipiopools",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
