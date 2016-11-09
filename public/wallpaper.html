@@ -80,9 +80,11 @@
         if (left % 2 != 0) { left--; }
         if (top % 2 != 0) { top--; }
 
-        // the reason for the checks above is because this prevents moving icon offscreen by 1px and generating the scollbar.
-        left++;
-        top++;
+        // these seem to be flipped in the render.
+        if (logos[i].src.indexOf("cc3d") != -1) {
+          left++;
+          top++;
+        }
 
         logos[i].style.left = left + "px";
         logos[i].style.top = top + "px";
