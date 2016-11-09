@@ -60,6 +60,13 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
+			description: "Earthquake",
+			action: "destinyTest:eq",
+			params: ["destinyXMLConfig:true:true:true"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
 			description: "Autumn Breeze",
 			action: "destinyTest:autumnbreeze",
 			params: ["destinyXMLConfig:true:true:true"]
