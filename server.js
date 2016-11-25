@@ -235,7 +235,7 @@ function wsAddClient(wsio, data) {
 		wsio.on("serverConfirm",    wsServerConfirm); // Nodes respond back.
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
-		createAndSendNodeCountUpdate();
+		createAndSendNodeCountUpdate("remoteServer");
 
 		// Does the server need to respond to remote site commands? Probably not?
 		// wsio.on("command",        wsCommand);
@@ -258,7 +258,7 @@ function wsAddClient(wsio, data) {
 }
 
 
-function createAndSendNodeCountUpdate() {
+function createAndSendNodeCountUpdate(clientType) {
 		var allHn = "";
 		for (var i = 0; i < webVars.remoteServers.length; i++) {
 			allHn += webVars.remoteServers[i].hostNameString + "|";
@@ -268,7 +268,7 @@ function createAndSendNodeCountUpdate() {
 		}
 
 		// if all 8 kanaloas connect?
-		if (webVars.remoteServers.length >= 8) {
+		if (clientType == "remoteServer" && webVars.remoteServers.length >= 8) {
 			for (var i = 0; i < webVars.remoteServers.length; i++) {
 				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
 			}
