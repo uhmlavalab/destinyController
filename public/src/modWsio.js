@@ -10,8 +10,8 @@ function initializeWS() {
 	console.log("Websocket status:" + wsio);
 	wsio.open(function() {
 		console.log("Websocket opened, ending addClient");
-		wsio.emit('addClient', {clientType: "webControllerClient"});
 		setupListeners(); 
+		wsio.emit('addClient', {clientType: "webControllerClient"});
 	});
 
 	wsio.on('close', function (evt) {
