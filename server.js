@@ -140,18 +140,18 @@ function connectToDestinyHeadNode() {
 function attemptConnectionToRemoteServer(otherInfo)  {
 	utils.consolePrint("Attempting connection to remote site:" + configFile.remoteSite.address);
 	var remote = new WebSocketIO(webVars.reconnectInfo.wsURL, false,
-	// On connect
-	function() {
-		manageRemoteConnection(remote, webVars.reconnectInfo.remoteServer);
-	},
-	// On fail activate this function, which is try again later
-	function(err) {
-		utils.debugPrint("Connection to headNode(" + webVars.reconnectInfo.wsURL + ") failed...");
-		if (otherInfo !== undefined) {
-			utils.consolePrint("Initial connection attempt failed, will retry every 5 seconds.");
+		// On connect
+		function() {
+			manageRemoteConnection(remote, webVars.reconnectInfo.remoteServer);
+		},
+		// On fail activate this function, which is try again later
+		function(err) {
+			utils.debugPrint("Connection to headNode(" + webVars.reconnectInfo.wsURL + ") failed...");
+			if (otherInfo !== undefined) {
+				utils.consolePrint("Initial connection attempt failed, will retry every 5 seconds.");
+			}
+			setTimeout( attemptConnectionToRemoteServer, 5000 );
 		}
-		setTimeout( attemptConnectionToRemoteServer, 5000 );
-	}
 	);
 }
 
@@ -265,6 +265,13 @@ function createAndSendNodeCountUpdate() {
 		}
 		for (var i = 0; i < webVars.clients.length; i++) {
 			webVars.clients[i].emit("nodeCountUpdate", {names:allHn});
+		}
+
+		// if all 8 kanaloas connect?
+		if (webVars.remoteServers.length >= 8) {
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
+			}
 		}
 }
 
