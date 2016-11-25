@@ -405,7 +405,7 @@ function killLastStartedApp(wsio, data) {
 			webVars.remoteServers[i].emit("command", data);
 		}
 		// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
-		setTimeout(funciton() {
+		setTimeout(function() {
 			for (var i = 0; i < webVars.remoteServers.length; i++) {
 				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
 			}
