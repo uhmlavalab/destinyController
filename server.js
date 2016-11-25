@@ -355,6 +355,8 @@ function wsCommand(wsio, data) {
 					for (var i = 0; i < paramArray.length; i++) {
 						if (paramArray[i] == "kanaloaId") {
 							paramArray[i] = webVars.thisHostnameNumber;
+						} else if (paramArray[i] == "kanaloaId-1") {
+							paramArray[i] = webVars.thisHostnameNumber - 1;
 						}
 					}
 				}

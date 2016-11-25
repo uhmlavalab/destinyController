@@ -159,6 +159,10 @@ display: block;
 
 <br><br>
 <hr>
+<button style="font-size:30px" onclick="sendS2Mokulua()"> S2 Mokulua </button>
+
+<br><br>
+<hr>
 <button style="font-size:30px" onclick="sendNodeUpdatePacket()"> Update all Nodejs </button>
 
 <br><br>
@@ -259,6 +263,10 @@ display: block;
       else { return; }
 
       wsio.emit("command", dataToSend);
+    }
+
+    function sendS2Mokulua() {
+      wsio.emit("command", {command: "startDestinyS2WithMokulua", paramArray:["kanaloaId-1"] });
     }
 
     function sendNodeUpdatePacket() {
