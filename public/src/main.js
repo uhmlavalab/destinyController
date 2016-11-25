@@ -329,6 +329,11 @@ function buttonClickHandler(action, paramArray) {
 		window.location = linkLocation;
 	}
 	wsio.emit("command", {command: action, paramArray:paramArray});
+
+	// on shutdown command also issue monitor off
+	if (action.indexOf("shutdown") != -1) {
+		wsio.emit("command", {command: "psPreSufAll", paramArray:["ka", "00"]});
+	}
 }
 
 

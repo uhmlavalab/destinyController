@@ -246,8 +246,12 @@ function wsAddClient(wsio, data) {
 		wsio.on("command",        wsCommand);
 		wsio.emit("serverAccepted", { host: os.hostname() } ); 	// Server responds back, giving OK to send data.
 
-		createAndSendNodeCountUpdate();
-		createAndSendFileListUpdate();
+		var tempWsio = wsio;
+		setTimeout( createAndSendNodeCountUpdate, 2000);
+		setTimeout( function() {
+			createAndSendFileListUpdate(tempWsio);
+		}, 2000);
+
 	} else {
 		utils.consolePrint("Unknown client type:" + data.clientType + ". Will not setup additional wsio listeners.");
 	}
@@ -316,6 +320,7 @@ function wsCommand(wsio, data) {
 				}
 			}
 
+			// a script might self define what the last staretd app is. For example chrome.
 			if (result.lastExecutedFile != undefined) {
 				webVars.lastExecutedFile = result.lastExecutedFile;
 			}
@@ -399,6 +404,12 @@ function killLastStartedApp(wsio, data) {
 		for (var i = 0; i < webVars.remoteServers.length; i++) {
 			webVars.remoteServers[i].emit("command", data);
 		}
+		// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
+		setTimeout(funciton() {
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
+			}
+		}, 3000); //ms 
 	}
 	// lono doesn't run the apps, if not head node, execute
 	if (!webVars.headNode) {
@@ -432,16 +443,17 @@ function wsServerConfirm(wsio, data) {
 	}
 }
 
-function createAndSendFileListUpdate(wsio, data) {
+function createAndSendFileListUpdate(wsio) {
 	var fileList = "";
 	fs.readFile("Z:/fileIndex.destiny", 'utf8', function (err,data) {
 		if (err) {
 			return console.log(err);
 		}
 		fileList = data;
-		for (var i = 0; i < webVars.clients.length; i++) {
-			webVars.clients[i].emit("fileListUpdate", {names:fileList});
-		}
+		wsio.emit("fileListUpdate", {names:fileList});
+		// for (var i = 0; i < webVars.clients.length; i++) {
+		// 	webVars.clients[i].emit("fileListUpdate", {names:fileList});
+		// }
 	});
 }	
 
