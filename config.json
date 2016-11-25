@@ -55,6 +55,14 @@
 			lastExecutedFile: "chrome",
 			scriptPath: "./src/exampleScripts/wallpaperChrome.bat"
 		},
+		{
+			commandName: "startDestinyS2WithMokulua",
+			commandDesciption: "",
+			commandWords: [ ],
+			preventHostActivation: true,
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/s2Mokulua.bat"
+		},
 
 
 		{
