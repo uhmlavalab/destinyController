@@ -418,7 +418,7 @@ function killLastStartedApp(wsio, data) {
 			for (var i = 0; i < webVars.remoteServers.length; i++) {
 				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
 			}
-		}, 3000); //ms 
+		}, 3000); //ms
 	}
 	// lono doesn't run the apps, if not head node, execute
 	if (!webVars.headNode) {
@@ -464,7 +464,7 @@ function createAndSendFileListUpdate(wsio) {
 		// 	webVars.clients[i].emit("fileListUpdate", {names:fileList});
 		// }
 	});
-}	
+}
 
 function editXMLFile(wsio, data) {
 	if (webVars.headNode) {
@@ -476,7 +476,7 @@ function editXMLFile(wsio, data) {
 	if (!webVars.headNode) {
 		var parser = new xml2js.Parser();
 		var dataDynamic = data;
-		fs.readFile("C:/CCUnityConfig/CCUnityConfig.xml",'utf8', function (err, fileContent){
+		fs.readFile("C:/CCUnityConfig/CCUnityConfigMaster.xml",'utf8', function (err, fileContent){
 			if(err){
 				return console.log(err);
 			}
