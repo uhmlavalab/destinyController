@@ -35,6 +35,22 @@ webVars.lastExecutedFile = null;
 
 
 
+global.originalConsoleLog = console.log;
+
+console = {};
+console.log = function(entry) {
+	fs.appendFile("./log.txt", entry + "\n");
+	global.originalConsoleLog(entry);
+}
+global.logFile = fs.openSync("./log.txt", "w");
+
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+});
+
+
+
+
 //---------------------------------------------------------------------------Setup requirements to run a script
 var script 			= function (file, paramArray) {
 	// If the file doesn't exist, don't try to execute it. If not head node, report back to put all error messages in one place.
@@ -94,6 +110,17 @@ connectToDestinyHeadNode();
 
 
 
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 function connectToDestinyHeadNode() {
 	var networkInterfaces = os.networkInterfaces();
 	var thisHostname = os.hostname();
