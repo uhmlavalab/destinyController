@@ -50,8 +50,8 @@
     // makeLogo(amountOfLogos, "images/lava-vertical.png");
     // makeLogo(amountOfLogos, "images/cc3d.png");
 
-    makeLogo(1, "images/lava-vertical.png");
-    makeLogo(1, "images/cc3d.png");
+    //makeLogo(1, "images/lava-vertical.png");
+    //makeLogo(1, "images/cc3d.png");
 
     logos.push(lavaLogo);
     logos.push(ccLogo);
@@ -78,16 +78,18 @@
       var show1;
       if (getRandomInt(0, 2) == 1) {
         show1 = true;
+      } else {
+        show1 = false;
       }
 
       for (var i = 0; i < logos.length; i++) {
 
         if (show1 && i == 0) {
-          logos[i].style.visible = "hidden";
+          logos[i].style.visibility = "hidden";
         } else if (!show1 && i == 1) {
-          logos[i].style.visible = "hidden";
+          logos[i].style.visibility = "hidden";
         } else {
-          logos[i].style.visible = "visible";
+          logos[i].style.visibility = "visible";
         }
 
         var left = getRandomInt(0, window.innerWidth - logos[i].width - 2);
