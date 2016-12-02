@@ -413,12 +413,16 @@ function killLastStartedApp(wsio, data) {
 		for (var i = 0; i < webVars.remoteServers.length; i++) {
 			webVars.remoteServers[i].emit("command", data);
 		}
-		// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
-		setTimeout(function() {
-			for (var i = 0; i < webVars.remoteServers.length; i++) {
-				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
-			}
-		}, 3000); //ms 
+
+		// if prevent wallpaper isn't present, then launch wallpaper after 3 seconds.
+		if (data.command.indexOf("preventWallpaper") == -1) {
+			// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
+			setTimeout(function() {
+				for (var i = 0; i < webVars.remoteServers.length; i++) {
+					webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
+				}
+			}, 3000); //ms 
+		}
 	}
 	// lono doesn't run the apps, if not head node, execute
 	if (!webVars.headNode) {

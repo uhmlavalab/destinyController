@@ -115,6 +115,8 @@ display: block;
 <input style="font-size:30px" id="custRunFileTracking"> <button style="font-size:30px" onclick="sendRunFileTracking()"> Custom File Run (Tracking)</button>
 <br><br>
 <button style="font-size:30px" onclick="sendKillApplication()">Kill Last Launched Application</button>
+<br><br>
+<button style="font-size:30px" onclick="sendKillWallpaper()">Kill wallpaper</button>
 <hr>
 <hr>
 <br><br>
@@ -299,6 +301,9 @@ display: block;
     }
     function sendKillApplication() {
       wsio.emit("command", {command: "destinyKillApps:", paramArray:[] });
+    }
+    function sendKillWallpaper() {
+      wsio.emit("command", {command: "destinyKillApps:preventWallpaper", paramArray:[] });
     }
     function sendWallpaperLaunch() {
       wsio.emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
