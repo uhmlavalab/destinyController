@@ -51,13 +51,6 @@ process.on('uncaughtException', function (err) {
 
 
 
-
-setTimeout(function() {
-	console.log(somethingNotExist.indexOf("123"));
-}, 2000);
-
-
-
 //---------------------------------------------------------------------------Setup requirements to run a script
 var script 			= function (file, paramArray) {
 	// If the file doesn't exist, don't try to execute it. If not head node, report back to put all error messages in one place.
@@ -447,16 +440,12 @@ function killLastStartedApp(wsio, data) {
 		for (var i = 0; i < webVars.remoteServers.length; i++) {
 			webVars.remoteServers[i].emit("command", data);
 		}
-
-		// if prevent wallpaper isn't present, then launch wallpaper after 3 seconds.
-		if (data.command.indexOf("preventWallpaper") == -1) {
-			// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
-			setTimeout(function() {
-				for (var i = 0; i < webVars.remoteServers.length; i++) {
-					webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
-				}
-			}, 3000); //ms 
-		}
+		// send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
+		setTimeout(function() {
+			for (var i = 0; i < webVars.remoteServers.length; i++) {
+				webVars.remoteServers[i].emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
+			}
+		}, 3000); //ms
 	}
 	// lono doesn't run the apps, if not head node, execute
 	if (!webVars.headNode) {
@@ -502,7 +491,7 @@ function createAndSendFileListUpdate(wsio) {
 		// 	webVars.clients[i].emit("fileListUpdate", {names:fileList});
 		// }
 	});
-}	
+}
 
 function editXMLFile(wsio, data) {
 	if (webVars.headNode) {
@@ -514,7 +503,7 @@ function editXMLFile(wsio, data) {
 	if (!webVars.headNode) {
 		var parser = new xml2js.Parser();
 		var dataDynamic = data;
-		fs.readFile("C:/CCUnityConfig/CCUnityConfig.xml",'utf8', function (err, fileContent){
+		fs.readFile("C:/CCUnityConfig/CCUnityConfigMaster.xml",'utf8', function (err, fileContent){
 			if(err){
 				return console.log(err);
 			}
