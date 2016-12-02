@@ -73,7 +73,23 @@
 
 
     function moveLogos() {
+      // currently only 2 logos
+
+      var show1;
+      if (getRandomInt(0, 2) == 1) {
+        show1 = true;
+      }
+
       for (var i = 0; i < logos.length; i++) {
+
+        if (show1 && i == 0) {
+          logos[i].style.visible = "hidden";
+        } else if (!show1 && i == 1) {
+          logos[i].style.visible = "hidden";
+        } else {
+          logos[i].style.visible = "visible";
+        }
+
         var left = getRandomInt(0, window.innerWidth - logos[i].width - 2);
         var top = getRandomInt (0, window.innerHeight - logos[i].height - 2);
         // enforces even numbers. if mod 2 != 0, then subtract 1 to make even.
@@ -91,6 +107,7 @@
       }
     }
 
+    // max is exclusive
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
