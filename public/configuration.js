@@ -53,8 +53,8 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "Waiopae",
-			action: "destinyTest:waipiopools",
+			description: "Point Clouds",
+			action: "destinyTest:pointclouds",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
 		{
@@ -131,9 +131,3 @@ var config = {
 
 	] //end of view parts
 };
-
-
-
-
-
-
