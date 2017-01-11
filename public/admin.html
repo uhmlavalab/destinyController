@@ -173,6 +173,10 @@ display: block;
 
 <br><br>
 <hr>
+<button style="font-size:30px" onclick="sendFixColor()"> ColorFix </button>
+
+<br><br>
+<hr>
 <div id="monitorOnOffDiv">
 <h3>Not implemented yet</h3>
 <h2>Kanaloa Monitors</h2>
@@ -277,6 +281,10 @@ display: block;
 
     function sendRestartPacket() {
       wsio.emit("command", {command: "restartNow"});
+    }
+
+    function sendFixColor() { 
+      wsio.emit("command", {command: "fixColor"});
     }
 
     function sendRunFile() {

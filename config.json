@@ -73,7 +73,14 @@
 			scriptPath: "./src/exampleScripts/updateNodejsFromRepo.bat"
 		},
 
-
+		{
+			commandName: "fixColor",
+			commandDesciption: "",
+			commandWords: [ ],
+			preventHostActivation: true,
+			sendAll: true,
+			scriptPath: "./src/exampleScripts/startNvidiaColorMacro.bat"
+		},
 
 
 
