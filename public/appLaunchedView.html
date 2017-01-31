@@ -23,10 +23,11 @@
 <body>
 
   <!-- Don't think these are actually necessary -->
-  <image id=lavaLogo src="images/logos.png" style="width:98%;position:absolute;top:20%"></image>
+  <image id=lavaLogo src="images/logos.png" style="width:98%;position:absolute;top:40%"></image>
 
 
   <div id="showLoadingDiv">Loading...</div>
+  <div id="allButtonsContainer"></div> 
   <div id="appKillButton"></div> 
   <div id="akbStatus01"></div>
   <div id="akbStatus02"></div>
@@ -45,6 +46,9 @@
     var appDataFromConfig;
     var loadingData = {};
     var wsio;
+    var sizes = {};
+    var imageData = {};
+    var amountOfTimeToShowLoading = 2000;
 
 
     /*
@@ -64,8 +68,10 @@
     getNameOfApp();
     console.log("nameOfApp:" + nameOfApp);
 
+    detectSizes();
     startLoading();
-    setupLoadSwapWithAppKillButton();
+    fitButtons();
+    //setupLoadSwapWithAppKillButton();
 
     initializeWS();
 
@@ -175,6 +181,126 @@
       setTimeout(function() {
         window.location = "/";
       }, 1000);
+    }
+
+    function detectSizes() {
+      sizes.width  = document.body.clientWidth;
+      sizes.height = window.innerHeight;
+      sizes.h20p   = sizes.height * 0.2;
+      sizes.h10p   = sizes.height * 0.1;
+      sizes.h08p   = sizes.height * 0.08;
+      sizes.h90p   = sizes.height * 0.9;
+      sizes.w10p   = sizes.width * 0.1;
+      sizes.w90p   = sizes.width * 0.9;
+
+      sizes.xCenter = document.body.clientWidth/2;
+      sizes.yCenter = window.innerHeight/2;
+    }
+
+    // used to get the sizing of a button image first. Then all calculations made based on detected image.
+    function fitButtons() {
+
+      setTimeout(function() {
+        clearInterval(loadingData.intervalRef);
+        document.getElementById("stopAppButtonDiv").style.visibility = "visible";
+        showLoadingDiv.style.visibility = "hidden";
+        appKillButton.style.visibility = "visible";
+      }, amountOfTimeToShowLoading);
+
+
+      imageData.greenButton = new Image();
+      imageData.greenButton.onload = function() { // after loading the button, then measurements can be made
+        var h10pWidth  = sizes.h08p / imageData.greenButton.naturalHeight * imageData.greenButton.naturalWidth;
+        var w90pHeight = sizes.w90p / imageData.greenButton.naturalWidth * imageData.greenButton.naturalHeight;
+        
+        var widthExceeded = false, heightExceeded = false;
+        // if the width is less 
+        if (h10pWidth <= sizes.w90p) {
+          imageData.buttonHeight = sizes.h08p;
+          imageData.buttonWidth = h10pWidth;
+        }
+        else {
+          imageData.buttonHeight = w90pHeight;
+          imageData.buttonWidth = sizes.w90p;
+        }
+        // now create buttons and glyphs since they are dependent upon button size
+        addStopAndConfirmButtons();
+
+      }
+      imageData.greenButton.src = "images/green.png"; // set the souce after setting an onload in the weird case when it it quicker.
+    }
+    
+    function addStopAndConfirmButtons() {
+      addButton("stopAppButton", "Stop App", "images/brown.png");
+      addButton("confirmStopButton", "Confirm", "images/orange.png");
+
+      document.getElementById("stopAppButtonDiv").style.visibility = "hidden";
+
+      document.getElementById("stopAppButtonDiv").addEventListener("click", function() {
+        document.getElementById("confirmStopButtonDiv").style.visibility = "visible";
+        setTimeout(function() {
+          document.getElementById("confirmStopButtonDiv").style.visibility = "hidden";
+        }, 1500);
+      });
+
+      document.getElementById("confirmStopButtonDiv").style.visibility = "hidden";
+      document.getElementById("confirmStopButtonDiv").addEventListener("click", sendCloseLastAppCommand);
+
+    }
+
+    function addButton(idForButton, descForButton, imgSource) {
+      var textHeightRatio = 0.5;
+      var textTopOffset   = (1 - textHeightRatio) / 2;
+
+      var bDiv      = document.createElement("div");
+      var bImage    = new Image();
+      var bTextDiv  = document.createElement("div");
+      var bClickDiv = document.createElement("div");
+
+      bDiv.id               = idForButton + "Div";
+
+      bImage.id             = idForButton + "Img";
+      bImage.src            = imgSource;
+      bImage.width          = imageData.buttonWidth;
+      bImage.height         = imageData.buttonHeight;
+      bImage.style.position = "relative";
+      bImage.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
+      // bImage.style.top      = "0px";
+      bImage.style.zIndex   = 1;
+      bDiv.appendChild(bImage);
+
+      bTextDiv.id             = idForButton + "Text";
+      bTextDiv.textContent     = descForButton;
+      bTextDiv.className       += " fontTitillium"
+      bTextDiv.style.position  = "relative";
+      // bTextDiv.style.fontFamily = "Bank Gothic"; // not part of standard browsers
+      bTextDiv.style.fontSize  = imageData.buttonHeight * textHeightRatio + "px";
+      bTextDiv.style.color = "white";
+      bTextDiv.style.top       = (-1 * imageData.buttonHeight + imageData.buttonHeight * textTopOffset / 3) + "px"; //(-1 * imageData.buttonHeight) + "px"; //(-1 * imageData.buttonHeight - imageData.buttonHeight * textTopOffset) + "px";
+      bTextDiv.style.left     = "0px";
+      bTextDiv.style.textAlign = "center";
+      bTextDiv.style.width     = sizes.width + "px";
+      bTextDiv.style.height    = bImage.height + "px";
+      bTextDiv.style.zIndex    = 2;
+      bDiv.appendChild(bTextDiv);
+
+      // bClickDiv.style.border = "1px solid black";
+      bClickDiv.id             = idForButton + "ClickDiv";
+      bClickDiv.style.position = "relative";
+      bClickDiv.style.width    = bImage.width + "px";
+      bClickDiv.style.height   = bImage.height + "px";
+      bClickDiv.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
+      bClickDiv.style.top      = (-1 * (imageData.buttonHeight * textTopOffset/2) + -2 * imageData.buttonHeight) + "px";
+      //bClickDiv.style.background = "rgba(255, 255, 0, 0.9)";
+      bClickDiv.style.zIndex = 3;
+      bDiv.appendChild(bClickDiv);
+
+      // load sound
+
+      //bDiv.style.textAlign = "center";
+      // bDiv.style.width  = document.body.clientWidth + "px";
+      bDiv.style.height = sizes.h08p + "px";
+      allButtonsContainer.appendChild(bDiv);
     }
 
   </script>
