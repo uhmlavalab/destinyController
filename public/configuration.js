@@ -40,6 +40,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Molecule Simulation",
+			sound: "images/power.mp3",
 			action: "destinyTest:molecule",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
@@ -54,6 +55,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Point Clouds",
+			sound: "images/power.mp3",
 			action: "destinyTest:pointclouds",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
@@ -61,6 +63,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Earthquake",
+			sound: "images/power.mp3",
 			action: "destinyTest:eq",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
@@ -68,6 +71,7 @@ var config = {
 			type: "button",
 			buttonImage: "images/blue.png",
 			description: "Autumn Breeze",
+			sound: "images/power.mp3",
 			action: "destinyTest:autumnbreeze",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
