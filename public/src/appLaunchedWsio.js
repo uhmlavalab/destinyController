@@ -38,6 +38,6 @@ function setupListeners() {
 
 	wsio.on("fileListUpdate",  function(data){
 		//in admin
-		updateFileList(data);
+		//updateFileList(data);
 	});
 }

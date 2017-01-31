@@ -295,6 +295,9 @@ display: block;
         var dataToSend = {};
         dataToSend.command = "destinyTest:" + filePath;
         wsio.emit("command", dataToSend);
+        setTimeout(function() {
+          window.location = "/appLaunchedView.html";
+        }, 1000);
       }
     }
     function sendRunFileTracking() {
@@ -305,6 +308,9 @@ display: block;
         var dataToSend = {};
         dataToSend.command = "destinyTestTracking:" + filePath;
         wsio.emit("command", dataToSend);
+        setTimeout(function() {
+          window.location = "/appLaunchedView.html";
+        }, 1000);
       }
     }
     function sendKillApplication() {
@@ -325,6 +331,9 @@ display: block;
         var dataToSend = {};
         dataToSend.command = "destinyTest:" + filePath;
         wsio.emit("command", dataToSend);
+        setTimeout(function() {
+          window.location = "/appLaunchedView.html";
+        }, 1000);
       }
     }
     function sendRunFileTracking(file) {
@@ -336,6 +345,9 @@ display: block;
         var dataToSend = {};
         dataToSend.command = "destinyTestTracking:" + filePath;
         wsio.emit("command", dataToSend);
+        setTimeout(function() {
+          window.location = "/appLaunchedView.html";
+        }, 1000);
       }
     }
     function sendXMLConfig() {
