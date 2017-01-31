@@ -39,6 +39,22 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
+			description: "Point Clouds",
+			sound: "images/power.mp3",
+			action: "destinyTest:pointclouds",
+			params: ["destinyXMLConfig:true:true:true"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Galaxies",
+			sound: "images/power.mp3",
+			action: "destinyTest:tully",
+			params: ["destinyXMLConfig:true:true:true"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
 			description: "Molecule Simulation",
 			sound: "images/power.mp3",
 			action: "destinyTest:molecule",
@@ -50,14 +66,6 @@ var config = {
 			description: "Attractors",
 			sound: "images/power.mp3",
 			action: "destinyTest:attractors",
-			params: ["destinyXMLConfig:true:true:true"]
-		},
-		{
-			type: "button",
-			buttonImage: "images/blue.png",
-			description: "Point Clouds",
-			sound: "images/power.mp3",
-			action: "destinyTest:pointclouds",
 			params: ["destinyXMLConfig:true:true:true"]
 		},
 		{
