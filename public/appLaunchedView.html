@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="images/favicon.ico">
+  <title>App Information</title>
+
+  <style type="text/css">
+    body {
+      font-family: Arial
+    }
+
+  </style>
+
+
+</head>
+
+
+
+<body>
+
+  <!-- Don't think these are actually necessary -->
+  <image id=lavaLogo src="images/logos.png" style="width:98%;position:absolute;top:20%"></image>
+
+
+  <div id="showLoadingDiv">Loading...</div>
+  <div id="appKillButton"></div> 
+  <div id="akbStatus01"></div>
+  <div id="akbStatus02"></div>
+
+
+
+  <script type="text/javascript" src="configuration.js"></script>
+  <script type="text/javascript" src="src/websocket.io.js"></script>
+  <script type="text/javascript" src="src/appLaunchedWsio.js"></script>
+
+  <script>
+    // black background to prevent any constant souce of light
+    document.body.style.background = "#DDDDDD"; // off white?
+
+    var nameOfApp = "";
+    var appDataFromConfig;
+    var loadingData = {};
+    var wsio;
+
+
+    /*
+    First need parameters from URL:
+      name of app
+        from the name should be able to open the js file and get all other relevant information.
+
+
+    Start with loading notification.
+      Hide after 30 seconds?
+
+    Switch to app name + description + picture?
+
+
+    */
+
+    getNameOfApp();
+    console.log("nameOfApp:" + nameOfApp);
+
+    startLoading();
+    setupLoadSwapWithAppKillButton();
+
+    initializeWS();
+
+
+
+    function getNameOfApp() {
+      // find which number this is. when started node servers will pass their kanaloa number
+      var urlParams = window.location.href;
+      var oneUrlParam;
+      if (urlParams.indexOf("?") != -1) {
+        urlParams = urlParams.substring(urlParams.indexOf("?") + 1);
+        urlParams = urlParams.split("&");
+        for (var i = 0; i < urlParams.length; i++) {
+          oneUrlParam = urlParams[i].split("=");
+          if (oneUrlParam[0] == "nameOfApp") {
+            nameOfApp = oneUrlParam[1];
+          }
+        }
+      }
+    }
+
+    function startLoading() {
+      showLoadingDiv.style.position = "absolute";
+      showLoadingDiv.style.textAlign = "center";
+      showLoadingDiv.style.fontSize = window.innerHeight * .10 + "px";
+      showLoadingDiv.style.width = window.innerWidth - 10 + "px";
+
+      loadingData.show = "";
+      loadingData.endResult = "Loading...";
+
+      loadingData.intervalRef = setInterval(updateLoadingNotification, 500);
+
+    }
+    function updateLoadingNotification() {
+      if (loadingData.show.length < loadingData.endResult.length) {
+        loadingData.show = loadingData.endResult.substring(0, loadingData.show.length + 1);
+      } else {
+        loadingData.show = "";
+      }
+
+      showLoadingDiv.textContent = loadingData.show;
+    }
+
+    function setupLoadSwapWithAppKillButton() {
+
+      setTimeout(function() {
+        clearInterval(loadingData.intervalRef);
+        appKillButton.style.visibility = "visible";
+      }, 30000);
+
+      appKillButton.style.position = "absolute";
+      appKillButton.style.textAlign = "center";
+      appKillButton.style.border = "1px solid black";
+      appKillButton.style.background = "salmon";
+      appKillButton.style.fontSize = window.innerHeight * .10 + "px";
+      appKillButton.textContent = "Stop App";
+      appKillButton.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2) + "px";
+      appKillButton.style.visibility = "hidden";
+
+      appKillButton.addEventListener("click", showAkb01);
+
+
+      akbStatus01.style.position = "absolute";
+      akbStatus01.style.textAlign = "center";
+      akbStatus01.style.border = "1px solid black";
+      akbStatus01.style.background = "salmon";
+      akbStatus01.style.fontSize = window.innerHeight * .10 + "px";
+      akbStatus01.textContent = "Confirm";
+      akbStatus01.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2 - akbStatus01.clientWidth - 10) + "px";
+      akbStatus01.style.visibility = "hidden";
+
+      akbStatus01.addEventListener("click", showAkb02);
+
+
+      akbStatus02.style.position = "absolute";
+      akbStatus02.style.textAlign = "center";
+      akbStatus02.style.border = "1px solid black";
+      akbStatus02.style.background = "salmon";
+      akbStatus02.style.fontSize = window.innerHeight * .10 + "px";
+      akbStatus02.textContent = "Confirm";
+      akbStatus02.style.left = (window.innerWidth / 2 + appKillButton.clientWidth / 2 + 10) + "px";
+      akbStatus02.style.visibility = "hidden";
+
+      akbStatus02.addEventListener("click", sendCloseLastAppCommand);
+
+    }
+
+    function showAkb01 () {
+      akbStatus01.style.visibility = "visible";
+
+      setTimeout(function() {
+        akbStatus01.style.visibility = "hidden";
+      }, 1000);
+    }
+
+    function showAkb02 () {
+      akbStatus02.style.visibility = "visible";
+
+      setTimeout(function() {
+        akbStatus02.style.visibility = "hidden";
+      }, 1000);
+    }
+
+    function sendCloseLastAppCommand () {
+      wsio.emit("command", {command: "destinyKillApps:", paramArray:[] });
+
+      setTimeout(function() {
+        window.location = "/";
+      }, 1000);
+    }
+
+  </script>
+</body>
+</html>
+
+

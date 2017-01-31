@@ -329,6 +329,12 @@ function buttonClickHandler(action, paramArray) {
 		window.location = linkLocation;
 	}
 	wsio.emit("command", {command: action, paramArray:paramArray});
+	
+	if (action.indexOf("destinyTest:") != -1) { // if it is in the string;
+      setTimeout(function() {
+        window.location = "/appLaunchedView.html";
+      }, 1000);
+	}
 
 	// on shutdown command also issue monitor off
 	if (action.indexOf("shutdown") != -1) {

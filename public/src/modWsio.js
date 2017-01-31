@@ -38,17 +38,3 @@ function setupListeners() {
 	});
 
 }
-
-
-
-//--------------------------------------------------------------------------------------------------------------------------Start wsio communcation
-function sendInbox() {
-	var workingDiv = document.getElementById('inbox');
-	data = {};
-	data.message = workingDiv.value;
-	workingDiv.value = "";
-	wsio.emit('consoleLog', data);
-
-}
-
-
