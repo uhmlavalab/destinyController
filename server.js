@@ -142,6 +142,19 @@ function connectToDestinyHeadNode() {
 	} else {
 		webVars.thisHostnameNumber = "";
 	}
+
+	//READ THIS 3/3/2017
+	//TESTING KANALOA4 AND 8 SWITCH.
+	//TESTING STABILITY OF KANALOA4.
+	//SHOULD NOT BE PERMANENT AND BE SWITCHED BACK AT SOME POINT
+
+	if(webVars.thisHostnameNumber == 4){
+		webVars.thisHostnameNumber = 8;
+	}
+	else if (webVars.thisHostnameNumber == 8){
+		webVars.thisHostnameNumber = 4;
+	}
+	
 	utils.debugPrint("Detected hostname number:" + webVars.thisHostnameNumber);
 
 
