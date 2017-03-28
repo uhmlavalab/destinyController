@@ -47,7 +47,7 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "ISS",
+			description: "International Space Station",
 			sound: "images/power.mp3",
 			action: "destinyTest:iss",
 			params: ["destinyXMLConfig:true:true:true"]
