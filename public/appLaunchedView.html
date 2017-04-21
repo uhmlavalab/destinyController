@@ -23,7 +23,6 @@
 <body>
 
   <!-- Don't think these are actually necessary -->
-  <image id=lavaLogo src="images/logos.png" style="width:98%;position:absolute;top:40%"></image>
 
 
   <div id="showLoadingDiv">Loading...</div>
@@ -31,7 +30,22 @@
   <div id="appKillButton"></div> 
   <div id="akbStatus01"></div>
   <div id="akbStatus02"></div>
+  <div id="informationContainer">
+    <div id="infoCenteredLines" style="width:99%;text-align:center"></div>
 
+
+    <div id="infoAuthorsHeader"></div>
+
+    <div id="infoAuthors" style="margin-left:5%;margin-right:5%"></div>
+    <div id="infoAuthorsPics" style="width:99%;text-align:center"></div>
+    <br><br>
+    <div id="infoDescriptionHeader"></div>
+    <div id="infoDescription" style="margin-left:5%;margin-right:5%"></div>
+    <div id="infoDescriptionPics" style="width:99%;text-align:center"></div>
+
+  </div> 
+
+  <image id=lavaLogo src="images/logos.png" style="width:98%;bottom:1%"></image>
 
 
   <script type="text/javascript" src="configuration.js"></script>
@@ -48,7 +62,7 @@
     var wsio;
     var sizes = {};
     var imageData = {};
-    var amountOfTimeToShowLoading = 30000;
+    var amountOfTimeToShowLoading = 1000; // higher?
 
 
     /*
@@ -103,6 +117,11 @@
       loadingData.endResult = "Loading...";
 
       loadingData.intervalRef = setInterval(updateLoadingNotification, 500);
+      setTimeout(function(){
+        if (titleButtonDiv) {
+          showLoadingDiv.style.top = parseInt(titleButtonDiv.style.height) + 20 + "px";
+        }
+      },50);
 
     }
     function updateLoadingNotification() {
@@ -111,53 +130,55 @@
       } else {
         loadingData.show = "";
       }
-
       showLoadingDiv.textContent = loadingData.show;
+
+
     }
 
-    function setupLoadSwapWithAppKillButton() {
+    // function setupLoadSwapWithAppKillButton() {
 
-      setTimeout(function() {
-        clearInterval(loadingData.intervalRef);
-        appKillButton.style.visibility = "visible";
-      }, 30000);
+    //   setTimeout(function() {
+    //     clearInterval(loadingData.intervalRef);
+    //     appKillButton.style.visibility = "visible";
+    //     showInformationAboutApp();
+    //   }, 30000);
 
-      appKillButton.style.position = "absolute";
-      appKillButton.style.textAlign = "center";
-      appKillButton.style.border = "1px solid black";
-      appKillButton.style.background = "salmon";
-      appKillButton.style.fontSize = window.innerHeight * .10 + "px";
-      appKillButton.textContent = "Stop App";
-      appKillButton.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2) + "px";
-      appKillButton.style.visibility = "hidden";
+    //   appKillButton.style.position = "absolute";
+    //   appKillButton.style.textAlign = "center";
+    //   appKillButton.style.border = "1px solid black";
+    //   appKillButton.style.background = "salmon";
+    //   appKillButton.style.fontSize = window.innerHeight * .10 + "px";
+    //   appKillButton.textContent = "Stop App";
+    //   appKillButton.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2) + "px";
+    //   appKillButton.style.visibility = "hidden";
 
-      appKillButton.addEventListener("click", showAkb01);
-
-
-      akbStatus01.style.position = "absolute";
-      akbStatus01.style.textAlign = "center";
-      akbStatus01.style.border = "1px solid black";
-      akbStatus01.style.background = "salmon";
-      akbStatus01.style.fontSize = window.innerHeight * .10 + "px";
-      akbStatus01.textContent = "Confirm";
-      akbStatus01.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2 - akbStatus01.clientWidth - 10) + "px";
-      akbStatus01.style.visibility = "hidden";
-
-      akbStatus01.addEventListener("click", showAkb02);
+    //   appKillButton.addEventListener("click", showAkb01);
 
 
-      akbStatus02.style.position = "absolute";
-      akbStatus02.style.textAlign = "center";
-      akbStatus02.style.border = "1px solid black";
-      akbStatus02.style.background = "salmon";
-      akbStatus02.style.fontSize = window.innerHeight * .10 + "px";
-      akbStatus02.textContent = "Confirm";
-      akbStatus02.style.left = (window.innerWidth / 2 + appKillButton.clientWidth / 2 + 10) + "px";
-      akbStatus02.style.visibility = "hidden";
+    //   akbStatus01.style.position = "absolute";
+    //   akbStatus01.style.textAlign = "center";
+    //   akbStatus01.style.border = "1px solid black";
+    //   akbStatus01.style.background = "salmon";
+    //   akbStatus01.style.fontSize = window.innerHeight * .10 + "px";
+    //   akbStatus01.textContent = "Confirm";
+    //   akbStatus01.style.left = (window.innerWidth / 2 - appKillButton.clientWidth / 2 - akbStatus01.clientWidth - 10) + "px";
+    //   akbStatus01.style.visibility = "hidden";
 
-      akbStatus02.addEventListener("click", sendCloseLastAppCommand);
+    //   akbStatus01.addEventListener("click", showAkb02);
 
-    }
+
+    //   akbStatus02.style.position = "absolute";
+    //   akbStatus02.style.textAlign = "center";
+    //   akbStatus02.style.border = "1px solid black";
+    //   akbStatus02.style.background = "salmon";
+    //   akbStatus02.style.fontSize = window.innerHeight * .10 + "px";
+    //   akbStatus02.textContent = "Confirm";
+    //   akbStatus02.style.left = (window.innerWidth / 2 + appKillButton.clientWidth / 2 + 10) + "px";
+    //   akbStatus02.style.visibility = "hidden";
+
+    //   akbStatus02.addEventListener("click", sendCloseLastAppCommand);
+
+    // }
 
     function showAkb01 () {
       akbStatus01.style.visibility = "visible";
@@ -205,6 +226,7 @@
         document.getElementById("stopAppButtonDiv").style.visibility = "visible";
         showLoadingDiv.style.visibility = "hidden";
         appKillButton.style.visibility = "visible";
+        showInformationAboutApp();
       }, amountOfTimeToShowLoading);
 
 
@@ -224,6 +246,7 @@
           imageData.buttonWidth = sizes.w90p;
         }
         // now create buttons and glyphs since they are dependent upon button size
+        addTitleButtonWithNoAction();
         addStopAndConfirmButtons();
 
       }
@@ -245,7 +268,28 @@
 
       document.getElementById("confirmStopButtonDiv").style.visibility = "hidden";
       document.getElementById("confirmStopButtonDiv").addEventListener("click", sendCloseLastAppCommand);
+    }
 
+    function addTitleButtonWithNoAction() {
+      var appName = getUrlParamValueGivenName("app");
+      var appInfo, actionAppName;
+      console.log(appName);
+      for (let i = 0; i < config.viewParts.length; i++) {
+        if (!config.viewParts[i].action) {
+          continue; // groups do not have actions
+        }
+        actionAppName = config.viewParts[i].action.substring(config.viewParts[i].action.indexOf(":") + 1);
+        if (appName == actionAppName) {
+          appInfo = config.viewParts[i];
+          break;
+        }
+      }
+      // if it found app info show the description value
+      if (appInfo){
+        addButton("titleButton", appInfo.description, "images/blue.png");
+      } else { // no description possible if launched from admin panel
+        addButton("titleButton", appName, "images/blue.png");
+      }
     }
 
     function addButton(idForButton, descForButton, imgSource) {
@@ -302,6 +346,127 @@
       bDiv.style.height = sizes.h08p + "px";
       allButtonsContainer.appendChild(bDiv);
     }
+
+  function getUrlParamValueGivenName(name) {
+    var loc = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(loc);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  function showInformationAboutApp() {
+    // first got to find which app it is.
+    var appInfo, actionAppName;
+    var appName = getUrlParamValueGivenName("app");
+    console.log(appName);
+    for (let i = 0; i < config.viewParts.length; i++) {
+      if (!config.viewParts[i].action) {
+        continue; // groups do not have actions
+      }
+      actionAppName = config.viewParts[i].action.substring(config.viewParts[i].action.indexOf(":") + 1);
+      if (appName == actionAppName) {
+        appInfo = config.viewParts[i];
+        break;
+      }
+    }
+
+    if (appInfo) {
+      showInfoLines(appInfo);
+      showInfoPictures(appInfo);
+      // showInfoAddAuthors(appInfo);
+      // showInfoAddDescription(appInfo);
+    }
+  } // end showInformationAboutApp
+
+  function showInfoLines(appInfo) {
+    if (!appInfo.infoLines) {
+      return; // don't do anything if authors section doesn't exist
+    }
+    infoCenteredLines.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.9) + "px";
+    // add description lines
+    for (let i = 0; i < appInfo.infoLines.length; i++) {
+      infoCenteredLines.innerHTML += appInfo.infoLines[i] + "<br>";
+    }
+  }
+  function showInfoPictures(appInfo) {
+    if (!appInfo.infoPics) {
+      return; // don't do anything if authors section doesn't exist
+    }
+    var maxWidth = window.innerWidth * 0.8;
+    var maxHeight = window.innerHeight * 0.5;
+    for (let i = 0; i < appInfo.infoPics.length; i++) {
+      infoDescriptionPics.innerHTML += "<img id=ipic" + i + " src='" + appInfo.infoPics[i] + "'>";
+      let imge = document.getElementById("ipic" + i);
+      if (imge.clientHeight > imge.clientWidth) {
+        if (imge.clientHeight > maxHeight) {
+          imge.style.height = maxHeight + "px";
+        } else {
+          imge.style.width = "80%";
+        }
+      } else {
+        imge.style.width = "80%";
+      }
+      // if (imge.width > maxWidth) {
+      //   imge.style.width = maxWidth + "px";
+      // } else if (imge.height > maxHeight) {
+      //   imge.style.height = maxHeight + "px";
+      // }
+    }
+  }
+
+  function showInfoAddAuthors(appInfo) {
+    if (!appInfo.authors && !appInfo.authorPics) {
+      return; // don't do anything if authors section doesn't exist
+    }
+    infoAuthorsHeader.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.9) + "px";
+    infoAuthors.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.7) + "px";
+    infoCenteredLines.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.9) + "px";
+
+    infoAuthorsHeader.innerHTML = "Development:<br>";
+    // add the author entries
+    for (let i = 0; i < appInfo.authors.length; i++) {
+      infoAuthors.innerHTML += appInfo.authors[i] + "<br>";
+    }
+    //infoAuthorsPics
+    var picSize = window.innerWidth / 5;
+    var usePicWidth = true;
+    if (picSize > window.innerHeight / 5) {
+      picSize =  window.innerHeight / 5;
+      usePicWidth = false;
+    }
+    if (appInfo.authorPics) {
+      for (let i = 0; i < appInfo.authorPics.length; i++) {
+        infoAuthorsPics.innerHTML += "<img id=apic" + i + " src='" + appInfo.authorPics[i] + "'>";
+        if (usePicWidth) {
+          document.getElementById("apic" + i).style.width = picSize + "px";
+        } else {
+          document.getElementById("apic" + i).style.height = picSize + "px";
+        }
+      }
+    }
+  } // showInfoAddAuthors
+
+  function showInfoAddDescription(appInfo) {
+    if (!appInfo.launchStatusDescription && !appInfo.descriptionPics) {
+      return; // don't do anything if authors section doesn't exist
+    }
+    infoDescriptionHeader.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.9) + "px";
+    infoDescription.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.7) + "px";
+
+    infoDescriptionHeader.innerHTML = "Description:";
+    infoDescription.innerHTML += appInfo.launchStatusDescription + "<br>";
+
+
+    if (appInfo.descriptionPics) {
+      for (let i = 0; i < appInfo.descriptionPics.length; i++) {
+        infoDescriptionPics.innerHTML += "<img id=dpic" + i + " src='" + appInfo.descriptionPics[i] + "'>";
+      }
+    }
+  }
+
 
   </script>
 </body>

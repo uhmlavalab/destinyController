@@ -331,9 +331,7 @@ function buttonClickHandler(action, paramArray) {
 	wsio.emit("command", {command: action, paramArray:paramArray});
 	
 	if (action.indexOf("destinyTest:") != -1) { // if it is in the string;
-      setTimeout(function() {
-        window.location = "/appLaunchedView.html";
-      }, 1000);
+    	window.location = "/appLaunchedView.html?app=" + action.substring(action.indexOf(":") + 1);
 	}
 
 	// on shutdown command also issue monitor off
