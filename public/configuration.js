@@ -47,7 +47,7 @@ var config = {
 				"Developer: Ryan Theriot",
 				"BS Computer Science"
 				],
-			infoPics: ["images/irrrlti.png"]
+			infoPics: ["images/ffs.png"]
 		},
 		{
 			type: "button",
