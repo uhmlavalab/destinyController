@@ -89,7 +89,11 @@
 
     initializeWS();
 
-
+    function divPrint(line) {
+      var d = document.createElement("div");
+      d.textContent = line;
+      document.body.appendChild(d);
+    }
 
     function getNameOfApp() {
       // find which number this is. when started node servers will pass their kanaloa number
@@ -274,7 +278,7 @@
       var appName = getUrlParamValueGivenName("app");
       var appInfo, actionAppName;
       console.log(appName);
-      for (let i = 0; i < config.viewParts.length; i++) {
+      for (var i = 0; i < config.viewParts.length; i++) {
         if (!config.viewParts[i].action) {
           continue; // groups do not have actions
         }
@@ -362,7 +366,7 @@
     var appInfo, actionAppName;
     var appName = getUrlParamValueGivenName("app");
     console.log(appName);
-    for (let i = 0; i < config.viewParts.length; i++) {
+    for (var i = 0; i < config.viewParts.length; i++) {
       if (!config.viewParts[i].action) {
         continue; // groups do not have actions
       }
@@ -387,7 +391,7 @@
     }
     infoCenteredLines.style.fontSize = (parseInt(titleButtonText.style.fontSize) * 0.9) + "px";
     // add description lines
-    for (let i = 0; i < appInfo.infoLines.length; i++) {
+    for (var i = 0; i < appInfo.infoLines.length; i++) {
       infoCenteredLines.innerHTML += appInfo.infoLines[i] + "<br>";
     }
   }
@@ -397,9 +401,9 @@
     }
     var maxWidth = window.innerWidth * 0.8;
     var maxHeight = window.innerHeight * 0.5;
-    for (let i = 0; i < appInfo.infoPics.length; i++) {
+    for (var i = 0; i < appInfo.infoPics.length; i++) {
       infoDescriptionPics.innerHTML += "<img id=ipic" + i + " src='" + appInfo.infoPics[i] + "'>";
-      let imge = document.getElementById("ipic" + i);
+      var imge = document.getElementById("ipic" + i);
       if (imge.clientHeight > imge.clientWidth) {
         if (imge.clientHeight > maxHeight) {
           imge.style.height = maxHeight + "px";
@@ -427,7 +431,8 @@
 
     infoAuthorsHeader.innerHTML = "Development:<br>";
     // add the author entries
-    for (let i = 0; i < appInfo.authors.length; i++) {
+    var i;
+    for (i = 0; i < appInfo.authors.length; i++) {
       infoAuthors.innerHTML += appInfo.authors[i] + "<br>";
     }
     //infoAuthorsPics
@@ -438,7 +443,7 @@
       usePicWidth = false;
     }
     if (appInfo.authorPics) {
-      for (let i = 0; i < appInfo.authorPics.length; i++) {
+      for (i = 0; i < appInfo.authorPics.length; i++) {
         infoAuthorsPics.innerHTML += "<img id=apic" + i + " src='" + appInfo.authorPics[i] + "'>";
         if (usePicWidth) {
           document.getElementById("apic" + i).style.width = picSize + "px";
@@ -461,7 +466,7 @@
 
 
     if (appInfo.descriptionPics) {
-      for (let i = 0; i < appInfo.descriptionPics.length; i++) {
+      for (var i = 0; i < appInfo.descriptionPics.length; i++) {
         infoDescriptionPics.innerHTML += "<img id=dpic" + i + " src='" + appInfo.descriptionPics[i] + "'>";
       }
     }

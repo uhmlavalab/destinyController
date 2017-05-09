@@ -29,6 +29,7 @@ function main() {
 
 function detectSizes() {
 	sizes.width  = document.body.clientWidth;
+	sizes.width  = window.innerWidth;
 	sizes.height = window.innerHeight;
 	sizes.h20p   = sizes.height * 0.2;
 	sizes.h10p   = sizes.height * 0.1;
@@ -38,6 +39,7 @@ function detectSizes() {
 	sizes.w90p   = sizes.width * 0.9;
 
 	sizes.xCenter = document.body.clientWidth/2;
+	sizes.xCenter = window.innerWidth/2;
 	sizes.yCenter = window.innerHeight/2;
 
 	debugPrint("sizes.width:"  + sizes.width);
@@ -187,6 +189,11 @@ function makeButton(configEntry) {
 	bImage.height         = imageData.buttonHeight;
 	bImage.style.position = "relative";
 	bImage.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
+	bImage.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	// iPad doesn't have same load timing? set timeout is to set left on next pain frame
+	setTimeout(function() {
+		bImage.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
+	},0);
 	// bImage.style.top      = "0px";
 	bImage.style.zIndex   = 1;
 	bDiv.appendChild(bImage);
@@ -210,6 +217,7 @@ function makeButton(configEntry) {
 	bClickDiv.style.width    = bImage.width + "px";
 	bClickDiv.style.height   = bImage.height + "px";
 	bClickDiv.style.left     = (document.body.clientWidth / 2 - bImage.width / 2) + "px";
+	bClickDiv.style.left     = (window.innerWidth / 2 - bImage.width / 2) + "px";
 	bClickDiv.style.top      = (-1 * (imageData.buttonHeight * textTopOffset/2) + -2 * imageData.buttonHeight) + "px";
 	//bClickDiv.style.background = "rgba(255, 255, 0, 0.9)";
 	bClickDiv.style.zIndex = 3;
