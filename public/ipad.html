@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="images/favicon.ico">
+  <title>App Information</title>
+
+  <style type="text/css">
+    body {
+      font-family: Arial
+    }
+
+  </style>
+
+
+</head>
+
+
+
+<body>
+
+  <!-- Don't think these are actually necessary -->
+
+  <div id="boxRef1" style="width:100px;height:100px;border:solid black 1px"></div>
+  <div id="boxRef2" style="width:100px;height:100px;border:solid black 1px"></div>
+  <div id="boxRef3" style="width:100px;height:100px;border:solid black 1px"></div>
+
+  <h3>Stuff</h3>
+  <div id="outputDiv">Loading...</div>
+
+  <script>
+
+    outputPrint("Window width:" + window.innerWidth);
+    outputPrint("Window height:" + window.innerHeight);
+    outputPrint("Document client width:" + document.body.clientWidth);
+    outputPrint("Document client height:" + document.body.clientHeight);
+
+    boxRef1.style.width = window.innerWidth + "px";
+    boxRef2.style.width = document.body.clientWidth + "px";
+
+    function outputPrint(line) {
+      outputDiv.innerHTML += line + "\n<br>";
+    }
+
+  </script>
+</body>
+</html>
+
+

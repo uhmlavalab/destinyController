@@ -97,7 +97,7 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "Attractors",
+			description: "Strange Attractors",
 			sound: "images/power.mp3",
 			action: "destinyTest:attractors",
 			params: ["destinyXMLConfig:true:true:true"],
