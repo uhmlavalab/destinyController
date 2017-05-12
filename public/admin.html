@@ -158,14 +158,6 @@ display: block;
   <td> <button onclick="sendCustomMonitorPacketAll()"> Send to all monitors in order </button> </td>
 </tr>
 </table>
-<tr>
-  <td>Custom packet</td>
-</tr>
-<tr>
-  <td> <input id="custFull" type="textarea"> </td>
-  <td> <button onclick="sendFullCustonMonitorPacket()"> Send Custon Packet </button> </td>
-</tr>
-</table>
 
 <h3>3D Monitor packet </h3>
 <table>
@@ -285,17 +277,6 @@ display: block;
       if (custPrefixAll.value.trim().length > 0) { dataToSend.paramArray.push(custPrefixAll.value.trim()); }
       else { return; }
       if (custSuffixAll.value.trim().length > 0) { dataToSend.paramArray.push(custSuffixAll.value.trim()); }
-      else { return; }
-
-      wsio.emit("command", dataToSend);
-    }
-
-    function sendFullCustonMonitorPacket() {
-      var dataToSend = {};
-      dataToSend.command = "psPreSufOne";
-      dataToSend.paramArray = [];
-
-      if (custFull.value.trim().length > 0) { dataToSend.paramArray.push(custFull.value.trim()); }
       else { return; }
 
       wsio.emit("command", dataToSend);
