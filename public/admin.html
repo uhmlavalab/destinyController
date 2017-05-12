@@ -159,6 +159,17 @@ display: block;
 </tr>
 </table>
 
+<h3>3D Monitor packet </h3>
+<table>
+<tr>
+  <td>Status (00 or 01)</td>
+</tr>
+<tr>
+  <td> <input id="cust3dStatus" type="textarea"> </td>
+  <td> <button onclick="send3DTogglePacketAll()"> Send to all monitors in order </button> </td>
+</tr>
+</table>
+
 <br><br>
 <hr>
 <button style="font-size:30px" onclick="sendS2Mokulua()"> S2 Mokulua </button>
@@ -268,6 +279,16 @@ display: block;
       if (custSuffixAll.value.trim().length > 0) { dataToSend.paramArray.push(custSuffixAll.value.trim()); }
       else { return; }
 
+      wsio.emit("command", dataToSend);
+    }
+
+    function send3DTogglePacketAll(){
+      var dataToSend = {};
+      dataToSend.command = "ps3dToggle";
+      dataToSend.paramArray = [];
+
+      if (cust3dStatus.value.trim().length > 0) { dataToSend.paramArray.push(cust3dStatus.value.trim()); }
+      else { return; }
       wsio.emit("command", dataToSend);
     }
 
