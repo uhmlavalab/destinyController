@@ -25,6 +25,12 @@
 			scriptPath: "./src/exampleScripts/psPreSufOne.bat"
 		},
 		{
+			commandName: "ps3DAll",
+			commandDesciption: "",
+			commandWords: [ ],
+			scriptPath: "./src/exampleScripts/ps3DAll.bat"
+		},
+		{
 			commandName: "wakeOnLanAll",
 			commandDesciption: "",
 			commandWords: [ ],
