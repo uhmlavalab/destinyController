@@ -25,11 +25,11 @@ function initializeWS() {
 //--------------------------------------------------------------------------------------------------------------------------Start wsio communcation
 function setupListeners() {
 	wsio.on('serverAccepted', function(data) {
-		debugPrint("Connected to server");
+		console.log("Connected to server");
 	});
 
 	wsio.on('serverConfirm', function(data) {
-		debugPrint("serverConfirm: " + data.message);
+		console.log("serverConfirm: " + data.message);
 	});
 
 	wsio.on("nodeCountUpdate", function(data) {

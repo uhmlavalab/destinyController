@@ -25,6 +25,12 @@
 			scriptPath: "./src/exampleScripts/psPreSufOne.bat"
 		},
 		{
+			commandName: "ps3dToggle",
+			commandDesciption: "",
+			commandWords: [ ],
+			scriptPath: "./src/exampleScripts/ps3dToggle.bat"
+		},
+		{
 			commandName: "ps3DAll",
 			commandDesciption: "",
 			commandWords: [ ],
