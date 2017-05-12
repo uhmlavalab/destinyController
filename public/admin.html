@@ -159,6 +159,26 @@ display: block;
 </tr>
 </table>
 
+<h3>3D Monior packet </h3>
+<table>
+<tr>
+  <td>Prefix</td>
+  <td>Suffix1</td>
+  <td>Suffix2</td>
+  <td>Suffix3</td>
+  <td>Suffix4</td>
+</tr>
+<tr>
+  <td> <input id="cust3DPrefix" type="textarea"> </td>
+  <td> <input id="cust3DSuffix1" type="textarea"> </td>
+  <td> <input id="cust3DSuffix2" type="textarea"> </td>
+  <td> <input id="cust3DSuffix3" type="textarea"> </td>
+  <td> <input id="cust3DSuffix4" type="textarea"> </td>
+  <td> <button onclick="send3DMonitorPacketAll()"> Send to all monitors in order </button> </td>
+</tr>
+</table>
+
+
 <br><br>
 <hr>
 <button style="font-size:30px" onclick="sendS2Mokulua()"> S2 Mokulua </button>
@@ -266,6 +286,25 @@ display: block;
       if (custPrefixAll.value.trim().length > 0) { dataToSend.paramArray.push(custPrefixAll.value.trim()); }
       else { return; }
       if (custSuffixAll.value.trim().length > 0) { dataToSend.paramArray.push(custSuffixAll.value.trim()); }
+      else { return; }
+
+      wsio.emit("command", dataToSend);
+    }
+
+    function send3DCustomMonitorPacketAll(){
+      var dataToSend = {};
+      dataToSend.command = "ps3DAll";
+      dataToSend.paramArray = [];
+
+    if (cust3DPrefix.value.trim().length > 0) { dataToSend.paramArray.push(cust3DPrefix.value.trim()); }
+      else { return; }
+      if (cust3DSuffix1.value.trim().length > 0) { dataToSend.paramArray.push(cust3DSuffix1.value.trim()); }
+      else { return; }
+            if (cust3DSuffix2.value.trim().length > 0) { dataToSend.paramArray.push(cust3DSuffix2.value.trim()); }
+      else { return; }
+            if (cust3DSuffix3.value.trim().length > 0) { dataToSend.paramArray.push(cust3DSuffix3.value.trim()); }
+      else { return; }
+            if (cust3DSuffix4.value.trim().length > 0) { dataToSend.paramArray.push(cust3DSuffix4.value.trim()); }
       else { return; }
 
       wsio.emit("command", dataToSend);
