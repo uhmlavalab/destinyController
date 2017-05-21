@@ -206,7 +206,7 @@ function manageRemoteConnection(remote, site) {
     remote.on("consolePrint", wsRsConsolePrint);
     remote.on("command", wsRsCommand);
     remote.on("serverConfirm", function(wsio, data) { /* currently discards */ });
-    remote.on("serverConfirm", function(wsio, data) { /* currently discards */ });
+    // remote.on("serverConfirm", function(wsio, data) { /* currently discards */ });
 
     remote.clientType = "remoteServer";
     webVars.remoteServers.push(remote);
@@ -337,7 +337,9 @@ function wsCommand(wsio, data) {
         utils.consolePrint(data.command);
     } else if ((data.command.indexOf("destinyTestTracking:") != -1) || (data.command.indexOf("destinyTest:") != -1)) {
         startDestinyNodeFiles(wsio, data);
-    } else if (data.command.indexOf("destinyKillApps:") != -1) {
+    } else if ((data.command.indexOf("unrealTest:") != -1)) {
+		startUnrealTest(wsio, data);
+	} else if (data.command.indexOf("destinyKillApps:") != -1) {
         killLastStartedApp(wsio, data);
     } else if (data.command.indexOf("destinyXMLConfig:") != -1) {
         editXMLFile(wsio, data);
@@ -540,6 +542,21 @@ function editXMLFile(wsio, data) {
     }
 }
 
-function startUnrealTest() {
-    script("./src/exampleScripts/unrealExecTest.bat", ["DestinyFirst", "node" + webVars.thisHostnameNumber + ".cmd"]);
+function startUnrealTest(wsio, data) {
+    // Send out packet again if head node
+    if (webVars.headNode) { // head node must pass the packet on
+        for (var i = 0; i < webVars.remoteServers.length; i++) {
+            webVars.remoteServers[i].emit("command", data);
+        }
+    } else { // not head node, kanaloas need to first kill active app (if any) then launch
+        killLastStartedApp(wsio, { command: "destinyKillApps:" });
+        var path = data.command.split(":"); // not actually needed
+        webVars.lastExecutedFile = path[1];
+        try {
+			script("./src/exampleScripts/unrealExecTest.bat", ["DestinyFirst", "node" + webVars.thisHostnameNumber + ".cmd"]);
+        } catch (e) {
+            console.log("Error with file:" + path[1]);
+            console.log(e);
+        }
+    }
 }
