@@ -1,0 +1,1 @@
+\Share\%1\WindowsNoEditor %2
