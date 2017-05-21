@@ -553,7 +553,7 @@ function startUnrealTest(wsio, data) {
         var path = data.command.split(":"); // not actually needed
         webVars.lastExecutedFile = path[1];
         try {
-			script("./src/exampleScripts/unrealExecTest.bat", ["DestinyFirst", "node" + webVars.thisHostnameNumber + ".cmd"]);
+			script("./src/exampleScripts/unrealExecTest.bat", [path[1], "node" + webVars.thisHostnameNumber + ".cmd"]);
         } catch (e) {
             console.log("Error with file:" + path[1]);
             console.log(e);
