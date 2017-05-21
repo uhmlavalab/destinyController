@@ -114,6 +114,10 @@ display: block;
 <br><br>
 <input style="font-size:30px" id="custRunFileTracking"> <button style="font-size:30px" onclick="sendRunFileTracking()"> Custom File Run (Tracking)</button>
 <br><br>
+<hr>
+<input style="font-size:30px" id="custRunFileUnrealTest"> <button style="font-size:30px" onclick="sendRunFileUnrealTest()"> Custom File Run (Unreal Test)</button>
+<hr>
+<br><br>
 <button style="font-size:30px" onclick="sendKillApplication()">Kill Last Launched Application</button>
 <br><br>
 <button style="font-size:30px" onclick="sendKillWallpaper()">Kill wallpaper</button>
@@ -328,6 +332,19 @@ display: block;
       } else {
         var dataToSend = {};
         dataToSend.command = "destinyTestTracking:" + filePath;
+        wsio.emit("command", dataToSend);
+        setTimeout(function() {
+          window.location = "/appLaunchedView.html?app=" + filePath;
+        }, 1000);
+      }
+    }
+    function sendRunFileUnrealTest() {
+      var filePath = custRunFileUnrealTest.value.trim();
+      if (filePath.length <= 0) {
+        return;
+      } else {
+        var dataToSend = {};
+        dataToSend.command = "unrealTest:" + filePath;
         wsio.emit("command", dataToSend);
         setTimeout(function() {
           window.location = "/appLaunchedView.html?app=" + filePath;
