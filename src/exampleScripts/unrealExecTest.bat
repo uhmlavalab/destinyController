@@ -1,1 +1,1 @@
-\Share\%1\WindowsNoEditor %2
+\Share\%1\WindowsNoEditor\%2
