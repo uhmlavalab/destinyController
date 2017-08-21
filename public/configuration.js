@@ -131,15 +131,14 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
-			description: "Autumn Breeze",
+			description: "Google Earth",
 			sound: "images/power.mp3",
-			action: "destinyTest:autumnbreeze",
-			params: ["destinyXMLConfig:true:true:true"],
+			action: "googleearth",
+			params: [""],
 			infoLines: [
-				"Developer: Ryan Theriot",
-				"BS Computer Science"
+				"Developer: Google",
 				],
-			infoPics: ["images/ryan.jpg", "images/wowcat.jpg"]
+			infoPics: ["images/googleearth.png"]
 		},
 		{
 			type: "button",

@@ -136,6 +136,12 @@
 			preventHostActivation: true,
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/calc.bat"
+		},
+		{
+			commandName: "googleearth",
+			commandDesciption: "",
+			commandWords: [ ],
+			scriptPath: "C:/Program Files (x86)/Google/Google Earth Pro/client/googleearth.exe"
 		}
 	]
 
