@@ -75,8 +75,6 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/s2Mokulua.bat"
 		},
-
-
 		{
 			commandName: "updateNodejsFromRepo", // THIS IS A SPECIAL CASE IN SERVER
 			commandDesciption: "",
@@ -84,7 +82,6 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/updateNodejsFromRepo.bat"
 		},
-
 		{
 			commandName: "fixColor",
 			commandDesciption: "",
@@ -93,10 +90,6 @@
 			sendAll: true,
 			scriptPath: "./src/exampleScripts/startNvidiaColorMacro.bat"
 		},
-
-
-
-
 		{
 			commandName: "psPreSufAllConsole",
 			commandDesciption: "",
@@ -141,7 +134,7 @@
 			commandName: "googleearth",
 			commandDesciption: "",
 			commandWords: [ ],
-			scriptPath: "C:/Program Files (x86)/Google/Google Earth Pro/client/googleearth.exe"
+			scriptPath: "./src/exampleScripts/googleearth.bat"
 		}
 	]
 
