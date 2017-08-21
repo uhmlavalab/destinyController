@@ -134,6 +134,8 @@
 			commandName: "googleearth",
 			commandDesciption: "",
 			commandWords: [ ],
+			preventHostActivation: true,
+			sendAll: true,
 			scriptPath: "./src/exampleScripts/googleearth.bat"
 		}
 	]
