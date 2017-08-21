@@ -131,8 +131,34 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
+			description: "Star Wars Dog Fight",
+			sound: "images/beep.mp3",
+			action: "destinyTest:StarWarsDogFight",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Noel Kawano",
+				"MS Computer Engineer"
+				],
+			infoPics: [""]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Tatooine",
+			sound: "images/beep.mp3",
+			action: "destinyTest:tatooine",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Ryan Theriot",
+				"MS Computer Science"
+				],
+			infoPics: [""]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
 			description: "Google Earth",
-			sound: "images/power.mp3",
+			sound: "images/beep.mp3",
 			action: "googleearth",
 			params: [""],
 			infoLines: [
