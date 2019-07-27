@@ -27,15 +27,22 @@ foreach ($Mac in $MacList){
 	  $monitorPort.WriteLine($prefix + " " + $h + " " + $suffix)
 	  Write-Host($prefix + " " + $h + " " + $suffix)
 	  $monitorNumber--;
-	  Start-Sleep 1.5
+	  Start-Sleep 1
   }
-  Start-Sleep 8
+  Start-Sleep 1
+
+  ## 169.254 is the Wake On Lan Network, 169.254.255.255 is the broadcast
+  ## Doing this forces the MagicPacket to automatically use the correct network card interface
+  $Broadcast = [IPAddress]"169.254.255.255"
+
+  $UdpClient = New-Object System.Net.Sockets.UdpClient
+  $IPEndPoint = New-Object Net.IPEndPoint $Broadcast, 7
 
   $MacByteArray = $Mac -split "[:-]" | ForEach-Object { [Byte] "0x$_"}
   [Byte[]] $MagicPacket = (,0xFF * 6) + ($MacByteArray  * 16)
-  $UdpClient = New-Object System.Net.Sockets.UdpClient
-  $UdpClient.Connect(([System.Net.IPAddress]::Broadcast),7)
-  $UdpClient.Send($MagicPacket,$MagicPacket.Length)
+
+  $UdpClient.Send($MagicPacket, $MagicPacket.Length, $IPEndPoint) | Out-Null
   $UdpClient.Close()
-  Write-host "Power on Kanaloa $Mac"
+
+  Write-host "Power on Maui $Mac"
 }
