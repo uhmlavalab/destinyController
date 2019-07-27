@@ -486,16 +486,16 @@ function wsServerConfirm(wsio, data) {
 
 function createAndSendFileListUpdate(wsio) {
     var fileList = "";
-    fs.readFile("Z:/fileIndex.destiny", 'utf8', function(err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        fileList = data;
-        wsio.emit("fileListUpdate", { names: fileList });
-        // for (var i = 0; i < webVars.clients.length; i++) {
-        // 	webVars.clients[i].emit("fileListUpdate", {names:fileList});
-        // }
-    });
+    // fs.readFile("Z:/fileIndex.destiny", 'utf8', function(err, data) {
+    //     if (err) {
+    //         return console.log(err);
+    //     }
+    //     fileList = data;
+    //     wsio.emit("fileListUpdate", { names: fileList });
+    //     // for (var i = 0; i < webVars.clients.length; i++) {
+    //     // 	webVars.clients[i].emit("fileListUpdate", {names:fileList});
+    //     // }
+    // });
 }
 
 function editXMLFile(wsio, data) {

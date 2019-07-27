@@ -1,1 +1,1 @@
-"C:/Program Files (x86)/Google/Google Earth Pro/client/googleearth.exe"
+"C:/Program Files/Google/Google Earth Pro/client/googleearth.exe"

@@ -1,2 +1,2 @@
 @ECHO OFF
-PowerShell.exe -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\Users\LAVA\Documents\gitProjects\destinyController\src\exampleScripts\wakeOnLanAll.ps1'"
+PowerShell.exe -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\Share\DestinyController\src\exampleScripts\wakeOnLanAll.ps1'"

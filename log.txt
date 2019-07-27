@@ -1,0 +1,36 @@
+
+
+Debug:Detected network devices: 3
+Server started, listening on port:10001
+
+Debug: Ethernet:
+Debug:    fe80::1cd9:8211:2653:a7dd
+Debug: Ethernet 4:
+Debug:    169.254.167.221
+Debug:    fe80::700e:dfd0:9168:f3f7
+Debug:    ::1
+Debug: Loopback Pseudo-Interface 1:
+Debug:    127.0.0.1
+Debug:    128.171.121.35
+Debug:Detected hostname:MAUI0
+Debug:Detected hostname number:
+Debug:Remote site Main Node(128.171.121.35) is this device
+This device is headNode
+Debug:wsio>	>Connection from: ::ffff:128.171.121.35:49789 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.35:49789
+Accepted command packet:psPreSufAll
+  Launching script src\exampleScripts\psPreSufAll.bat
+  script stderr: & : The term 'C:\Share\DestinyController\destinyController\src\exampleScripts\genericSendAll.ps1' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:3
+
+  script stderr: + & 'C:\Share\DestinyController\destinyController\src\exampleScripts\ge ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Share\Destin...ericSendAll.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+
+  child process (script) exited with code 1
+Debug:wsio>	>Connection from: ::ffff:128.171.121.88:49958 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.88:49958
+Debug:wsio>	>Disconnect::ffff:128.171.121.88:49958 (undefined undefined)

@@ -5,12 +5,12 @@
 #Mac list in order of Kanaloa1 to Kanaloa 8
 # Extra value for k2: 38:D5:47:C8:85:D4
 ####
-$MacList = "D0:50:99:AB:D1:16","88:88:88:88:87:88","34:97:F6:5A:41:6D","2C:4D:54:45:9E:C9","34:97:F6:00:F8:A1","34:97:F6:00:F8:E1","34:97:F6:00:F8:DF","34:97:F6:00:F8:E7"
+$MacList = "00:D8:61:02:44:AD","00:D8:61:02:3E:A4","00:D8:61:02:44:8C","00:D8:61:02:44:C0","00:D8:61:02:3F:07","00:D8:61:02:44:D9","00:D8:61:02:44:91","00:D8:61:02:44:79"
 
 ####
 #monitor variables
 ####
-$monitorPort = new-Object System.IO.Ports.SerialPort COM6,9600,None,8,one
+$monitorPort = new-Object System.IO.Ports.SerialPort COM3,9600,None,8,one
 $monitorPort.open()
 $monitorNumber = 32
 $prefix = "ka"

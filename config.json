@@ -7,7 +7,7 @@
 	"remoteSite": {
 		// After thinking on this, there should only be 1 server here, head node.
 		"name":"Main Node",			// description for yourself.
-		"address": "128.171.47.25",  // network accessible address
+		"address": "128.171.121.35",  // network accessible address
 		"useSecureProtocol": false  // whether or not it should use secure protocol. Currently should always be false.
 	},
 

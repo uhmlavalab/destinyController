@@ -8,7 +8,7 @@ var displayConnectionSound;
 var destinyAwaitsSound;
 
 var nodeCount = 8;
-var nodeNamePrefix = "Kanaloa";
+var nodeNamePrefix = "MAUI";
 var sizes = {};
 var imageData = {};
 
