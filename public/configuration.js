@@ -54,7 +54,7 @@ var config = {
 			buttonImage: "images/blue.png",
 			description: "International Space Station",
 			sound: "images/power.mp3",
-			action: "destinyTest:iss",
+			action: "destinyTest:Iss_Vive",
 			params: ["destinyXMLConfig:true:true:true"],
 			infoLines: [
 				"Developer: Noel Kawano",
