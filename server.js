@@ -412,6 +412,8 @@ function startDestinyNodeFiles(wsio, data) {
         }
         var path = data.command.split(":");
         webVars.lastExecutedFile = path[1];
+        console.log('WebVar: ' + webVars.thisHostnameNumber.toString());
+
         try {
             if (data.command.indexOf("destinyTestTracking:") != -1) {
                 setTimeout(function() {
