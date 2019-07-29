@@ -137,8 +137,8 @@ function connectToDestinyHeadNode() {
     }
     utils.debugPrint("Detected hostname:" + thisHostname);
     webVars.thisHostname = thisHostname;
-    if (thisHostname.indexOf("analoa") > 0) {
-        webVars.thisHostnameNumber = thisHostname.substring(thisHostname.indexOf("loa") + 3).trim();
+    if (thisHostname.indexOf("AU") > 0) {
+        webVars.thisHostnameNumber = thisHostname.split('I')[1];
     } else {
         webVars.thisHostnameNumber = "";
     }
@@ -412,7 +412,6 @@ function startDestinyNodeFiles(wsio, data) {
         }
         var path = data.command.split(":");
         webVars.lastExecutedFile = path[1];
-        console.log('WebVar: ' + webVars.thisHostnameNumber.toString());
 
         try {
             if (data.command.indexOf("destinyTestTracking:") != -1) {
