@@ -10,6 +10,6 @@ foreach ($Mac in $MacList){
   $UdpClient.Connect(([System.Net.IPAddress]::Broadcast),7)
   $UdpClient.Send($MagicPacket,$MagicPacket.Length)
   $UdpClient.Close()
-  Write-host "Power on Kanaloa $Mac"
+  Write-host "Power on Maui $Mac"
   Start-Sleep 5
 }

@@ -2,7 +2,7 @@
 
 
 ####
-#Mac list in order of Kanaloa1 to Kanaloa 8
+#Mac list in order of Maui1 to Maui8
 # Extra value for k2: 38:D5:47:C8:85:D4
 ####
 $MacList = "00:D8:61:02:44:AD","00:D8:61:02:3E:A4","00:D8:61:02:44:8C","00:D8:61:02:44:C0","00:D8:61:02:3F:07","00:D8:61:02:44:D9","00:D8:61:02:44:91","00:D8:61:02:44:79"

@@ -296,10 +296,10 @@ function createAndSendNodeCountUpdate(clientType) {
         webVars.clients[i].emit("nodeCountUpdate", { names: allHn });
     }
 
-    // if all 8 kanaloas connect?
+    // if all 8 mauis connect?
     if (clientType == "remoteServer" && webVars.remoteServers.length >= 8) {
         for (var i = 0; i < webVars.remoteServers.length; i++) {
-            webVars.remoteServers[i].emit("command", { command: "wallpaperChrome", paramArray: ["kanaloaId"] });
+            webVars.remoteServers[i].emit("command", { command: "wallpaperChrome", paramArray: ["mauiId"] });
         }
     }
 }
@@ -386,9 +386,9 @@ function wsCommand(wsio, data) {
                 if (data.paramArray) {
                     paramArray = data.paramArray;
                     for (var i = 0; i < paramArray.length; i++) {
-                        if (paramArray[i] == "kanaloaId") {
+                        if (paramArray[i] == "mauiId") {
                             paramArray[i] = webVars.thisHostnameNumber;
-                        } else if (paramArray[i] == "kanaloaId-1") {
+                        } else if (paramArray[i] == "mauiId-1") {
                             paramArray[i] = webVars.thisHostnameNumber - 1;
                         }
                     }
@@ -405,7 +405,7 @@ function startDestinyNodeFiles(wsio, data) {
         for (var i = 0; i < webVars.remoteServers.length; i++) {
             webVars.remoteServers[i].emit("command", data);
         }
-    } else { // not head node, kanaloas need to first kill active app (if any) then launch
+    } else { // not head node, mauis need to first kill active app (if any) then launch
         killLastStartedApp(wsio, { command: "destinyKillApps:" });
         if (data.paramArray != undefined) {
             editXMLFile(wsio, { command: data.paramArray[0] });
@@ -423,7 +423,6 @@ function startDestinyNodeFiles(wsio, data) {
                         script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.121.36:1234", "*:*", "10000"]);
                     }
                 }, 2000);
-                //script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
             } else {
                 setTimeout(function() {
                     if (webVars.thisHostnameNumber == 1) {
@@ -432,7 +431,6 @@ function startDestinyNodeFiles(wsio, data) {
                         script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.121.36:1234", "*:*", "10000"]);
                     }
                 }, 2000);
-                //script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
             }
         } catch (e) {
             console.log("Error with file:" + path[1]);
@@ -450,7 +448,7 @@ function killLastStartedApp(wsio, data) {
         // send a delayed wall paper start after killing an app, basically you can't kill the wall paper since it will restart after a couple seconds
         setTimeout(function() {
             for (var i = 0; i < webVars.remoteServers.length; i++) {
-                webVars.remoteServers[i].emit("command", { command: "wallpaperChrome", paramArray: ["kanaloaId"] });
+                webVars.remoteServers[i].emit("command", { command: "wallpaperChrome", paramArray: ["mauiId"] });
             }
         }, 3000); //ms
     }
@@ -550,7 +548,7 @@ function startUnrealTest(wsio, data) {
         for (var i = 0; i < webVars.remoteServers.length; i++) {
             webVars.remoteServers[i].emit("command", data);
         }
-    } else { // not head node, kanaloas need to first kill active app (if any) then launch
+    } else { // not head node, mauis need to first kill active app (if any) then launch
         killLastStartedApp(wsio, { command: "destinyKillApps:" });
         var path = data.command.split(":"); // not actually needed
         webVars.lastExecutedFile = path[1];

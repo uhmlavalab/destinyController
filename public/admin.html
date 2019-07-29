@@ -194,7 +194,7 @@ display: block;
 <hr>
 <div id="monitorOnOffDiv">
 <h3>Not implemented yet</h3>
-<h2>Kanaloa Monitors</h2>
+<h2>Maui Monitors</h2>
 </div>
 
   <!-- jQuery is necessary for Bootstrap
@@ -216,7 +216,7 @@ display: block;
 
       for (var i = 1; i <= 8; i++) {
         tth = document.createElement("th");
-        tth.textContent = "Kanaloa" + i;
+        tth.textContent = "Maui" + i;
         ttr.appendChild(tth);
       }
       tbl.appendChild(ttr);
@@ -297,7 +297,7 @@ display: block;
     }
 
     function sendS2Mokulua() {
-      wsio.emit("command", {command: "startDestinyS2WithMokulua", paramArray:["kanaloaId-1"] });
+      wsio.emit("command", {command: "startDestinyS2WithMokulua", paramArray:["mauiId-1"] });
     }
 
     function sendNodeUpdatePacket() {
@@ -358,7 +358,7 @@ display: block;
       wsio.emit("command", {command: "destinyKillApps:preventWallpaper", paramArray:[] });
     }
     function sendWallpaperLaunch() {
-      wsio.emit("command", {command: "wallpaperChrome", paramArray:["kanaloaId"] });
+      wsio.emit("command", {command: "wallpaperChrome", paramArray:["mauiId"] });
     }
     function sendRunFile(file) {
       sendXMLConfig();
