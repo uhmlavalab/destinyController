@@ -1,27 +1,39 @@
 
-
 Server started, listening on port:10001
 Debug:Detected network devices: 3
+
 Debug: Ethernet 4:
 
 Debug:    fe80::700e:dfd0:9168:f3f7
 Debug:    128.171.121.35
+Debug:    fe80::1cd9:8211:2653:a7dd
 Debug: Ethernet:
 Debug:    169.254.167.221
-Debug:    fe80::1cd9:8211:2653:a7dd
 Debug: Loopback Pseudo-Interface 1:
 Debug:    ::1
 Debug:    127.0.0.1
 Debug:Detected hostname:MAUI0
+Debug:Remote site Main Node(128.171.121.35) is this device
 Debug:Detected hostname number:
 This device is headNode
-Debug:Remote site Main Node(128.171.121.35) is this device
-Debug:wsio>	>Connection from: ::ffff:128.171.121.35:49568 (undefined undefined)
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.35:49568
-Discarding unknown command packet:link:admin.html
-Debug:wsio>	>Disconnect::ffff:128.171.121.35:49568 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.35:49574 (undefined undefined)
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.35:49574
-Debug:wsio>	>Disconnect::ffff:128.171.121.35:49574 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.35:49575 (undefined undefined)
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.35:49575
+Debug:wsio>	>Connection from: ::ffff:128.171.121.43:49937 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.36:50007 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.38:50020 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.41:50089 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.42:50072 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.37:49985 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.39:49985 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.36:50007
+Remote server connection from MAUI1
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.43:49937
+Remote server connection from MAUI8
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.38:50020
+Remote server connection from MAUI3
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.41:50089
+Remote server connection from MAUI6
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.42:50072
+Remote server connection from MAUI7
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.37:49985
+Remote server connection from MAUI2
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.39:49985
+Remote server connection from MAUI4

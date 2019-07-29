@@ -418,7 +418,7 @@ function startDestinyNodeFiles(wsio, data) {
                     if (webVars.thisHostnameNumber == 1) {
                         script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", "10000"]);
                     } else {
-                        script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.47.17:1234", "*:*", "10000"]);
+                        script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.121.36:1234", "*:*", "10000"]);
                     }
                 }, 2000);
                 //script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
@@ -427,7 +427,7 @@ function startDestinyNodeFiles(wsio, data) {
                     if (webVars.thisHostnameNumber == 1) {
                         script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-server", "7", "*:1234", "*:*", "10000"]);
                     } else {
-                        script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.47.17:1234", "*:*", "10000"]);
+                        script("./src/exampleScripts/destinyExecTrackingNew.bat", [path[1], "-client", webVars.thisHostnameNumber - 1, "128.171.121.36:1234", "*:*", "10000"]);
                     }
                 }, 2000);
                 //script("\\Share\\" + path[1] + "\\" + path[1] + "-Destiny-Kanaloa" + webVars.thisHostnameNumber + "-NoTracking.bat", data.paramArray);
