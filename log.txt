@@ -1,39 +1,82 @@
 
 Server started, listening on port:10001
+
 Debug:Detected network devices: 3
 
 Debug: Ethernet 4:
-
 Debug:    fe80::700e:dfd0:9168:f3f7
 Debug:    128.171.121.35
-Debug:    fe80::1cd9:8211:2653:a7dd
 Debug: Ethernet:
 Debug:    169.254.167.221
+Debug:    fe80::1cd9:8211:2653:a7dd
 Debug: Loopback Pseudo-Interface 1:
 Debug:    ::1
 Debug:    127.0.0.1
-Debug:Detected hostname:MAUI0
 Debug:Remote site Main Node(128.171.121.35) is this device
-Debug:Detected hostname number:
 This device is headNode
-Debug:wsio>	>Connection from: ::ffff:128.171.121.43:49937 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.36:50007 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.38:50020 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.41:50089 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.42:50072 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.37:49985 (undefined undefined)
-Debug:wsio>	>Connection from: ::ffff:128.171.121.39:49985 (undefined undefined)
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.36:50007
+Debug:Detected hostname:MAUI0
+Debug:Detected hostname number:
+Debug:wsio>	>Connection from: ::ffff:128.171.121.36:50095 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.36:50095
 Remote server connection from MAUI1
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.43:49937
-Remote server connection from MAUI8
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.38:50020
-Remote server connection from MAUI3
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.41:50089
-Remote server connection from MAUI6
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.42:50072
-Remote server connection from MAUI7
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.37:49985
-Remote server connection from MAUI2
-Debug:wsio>	addClient packet received from:::ffff:128.171.121.39:49985
+Debug:wsio>	>Connection from: ::ffff:128.171.121.39:50109 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.39:50109
 Remote server connection from MAUI4
+Debug:wsio>	>Connection from: ::ffff:128.171.121.38:50129 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.38:50129
+Remote server connection from MAUI3
+Debug:wsio>	>Connection from: ::ffff:128.171.121.37:50071 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.37:50071
+Remote server connection from MAUI2
+Debug:wsio>	>Connection from: ::ffff:128.171.121.43:50017 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.43:50017
+Remote server connection from MAUI8
+Debug:wsio>	>Connection from: ::ffff:128.171.121.40:50084 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.40:50084
+Remote server connection from MAUI5
+Debug:wsio>	>Connection from: ::ffff:128.171.121.42:50130 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.42:50130
+Remote server connection from MAUI7
+Debug:wsio>	>Connection from: ::ffff:128.171.121.41:50145 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.41:50145
+Remote server connection from MAUI6
+Debug:Remote server MAUI5>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI7>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI3>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI4>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI8>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI2>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI1>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI6>	Command wallpaperChrome accepted.
+Debug:wsio>	>Connection from: ::ffff:128.171.121.88:56438 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.88:56438
+Debug:Remote server MAUI5>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI6>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI1>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI2>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI4>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI8>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI7>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI3>	Command destinyKillApps: accepted.
+Debug:wsio>	>Disconnect::ffff:128.171.121.88:56438 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.88:56440 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.88:56440
+Debug:Remote server MAUI5>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI1>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI4>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI8>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI2>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI3>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI7>	Command destinyKillApps: accepted.
+Debug:Remote server MAUI6>	Command destinyKillApps: accepted.
+Debug:wsio>	>Disconnect::ffff:128.171.121.88:56440 (undefined undefined)
+Debug:wsio>	>Connection from: ::ffff:128.171.121.88:56442 (undefined undefined)
+Debug:wsio>	addClient packet received from:::ffff:128.171.121.88:56442
+Debug:Remote server MAUI5>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI3>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI4>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI1>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI2>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI7>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI6>	Command wallpaperChrome accepted.
+Debug:Remote server MAUI8>	Command wallpaperChrome accepted.

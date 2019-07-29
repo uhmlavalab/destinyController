@@ -1,4 +1,4 @@
 
-start /MIN /D \Share\UnityApps\%1 %1-Destiny-Kanaloa%2.bat
+start /MIN /D C:\Share\UnityApps\%1 %1-Destiny-Kanaloa%2.bat
 
 
