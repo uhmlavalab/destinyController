@@ -36,19 +36,19 @@ var config = {
 			sound: "images/power.mp3",
 			action: "wakeOnLanAll",
 		},
-		// {
-		// 	type: "button",
-		// 	buttonImage: "images/blue.png",
-		// 	description: "Point Clouds",
-		// 	sound: "images/power.mp3",
-		// 	action: "destinyTest:pointclouds",
-		// 	params: ["destinyXMLConfig:true:true:true"],
-		// 	infoLines: [
-		// 		"Developer: Ryan Theriot",
-		// 		"BS Computer Science"
-		// 		],
-		// 	infoPics: ["images/ffs.png"]
-		// },
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Point Clouds",
+			sound: "images/power.mp3",
+			action: "destinyTest:PointClouds_Vive",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Ryan Theriot",
+				"BS Computer Science"
+				],
+			infoPics: ["images/ffs.png"]
+		},
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
