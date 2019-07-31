@@ -65,22 +65,22 @@ var config = {
 				],
 			infoPics: ["images/iss.png"]
 		},
-		// {
-		// 	type: "button",
-		// 	buttonImage: "images/blue.png",
-		// 	description: "Galaxies",
-		// 	sound: "images/power.mp3",
-		// 	action: "destinyTest:tully",
-		// 	params: ["destinyXMLConfig:true:true:true"],
-		// 	infoLines: [
-		// 		"Developer: Noel Kawano",
-		// 		"MS Computer Engineer",
-		// 		"<br>",
-		// 		"Galaxy Data Provided by Brent Tully",
-		// 		"UHM Institute for Astronomy",
-		// 		],
-		// 	infoPics: ["images/milkyway.png"]
-		// },
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Galaxies",
+			sound: "images/power.mp3",
+			action: "destinyTest:Tully_Vive",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Noel Kawano",
+				"MS Computer Engineer",
+				"<br>",
+				"Galaxy Data Provided by Brent Tully",
+				"UHM Institute for Astronomy",
+				],
+			infoPics: ["images/milkyway.png"]
+		},
 		// {
 		// 	type: "button",
 		// 	buttonImage: "images/blue.png",
@@ -94,53 +94,53 @@ var config = {
 		// 		"and University of Massachusetts, Amhersts's Vincent M. Rotello Research Group"
 		// 		]
 		// },
-		// {
-		// 	type: "button",
-		// 	buttonImage: "images/blue.png",
-		// 	description: "Strange Attractors",
-		// 	sound: "images/power.mp3",
-		// 	action: "destinyTest:attractors",
-		// 	params: ["destinyXMLConfig:true:true:true"],
-		// 	infoLines: [
-		// 		"Developer: Noel Kawano",
-		// 		"MS Computer Engineer",
-		// 		"<br>",
-		// 		"Consulted with Monique Chyba",
-		// 		"UHM Mathematics Department",
-		// 		],
-		// 	infoPics: ["images/Attractor.png"]
-		// },
-		// {
-		// 	type: "button",
-		// 	buttonImage: "images/blue.png",
-		// 	description: "Earthquake",
-		// 	sound: "images/power.mp3",
-		// 	action: "destinyTest:eq",
-		// 	params: ["destinyXMLConfig:true:true:true"],
-		// 	infoLines: [
-		// 		"Developer: Jason Leigh",
-		// 		"Director - LAVA",
-		// 		"University of Hawaiʻi at Mānoa",
-		// 		"Director Emeritus- Electronic Visualization Lab",
-		// 		"University of Illinois at Chicago",
-		// 		"<br>",
-		// 		"Earthquake Data Provided by NOAA",
-		// 		],
-		// 	infoPics: ["images/eq.png"]
-		// },
-		// {
-		// 	type: "button",
-		// 	buttonImage: "images/blue.png",
-		// 	description: "Star Wars Dog Fight",
-		// 	sound: "images/beep.mp3",
-		// 	action: "destinyTest:StarWarsDogFight",
-		// 	params: ["destinyXMLConfig:true:true:true"],
-		// 	infoLines: [
-		// 		"Developer: Noel Kawano",
-		// 		"MS Computer Engineer"
-		// 		],
-		// 	infoPics: [""]
-		// },
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Strange Attractors",
+			sound: "images/power.mp3",
+			action: "destinyTest:StrangeAttractors_Vive",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Noel Kawano",
+				"MS Computer Engineer",
+				"<br>",
+				"Consulted with Monique Chyba",
+				"UHM Mathematics Department",
+				],
+			infoPics: ["images/Attractor.png"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Earthquake",
+			sound: "images/power.mp3",
+			action: "destinyTest:eq",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Jason Leigh",
+				"Director - LAVA",
+				"University of Hawaiʻi at Mānoa",
+				"Director Emeritus- Electronic Visualization Lab",
+				"University of Illinois at Chicago",
+				"<br>",
+				"Earthquake Data Provided by NOAA",
+				],
+			infoPics: ["images/eq.png"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
+			description: "Star Wars Dog Fight",
+			sound: "images/beep.mp3",
+			action: "destinyTest:StarWarsDogFight_Vive",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Noel Kawano",
+				"MS Computer Engineer"
+				],
+			infoPics: [""]
+		},
 		// {
 		// 	type: "button",
 		// 	buttonImage: "images/blue.png",
