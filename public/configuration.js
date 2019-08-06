@@ -99,7 +99,7 @@ var config = {
 			buttonImage: "images/blue.png",
 			description: "Strange Attractors",
 			sound: "images/power.mp3",
-			action: "destinyTest:StrangeAttractors_Vive",
+			action: "destinyTest:Attractors_Vive",
 			params: ["destinyXMLConfig:true:true:true"],
 			infoLines: [
 				"Developer: Noel Kawano",

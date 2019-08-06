@@ -10,7 +10,7 @@ $MacList = "00:D8:61:02:44:AD","00:D8:61:02:3E:A4","00:D8:61:02:44:8C","00:D8:61
 ####
 #monitor variables
 ####
-$monitorPort = new-Object System.IO.Ports.SerialPort COM3,9600,None,8,one
+$monitorPort = new-Object System.IO.Ports.SerialPort COM5,9600,None,8,one
 $monitorPort.open()
 $monitorNumber = 32
 $prefix = "ka"
