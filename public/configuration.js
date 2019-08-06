@@ -68,6 +68,19 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/blue.png",
+			description: "Bird Island",
+			sound: "images/power.mp3",
+			action: "destinyTest:BirdIsland",
+			params: ["destinyXMLConfig:true:true:true"],
+			infoLines: [
+				"Developer: Amandin",
+				"Lab Resident",
+				],
+			infoPics: ["images/bird.png"]
+		},
+		{
+			type: "button",
+			buttonImage: "images/blue.png",
 			description: "Galaxies",
 			sound: "images/power.mp3",
 			action: "destinyTest:Tully_Vive",
