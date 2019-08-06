@@ -115,7 +115,7 @@ var config = {
 			buttonImage: "images/blue.png",
 			description: "Earthquake",
 			sound: "images/power.mp3",
-			action: "destinyTest:eq",
+			action: "destinyTest:Earthquake_Vive",
 			params: ["destinyXMLConfig:true:true:true"],
 			infoLines: [
 				"Developer: Jason Leigh",
