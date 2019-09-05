@@ -344,7 +344,7 @@ function wsCommand(wsio, data) {
     } else if (data.command.indexOf("destinyXMLConfig:") != -1) {
         editXMLFile(wsio, data);
     } else if (data.command.indexOf("chromeKill:") != -1) {
-			script("./src/exampleScripts/killChrome.bat", []);
+			killChrome();
 		} else {
         var result = commandHandler.handleCommandString(data.command);
         if (result === false) {
@@ -589,3 +589,20 @@ function startUnrealTest(wsio, data) {
         }
     }
 }
+
+
+function killChrome(wsio, data) {
+	// Send out packet again if head node
+	if (webVars.headNode) {
+		for (var i = 0; i < webVars.remoteServers.length; i++) {
+			webVars.remoteServers[i].emit("command", data);
+		}
+	}
+	// lono doesn't run the apps, if not head node, execute
+	if (!webVars.headNode) {
+		script("./src/exampleScripts/killChrome.bat", []);
+	}
+}
+
+
+
