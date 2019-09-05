@@ -1,0 +1,2 @@
+
+Taskkill /IM Chrome* /F

@@ -182,6 +182,13 @@ var config = {
 		{
 			type: "button",
 			buttonImage: "images/orange.png",
+			description: "Close wallpaper (Chrome)",
+			action: "chromeKill:",
+			params: []
+		},
+		{
+			type: "button",
+			buttonImage: "images/orange.png",
 			description: "Close Last Launched App",
 			action: "destinyKillApps:",
 			params: []

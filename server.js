@@ -343,7 +343,9 @@ function wsCommand(wsio, data) {
         killLastStartedApp(wsio, data);
     } else if (data.command.indexOf("destinyXMLConfig:") != -1) {
         editXMLFile(wsio, data);
-    } else {
+    } else if (data.command.indexOf("chromeKill:") != -1) {
+			script("./src/exampleScripts/killChrome.bat", []);
+		} else {
         var result = commandHandler.handleCommandString(data.command);
         if (result === false) {
             wsio.emit("serverConfirm", {
