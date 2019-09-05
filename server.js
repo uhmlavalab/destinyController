@@ -344,7 +344,7 @@ function wsCommand(wsio, data) {
     } else if (data.command.indexOf("destinyXMLConfig:") != -1) {
         editXMLFile(wsio, data);
     } else if (data.command.indexOf("chromeKill:") != -1) {
-			killChrome();
+			killChrome(wsio, data);
 		} else {
         var result = commandHandler.handleCommandString(data.command);
         if (result === false) {
